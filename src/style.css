@@ -74,6 +74,43 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 }
 .tab[aria-current='page'] { color: var(--teal); font-weight: 700; }
 
+/* Card flip: 3D rotation, or a cross-fade under reduced motion */
+.flip { perspective: 1200px; cursor: pointer; border-radius: 28px; }
+.flip-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 500ms ease;
+}
+.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  transition: visibility 0s linear 250ms;
+}
+.flip-back { transform: rotateY(180deg); visibility: hidden; }
+.flip.flipped .flip-back { visibility: visible; }
+.flip.flipped .flip-front { visibility: hidden; }
+.qr-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+}
+.qr-caption { margin: 0; font-weight: 600; }
+.qr-notice { margin: 0; font-size: 0.85rem; opacity: 0.85; text-align: center; }
+.qr { width: min(100%, 240px); height: auto; border-radius: 12px; }
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner, .flip.flipped .flip-inner { transform: none; transition: none; }
+  .flip-back { transform: none; }
+  .flip-face { backface-visibility: visible; transition: opacity 300ms ease, visibility 0s linear 300ms; opacity: 1; }
+  .flip-back { opacity: 0; }
+  .flip.flipped .flip-front { opacity: 0; }
+  .flip.flipped .flip-back { opacity: 1; }
+}
+
 /* Shared list/detail pattern (Services, Listings) */
 .tile-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .tile {

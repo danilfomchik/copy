@@ -11,5 +11,5 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true
   },
-  "include": ["src", "content", "tests", "vite.config.ts", "playwright.config.ts"]
+  "include": ["src", "qr-message.ts", "qr-plugin.ts", "content", "tests", "vite.config.ts", "playwright.config.ts"]
 }

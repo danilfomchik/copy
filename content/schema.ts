@@ -28,6 +28,9 @@ const member = obj({
 
 const ribbon = obj({ updatedAt: str() });
 
+const qr = obj({ label: str(), caption: str(), notice: str() });
+
+
 // Shared shape of an entry that opens a static detail page (Services; reused
 // by Listings). `id` becomes the URL segment.
 export const detailItem = obj({
@@ -40,5 +43,5 @@ export const detailItem = obj({
 const services = arr(detailItem);
 const listings = arr(detailItem);
 
-export const contentSchema = obj({ ui, member, ribbon, services, listings });
+export const contentSchema = obj({ ui, member, ribbon, services, listings, qr });
 export type Content = Infer<typeof contentSchema>;

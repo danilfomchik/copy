@@ -1,5 +1,7 @@
 import { el } from '../dom';
 import type { Route } from '../router';
+import { flip } from '../flip';
+import { qrView } from '../qr-view';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -36,8 +38,7 @@ export const cardRoutes: Route[] = [
     render: ({ content }) => {
       const { ui, member, ribbon } = content;
       const ribbonText = `${ui.card.ribbonUpdated} ${ribbon.updatedAt}`;
-      return el('section', { class: 'screen card-screen' }, [
-        el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
+      const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
           el('p', { class: 'card-label' }, [ui.card.label]),
           avatar(ui.card.avatarAlt),
           el('h1', { class: 'card-name' }, [member.fullName]),
@@ -49,8 +50,8 @@ export const cardRoutes: Route[] = [
           el('div', { class: 'ribbon' }, [
             el('span', { class: 'ribbon-text' }, [ribbonText]),
           ]),
-        ]),
       ]);
+      return el('section', { class: 'screen card-screen' }, [flip(front, qrView(content))]);
     },
   },
 ];
