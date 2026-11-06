@@ -4,10 +4,8 @@
 import { arr, obj, str, type Infer } from './validate.ts';
 
 const ui = obj({
-  appName: str(),
   tabs: obj({ card: str(), services: str(), listings: str(), menu: str() }),
   tabBarLabel: str(),
-  placeholder: str(),
   back: str(),
   card: obj({
     label: str(),
@@ -19,7 +17,6 @@ const ui = obj({
     actions: obj({
       openLabel: str(),
       sheetLabel: str(),
-      closeLabel: str(),
       viewDetails: str(),
       downloadPdf: str(),
       refresh: str(),
@@ -57,11 +54,11 @@ export const detailItem = obj({
   id: str(),
   title: str(),
   description: str(),
-  paragraphs: arr(str()),
+  paragraphs: arr(str(), { nonEmpty: true }),
 });
 
-const services = arr(detailItem);
-const listings = arr(detailItem);
+const services = arr(detailItem, { uniqueBy: 'id' });
+const listings = arr(detailItem, { uniqueBy: 'id' });
 
 // Notifications sheet (bell button on the Member card): static messages.
 const notifications = obj({

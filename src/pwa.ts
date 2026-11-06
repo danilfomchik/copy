@@ -108,5 +108,6 @@ export function startPwa(app: HTMLElement, t: PwaStrings): void {
           if (next.state === 'installed') offer(next);
         });
       });
-    });
+    })
+    .catch(() => {});
 }

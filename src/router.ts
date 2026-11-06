@@ -31,7 +31,11 @@ export function matchRoute(
     const params: Record<string, string> = {};
     const ok = pat.every((seg, i) => {
       if (seg.startsWith(':')) {
-        params[seg.slice(1)] = decodeURIComponent(parts[i]);
+        try {
+          params[seg.slice(1)] = decodeURIComponent(parts[i]);
+        } catch {
+          return false; // malformed escape such as "%": no match
+        }
         return true;
       }
       return seg === parts[i];
@@ -45,9 +49,23 @@ export function startRouter(
   routes: Route[],
   onChange: (m: { route: Route; params: Record<string, string> }) => void,
 ): void {
+  let first = true;
   const run = () => {
     const m = matchRoute(routes, currentPath()) ?? matchRoute(routes, '/card');
-    if (m) onChange(m);
+    if (!m) return;
+    onChange(m);
+    if (first) {
+      first = false;
+      return;
+    }
+    // New screen: back to the top, and keyboard/screen-reader focus on its heading.
+    const screen = document.getElementById('screen');
+    const target = screen?.querySelector<HTMLElement>('h1') ?? screen;
+    if (target) {
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
+    scrollTo(0, 0);
   };
   addEventListener('hashchange', run);
   run();

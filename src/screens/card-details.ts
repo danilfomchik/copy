@@ -10,7 +10,7 @@ export const cardDetailsRoute: Route = {
     const row = (label: string, value: string) =>
       el('div', { class: 'field' }, [el('dt', {}, [label]), el('dd', {}, [value])]);
     return el('section', { class: 'screen details-screen' }, [
-      el('a', { href: '#/card', class: 'back-link' }, [ui.details.back]),
+      el('a', { href: '#/card', class: 'back' }, [ui.details.back]),
       el('h1', {}, [ui.details.title]),
       el('dl', { class: 'details-fields' }, [
         row(ui.details.fullNameLabel, member.fullName),

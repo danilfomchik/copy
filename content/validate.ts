@@ -37,13 +37,32 @@ export const obj = <S extends Record<string, Schema<any>>>(
   },
 });
 
-export const arr = <T>(item: Schema<T>): Schema<T[]> => ({
+export interface ArrOptions {
+  /** The array must have at least one entry. */
+  nonEmpty?: boolean;
+  /** Object entries must have distinct values of this string field. */
+  uniqueBy?: string;
+}
+
+export const arr = <T>(item: Schema<T>, opts: ArrOptions = {}): Schema<T[]> => ({
   check(v, path, out) {
     if (!Array.isArray(v)) {
       out.push(`${path}: очікується масив, отримано ${describe(v)}`);
       return;
     }
+    if (opts.nonEmpty && v.length === 0) out.push(`${path}: масив не може бути порожнім`);
     v.forEach((x, i) => item.check(x, `${path}[${i}]`, out));
+    if (opts.uniqueBy) {
+      const key = opts.uniqueBy;
+      const seen = new Map<string, number>();
+      v.forEach((x, i) => {
+        const id = (x as Record<string, unknown> | null)?.[key];
+        if (typeof id !== 'string') return;
+        const first = seen.get(id);
+        if (first === undefined) seen.set(id, i);
+        else out.push(`${path}[${i}].${key}: значення "${id}" повторюється (вже є в ${path}[${first}])`);
+      });
+    }
   },
 });
 

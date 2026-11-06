@@ -3,13 +3,10 @@
 // two routes: `/<tab>` (tile grid) and `/<tab>/:id` (static detail page).
 import { el } from '../dom';
 import type { Route, TabId } from '../router';
+import type { detailItem } from '../../content/schema';
+import type { Infer } from '../../content/validate';
 
-export interface DetailItem {
-  id: string;
-  title: string;
-  description: string;
-  paragraphs: string[];
-}
+export type DetailItem = Infer<typeof detailItem>;
 
 /** Back control: a plain link to the list route, so it also works on deep links. */
 export function backControl(label: string, href: string): HTMLElement {
@@ -47,23 +44,26 @@ export function tileGrid(items: DetailItem[], tab: string, listLabel: string): H
   ]);
 }
 
-/** Builds the list + detail routes for a tab from a getter of its items. */
+export type ListRenderer = (items: DetailItem[], tab: string, listLabel: string) => HTMLElement;
+
+/** Builds the list + detail routes for a tab; `renderList` defaults to the tile grid. */
 export function listDetailRoutes(
   tab: TabId,
   getItems: (content: Parameters<Route['render']>[0]['content']) => DetailItem[],
+  renderList: ListRenderer = tileGrid,
 ): Route[] {
   return [
     {
       pattern: `/${tab}`,
       tab,
-      render: ({ content }) => tileGrid(getItems(content), tab, content.ui.tabs[tab]),
+      render: ({ content }) => renderList(getItems(content), tab, content.ui.tabs[tab]),
     },
     {
       pattern: `/${tab}/:id`,
       tab,
       render: ({ content, params }) => {
         const item = getItems(content).find((i) => i.id === params.id);
-        if (!item) return tileGrid(getItems(content), tab, content.ui.tabs[tab]);
+        if (!item) return renderList(getItems(content), tab, content.ui.tabs[tab]);
         return detailPage(item, content.ui.back, `#/${tab}`);
       },
     },

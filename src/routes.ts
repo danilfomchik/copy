@@ -1,5 +1,5 @@
 // Route registry: one line per screen module. Later tickets add their routes
-// here (and replace the placeholder export of their tab).
+// here.
 import type { Route } from './router';
 import { cardRoutes } from './screens/card';
 import { servicesRoutes } from './screens/services';

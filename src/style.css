@@ -25,9 +25,9 @@
   --muted: #566870;
   --teal: #0f766e;
   --charcoal: #2b3338;
-  --border: var(--border);
-  --handle: var(--handle);
-  --backdrop: var(--backdrop);
+  --border: #d3e0e0;
+  --handle: #c3d1d1;
+  --backdrop: rgba(0, 0, 0, 0.45);
   --card-from: var(--teal);
   --card-to: var(--charcoal);
   color-scheme: light;
@@ -81,8 +81,8 @@ body {
   flex: 1;
   padding: calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(88px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
 }
+[tabindex='-1']:focus { outline: none; }
 h1 { font-size: 1.25rem; margin: 0 0 8px; }
-.placeholder { color: var(--muted); }
 
 .card {
   background: linear-gradient(160deg, var(--card-from), var(--card-to));
@@ -150,7 +150,6 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 .notification-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .notification { padding: 14px 16px; border-radius: 14px; background: var(--bg); }
 .notification-body { margin: 4px 0 0; color: var(--muted); }
-.back-link { display: inline-block; margin-bottom: 12px; color: var(--teal); font-weight: 600; text-decoration: none; }
 .details-fields { display: grid; gap: 12px; margin: 0; background: var(--surface); border-radius: 16px; padding: 16px; }
 .details-fields .field dt { color: var(--muted); }
 
@@ -207,7 +206,6 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 .qr { width: min(100%, 240px); height: auto; border-radius: 12px; }
 
 /* Menu screens */
-.back { display: inline-block; margin-bottom: 12px; color: var(--teal); text-decoration: none; }
 .menu-list { display: grid; gap: 8px; }
 .menu-item {
   display: block;
@@ -236,7 +234,7 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 .row { display: flex; flex-direction: column; gap: 2px; padding: 14px 4px; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
 .row-title { font-weight: 700; }
 .row-desc { font-size: 0.85rem; color: var(--muted); }
-.back { display: inline-block; padding: 8px 0; margin-bottom: 8px; color: var(--teal); font-weight: 600; text-decoration: none; }
+.back { display: inline-block; padding: 8px 0; margin-bottom: 12px; color: var(--teal); font-weight: 600; text-decoration: none; }
 .detail .lead { font-weight: 600; color: var(--muted); }
 
 /* Reduced motion: no transitions, no running animations anywhere. The flip

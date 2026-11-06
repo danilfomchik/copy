@@ -8,7 +8,10 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) => cache.addAll(PRECACHE)),
+      .then((cache) =>
+        // cache:'reload' bypasses the HTTP cache so a new version never precaches stale files
+        Promise.all(PRECACHE.map((url) => cache.add(new Request(url, { cache: 'reload' })))),
+      ),
   );
 });
 
