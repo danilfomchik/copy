@@ -2,7 +2,10 @@ import content from 'virtual:content';
 import './style.css';
 import { el } from './dom';
 import { routes } from './routes';
+import { applyTheme, getTheme } from './theme';
 import { startRouter, type TabId } from './router';
+
+applyTheme(getTheme());
 
 const TABS: TabId[] = ['card', 'services', 'listings', 'menu'];
 

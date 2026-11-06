@@ -4,6 +4,7 @@ import path from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import { contentSchema } from './content/schema.ts';
 import { validate } from './content/validate.ts';
+import { qrPlugin } from './qr-plugin.ts';
 
 const VIRTUAL = 'virtual:content';
 const RESOLVED = '\0' + VIRTUAL;
@@ -71,6 +72,11 @@ function serviceWorkerPlugin(): Plugin {
 
 export default defineConfig({
   base: '/copy/',
-  plugins: [contentPlugin(), serviceWorkerPlugin()],
+  plugins: [contentPlugin(), qrPlugin(), serviceWorkerPlugin()],
+  define: {
+    __APP_VERSION__: JSON.stringify(
+      JSON.parse(readFileSync('package.json', 'utf8')).version as string,
+    ),
+  },
   build: { outDir: process.env.OUT_DIR ?? 'dist' },
 });
