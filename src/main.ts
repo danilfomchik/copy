@@ -4,6 +4,7 @@ import { el } from './dom';
 import { icon } from './icons';
 import { routes } from './routes';
 import { applyTheme, getTheme } from './theme';
+import { startPwa } from './pwa';
 import { startRouter, type TabId } from './router';
 
 applyTheme(getTheme());
@@ -29,6 +30,4 @@ startRouter(routes, ({ route, params }) => {
   }
 });
 
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`, { scope: import.meta.env.BASE_URL });
-}
+startPwa(app, content.ui.pwa);
