@@ -15,7 +15,21 @@
       "birthDateLabel": "Дата народження",
       "tierLabel": "Рівень",
       "numberLabel": "Номер",
-      "ribbonUpdated": "Дані оновлено"
+      "ribbonUpdated": "Дані оновлено",
+      "actions": {
+        "openLabel": "Дії",
+        "sheetLabel": "Дії з карткою",
+        "closeLabel": "Закрити",
+        "viewDetails": "Переглянути деталі",
+        "downloadPdf": "Завантажити PDF",
+        "refresh": "Оновити",
+        "refreshing": "Оновлення…"
+      }
+    },
+    "details": {
+      "title": "Деталі картки",
+      "back": "Назад",
+      "fullNameLabel": "Ім’я та прізвище"
     }
   },
   "member": {
@@ -25,6 +39,7 @@
     "membershipNumber": "OP-4821-7390"
   },
   "ribbon": {
-    "updatedAt": "06.11.2026, 09:30"
+    "updatedAt": "06.11.2026, 09:30",
+    "refreshedAt": "06.11.2026, 12:00"
   }
 }

@@ -15,7 +15,17 @@ const ui = obj({
     tierLabel: str(),
     numberLabel: str(),
     ribbonUpdated: str(),
+    actions: obj({
+      openLabel: str(),
+      sheetLabel: str(),
+      closeLabel: str(),
+      viewDetails: str(),
+      downloadPdf: str(),
+      refresh: str(),
+      refreshing: str(),
+    }),
   }),
+  details: obj({ title: str(), back: str(), fullNameLabel: str() }),
 });
 
 const member = obj({
@@ -25,7 +35,7 @@ const member = obj({
   membershipNumber: str(),
 });
 
-const ribbon = obj({ updatedAt: str() });
+const ribbon = obj({ updatedAt: str(), refreshedAt: str() });
 
 export const contentSchema = obj({ ui, member, ribbon });
 export type Content = Infer<typeof contentSchema>;
