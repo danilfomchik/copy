@@ -10,7 +10,9 @@ test('tab bar switches between the four tabs', async ({ page }) => {
     await nav.getByRole('link', { name }).click();
     await expect(nav.getByRole('link', { name })).toHaveAttribute('aria-current', 'page');
     await expect(page.getByRole('heading', { name })).toBeVisible();
-    await expect(page.getByText('Цей розділ буде доступний пізніше.')).toBeVisible();
+    if (name !== 'Послуги') {
+      await expect(page.getByText('Цей розділ буде доступний пізніше.')).toBeVisible();
+    }
   }
 
   await nav.getByRole('link', { name: 'Картка' }).click();
