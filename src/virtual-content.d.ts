@@ -3,3 +3,8 @@ declare module 'virtual:content' {
   const content: Content;
   export default content;
 }
+
+declare module 'virtual:qr' {
+  const qr: { size: number; path: string };
+  export default qr;
+}

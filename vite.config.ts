@@ -3,6 +3,7 @@ import path from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import { contentSchema } from './content/schema.ts';
 import { validate } from './content/validate.ts';
+import { qrPlugin } from './qr-plugin.ts';
 
 const VIRTUAL = 'virtual:content';
 const RESOLVED = '\0' + VIRTUAL;
@@ -42,6 +43,6 @@ function contentPlugin(): Plugin {
 
 export default defineConfig({
   base: '/copy/',
-  plugins: [contentPlugin()],
+  plugins: [contentPlugin(), qrPlugin()],
   build: { outDir: process.env.OUT_DIR ?? 'dist' },
 });

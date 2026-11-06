@@ -1,5 +1,7 @@
 import { el } from '../dom';
 import type { Route } from '../router';
+import { flip } from '../flip';
+import { qrView } from '../qr-view';
 import { actionsButton } from './card-actions';
 import { cardDetailsRoute } from './card-details';
 
@@ -39,8 +41,7 @@ export const cardRoutes: Route[] = [
       const { ui, member, ribbon } = content;
       const ribbonText = `${ui.card.ribbonUpdated} ${ribbon.updatedAt}`;
       const ribbonEl = el('span', { class: 'ribbon-text' }, [ribbonText]);
-      return el('section', { class: 'screen card-screen' }, [
-        el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
+      const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
           actionsButton(content, ribbonEl),
           el('p', { class: 'card-label' }, [ui.card.label]),
           avatar(ui.card.avatarAlt),
@@ -51,8 +52,8 @@ export const cardRoutes: Route[] = [
             field(ui.card.numberLabel, member.membershipNumber),
           ]),
           el('div', { class: 'ribbon' }, [ribbonEl]),
-        ]),
       ]);
+      return el('section', { class: 'screen card-screen' }, [flip(front, qrView(content))]);
     },
   },
   cardDetailsRoute,
