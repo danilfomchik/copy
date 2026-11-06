@@ -38,6 +38,7 @@ export const detailItem = obj({
 });
 
 const services = arr(detailItem);
+const listings = arr(detailItem);
 
-export const contentSchema = obj({ ui, member, ribbon, services });
+export const contentSchema = obj({ ui, member, ribbon, services, listings });
 export type Content = Infer<typeof contentSchema>;
