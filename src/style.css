@@ -180,12 +180,14 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 .flip { perspective: 1200px; cursor: pointer; border-radius: 28px; }
 .flip-inner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   transform-style: preserve-3d;
   transition: transform 500ms ease;
 }
 .flip.flipped .flip-inner { transform: rotateY(180deg); }
 .flip-face {
   grid-area: 1 / 1;
+  min-width: 0;
   backface-visibility: hidden;
   transition: visibility 0s linear 250ms;
 }
