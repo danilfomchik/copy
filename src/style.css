@@ -97,6 +97,40 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 }
 .tab[aria-current='page'] { color: var(--teal); font-weight: 700; }
 
+.card { position: relative; }
+.card-plus {
+  position: absolute; top: 14px; right: 14px;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 0; background: rgba(255, 255, 255, 0.2); color: #fff;
+  font-size: 1.6rem; line-height: 1; cursor: pointer; z-index: 1;
+}
+.back-link { display: inline-block; margin-bottom: 12px; color: var(--teal); font-weight: 600; text-decoration: none; }
+.details-fields { display: grid; gap: 12px; margin: 0; background: var(--surface); border-radius: 16px; padding: 16px; }
+.details-fields .field dt { color: var(--muted); }
+
+/* Reusable bottom sheet (src/sheet.ts) */
+.sheet-root { position: fixed; inset: 0; z-index: 50; }
+.sheet-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); }
+.sheet {
+  position: absolute; inset: auto 0 0 0;
+  background: var(--surface); border-radius: 24px 24px 0 0;
+  padding: 0 16px calc(16px + env(safe-area-inset-bottom));
+  max-height: 85dvh; overflow: auto;
+}
+.sheet-grab { padding: 12px 0; cursor: grab; touch-action: none; }
+.sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: #c3d1cf; margin: 0 auto; }
+.sheet-actions { display: grid; gap: 8px; }
+.sheet-action {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 14px 16px; border: 0; border-radius: 14px; background: var(--bg);
+  color: var(--text); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; text-align: left;
+}
+.spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 3px solid #c3d1cf; border-top-color: var(--teal);
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 /* Card flip: 3D rotation, or a cross-fade under reduced motion */
 .flip { perspective: 1200px; cursor: pointer; border-radius: 28px; }
 .flip-inner {
