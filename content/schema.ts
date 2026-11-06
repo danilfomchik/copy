@@ -30,6 +30,15 @@ const ribbon = obj({ updatedAt: str() });
 
 const qr = obj({ label: str(), caption: str(), notice: str() });
 
+// Menu tab (Settings, About, Privacy, Help). The About demo notice and the
+// Privacy statements are fixed in code, deliberately not editable here.
+const menu = obj({
+  items: obj({ settings: str(), about: str(), privacy: str(), help: str() }),
+  back: str(),
+  settings: obj({ themeLabel: str(), light: str(), dark: str(), system: str() }),
+  about: obj({ versionLabel: str() }),
+  help: obj({ sections: arr(obj({ title: str(), body: str() })) }),
+});
 
 // Shared shape of an entry that opens a static detail page (Services; reused
 // by Listings). `id` becomes the URL segment.
@@ -42,5 +51,5 @@ export const detailItem = obj({
 
 const services = arr(detailItem);
 
-export const contentSchema = obj({ ui, member, ribbon, services, qr });
+export const contentSchema = obj({ ui, member, ribbon, services, qr, menu });
 export type Content = Infer<typeof contentSchema>;
