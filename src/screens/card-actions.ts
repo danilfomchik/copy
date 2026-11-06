@@ -1,6 +1,7 @@
 // Actions sheet on the Member card: view details, download PDF, refresh.
 // Everything works offline: no network request is made.
 import { el } from '../dom';
+import { icon } from '../icons';
 import { openSheet } from '../sheet';
 import type { Content } from '../../content/schema';
 
@@ -9,7 +10,7 @@ const REFRESH_MS = 900;
 
 export function actionsButton(content: Content, ribbonText: HTMLElement): HTMLElement {
   const a = content.ui.card.actions;
-  const button = el('button', { type: 'button', class: 'card-plus', 'aria-label': a.openLabel }, ['+']);
+  const button = el('button', { type: 'button', class: 'card-plus', 'aria-label': a.openLabel }, [icon('plus')]);
   button.addEventListener('click', () => {
     const sheet = openSheet({ label: a.sheetLabel, body: actionList() });
 

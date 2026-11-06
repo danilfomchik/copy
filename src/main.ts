@@ -1,6 +1,7 @@
 import content from 'virtual:content';
 import './style.css';
 import { el } from './dom';
+import { icon } from './icons';
 import { routes } from './routes';
 import { applyTheme, getTheme } from './theme';
 import { startRouter, type TabId } from './router';
@@ -14,7 +15,7 @@ const main = el('main', { id: 'screen' });
 const nav = el('nav', { class: 'tabbar', 'aria-label': content.ui.tabBarLabel });
 const links = new Map<TabId, HTMLAnchorElement>();
 for (const tab of TABS) {
-  const a = el('a', { href: `#/${tab}`, class: 'tab' }, [content.ui.tabs[tab]]);
+  const a = el('a', { href: `#/${tab}`, class: 'tab' }, [icon(tab), el('span', {}, [content.ui.tabs[tab]])]);
   links.set(tab, a);
   nav.append(a);
 }
