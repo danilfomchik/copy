@@ -1,0 +1,75 @@
+:root {
+  --bg: #eaf4f3;
+  --surface: #ffffff;
+  --text: #1f2933;
+  --muted: #5b6b73;
+  --teal: #0f766e;
+  --charcoal: #2b3338;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+#screen {
+  flex: 1;
+  padding: calc(16px + env(safe-area-inset-top)) 16px 96px;
+}
+h1 { font-size: 1.25rem; margin: 0 0 8px; }
+.placeholder { color: var(--muted); }
+
+.card {
+  background: linear-gradient(160deg, var(--teal), var(--charcoal));
+  color: #fff;
+  border-radius: 28px;
+  padding: 20px;
+  overflow: hidden;
+}
+.card-label { margin: 0 0 12px; opacity: 0.8; font-size: 0.85rem; }
+.avatar { width: 96px; height: 96px; display: block; margin-bottom: 12px; }
+.card-name { letter-spacing: 0.04em; }
+.card-fields { margin: 0 0 16px; display: grid; gap: 8px; }
+.field dt { font-size: 0.75rem; opacity: 0.7; }
+.field dd { margin: 0; font-weight: 600; }
+.ribbon {
+  margin: 0 -20px -20px;
+  padding: 8px 0;
+  background: rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ribbon-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: ribbon 14s linear infinite;
+  font-size: 0.85rem;
+}
+@keyframes ribbon { to { transform: translateX(-100%); } }
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-text { animation: none; padding-left: 20px; }
+}
+
+.tabbar {
+  position: fixed;
+  inset: auto 0 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--surface);
+  border-top: 1px solid #d5e3e1;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tab {
+  padding: 14px 4px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.tab[aria-current='page'] { color: var(--teal); font-weight: 700; }

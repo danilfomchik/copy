@@ -1,0 +1,30 @@
+{
+  "ui": {
+    "appName": "Orbit Pass",
+    "tabs": {
+      "card": "Картка",
+      "services": "Послуги",
+      "listings": "Оголошення",
+      "menu": "Меню"
+    },
+    "tabBarLabel": "Головна навігація",
+    "placeholder": "Цей розділ буде доступний пізніше.",
+    "card": {
+      "label": "Картка учасника",
+      "avatarAlt": "Аватар",
+      "birthDateLabel": "Дата народження",
+      "tierLabel": "Рівень",
+      "numberLabel": "Номер",
+      "ribbonUpdated": "Дані оновлено"
+    }
+  },
+  "member": {
+    "fullName": "ОРЕСТ ЛІСОВИЙ",
+    "birthDate": "14.03.1992",
+    "tier": "Срібний",
+    "membershipNumber": "OP-4821-7390"
+  },
+  "ribbon": {
+    "updatedAt": "06.11.2026, 09:30"
+  }
+}

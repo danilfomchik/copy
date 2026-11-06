@@ -1,0 +1,47 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { defineConfig, type Plugin } from 'vite';
+import { contentSchema } from './content/schema.ts';
+import { validate } from './content/validate.ts';
+
+const VIRTUAL = 'virtual:content';
+const RESOLVED = '\0' + VIRTUAL;
+
+// Loads the Content file (CONTENT_FILE env var overrides the default, used by
+// tests), validates it against the schema and exposes it as `virtual:content`.
+// A bad file fails the build with every problem listed.
+function contentPlugin(): Plugin {
+  const file = path.resolve(process.env.CONTENT_FILE ?? 'content/content.json');
+  const load = () => {
+    let data: unknown;
+    try {
+      data = JSON.parse(readFileSync(file, 'utf8'));
+    } catch (e) {
+      throw new Error(`[content] Не вдалося прочитати ${file}: ${(e as Error).message}`);
+    }
+    const problems = validate(contentSchema, data);
+    if (problems.length) {
+      throw new Error(
+        `[content] Файл контенту некоректний (${file}):\n  - ${problems.join('\n  - ')}`,
+      );
+    }
+    return data;
+  };
+  return {
+    name: 'orbit-content',
+    buildStart() {
+      this.addWatchFile(file);
+      load();
+    },
+    resolveId: (id) => (id === VIRTUAL ? RESOLVED : undefined),
+    load(id) {
+      if (id === RESOLVED) return `export default ${JSON.stringify(load())};`;
+    },
+  };
+}
+
+export default defineConfig({
+  base: '/copy/',
+  plugins: [contentPlugin()],
+  build: { outDir: process.env.OUT_DIR ?? 'dist' },
+});
