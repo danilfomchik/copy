@@ -8,6 +8,7 @@ const ui = obj({
   tabs: obj({ card: str(), services: str(), listings: str(), menu: str() }),
   tabBarLabel: str(),
   placeholder: str(),
+  back: str(),
   card: obj({
     label: str(),
     avatarAlt: str(),
@@ -37,5 +38,16 @@ const menu = obj({
   help: obj({ sections: arr(obj({ title: str(), body: str() })) }),
 });
 
-export const contentSchema = obj({ ui, member, ribbon, menu });
+// Shared shape of an entry that opens a static detail page (Services; reused
+// by Listings). `id` becomes the URL segment.
+export const detailItem = obj({
+  id: str(),
+  title: str(),
+  description: str(),
+  paragraphs: arr(str()),
+});
+
+const services = arr(detailItem);
+
+export const contentSchema = obj({ ui, member, ribbon, services, menu });
 export type Content = Infer<typeof contentSchema>;
