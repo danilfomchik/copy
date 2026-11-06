@@ -27,5 +27,7 @@ const member = obj({
 
 const ribbon = obj({ updatedAt: str() });
 
-export const contentSchema = obj({ ui, member, ribbon });
+const qr = obj({ label: str(), caption: str(), notice: str() });
+
+export const contentSchema = obj({ ui, member, ribbon, qr });
 export type Content = Infer<typeof contentSchema>;
