@@ -63,5 +63,12 @@ export const detailItem = obj({
 const services = arr(detailItem);
 const listings = arr(detailItem);
 
-export const contentSchema = obj({ ui, member, ribbon, services, listings, qr, menu });
+// Notifications sheet (bell button on the Member card): static messages.
+const notifications = obj({
+  openLabel: str(),
+  sheetLabel: str(),
+  items: arr(obj({ id: str(), title: str(), body: str() })),
+});
+
+export const contentSchema = obj({ ui, member, ribbon, services, listings, qr, menu, notifications });
 export type Content = Infer<typeof contentSchema>;
