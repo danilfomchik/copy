@@ -200,3 +200,10 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
 .row-desc { font-size: 0.85rem; color: var(--muted); }
 .back { display: inline-block; padding: 8px 0; margin-bottom: 8px; color: var(--teal); font-weight: 600; text-decoration: none; }
 .detail .lead { font-weight: 600; color: var(--muted); }
+
+/* Install / update notices */
+.pwa-stack { position: fixed; left: 0; right: 0; bottom: calc(72px + env(safe-area-inset-bottom)); z-index: 40; display: grid; gap: 8px; padding: 0 12px; }
+.pwa-notice { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--teal); color: var(--text); }
+.pwa-notice[hidden] { display: none; }
+.pwa-notice p { flex: 1; margin: 0; }
+.pwa-notice button { font: inherit; padding: 8px 12px; border-radius: 10px; border: 0; background: var(--teal); color: #fff; font-weight: 600; cursor: pointer; }

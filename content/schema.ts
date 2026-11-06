@@ -27,6 +27,7 @@ const ui = obj({
     }),
   }),
   details: obj({ title: str(), back: str(), fullNameLabel: str() }),
+  pwa: obj({ updateAvailable: str(), reload: str(), install: str(), iosHint: str(), dismiss: str() }),
 });
 
 const member = obj({
