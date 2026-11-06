@@ -43,5 +43,10 @@ function contentPlugin(): Plugin {
 export default defineConfig({
   base: '/copy/',
   plugins: [contentPlugin()],
+  define: {
+    __APP_VERSION__: JSON.stringify(
+      JSON.parse(readFileSync('package.json', 'utf8')).version as string,
+    ),
+  },
   build: { outDir: process.env.OUT_DIR ?? 'dist' },
 });

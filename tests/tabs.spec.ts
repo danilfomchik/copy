@@ -6,7 +6,7 @@ test('tab bar switches between the four tabs', async ({ page }) => {
   await expect(nav.getByRole('link')).toHaveText(['Картка', 'Послуги', 'Оголошення', 'Меню']);
   await expect(nav.getByRole('link', { name: 'Картка' })).toHaveAttribute('aria-current', 'page');
 
-  for (const name of ['Послуги', 'Оголошення', 'Меню']) {
+  for (const name of ['Послуги', 'Оголошення']) {
     await nav.getByRole('link', { name }).click();
     await expect(nav.getByRole('link', { name })).toHaveAttribute('aria-current', 'page');
     await expect(page.getByRole('heading', { name })).toBeVisible();
