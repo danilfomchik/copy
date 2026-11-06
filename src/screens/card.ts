@@ -3,6 +3,7 @@ import type { Route } from '../router';
 import { flip } from '../flip';
 import { qrView } from '../qr-view';
 import { actionsButton } from './card-actions';
+import { notificationsButton } from './card-notifications';
 import { cardDetailsRoute } from './card-details';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -43,6 +44,7 @@ export const cardRoutes: Route[] = [
       const ribbonEl = el('span', { class: 'ribbon-text' }, [ribbonText]);
       const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
           actionsButton(content, ribbonEl),
+          notificationsButton(content),
           el('p', { class: 'card-label' }, [ui.card.label]),
           avatar(ui.card.avatarAlt),
           el('h1', { class: 'card-name' }, [member.fullName]),
