@@ -23,8 +23,6 @@ function avatar(alt: string): SVGElement {
     svg.append(n);
   };
   add('rect', { width: '64', height: '64', fill: '#ffffff' });
-  add('circle', { cx: '32', cy: '25', r: '11', fill: '#d5d2bc' });
-  add('path', { d: 'M10 64c0-14 10-22 22-22s22 8 22 22z', fill: '#d5d2bc' });
   return svg;
 }
 
@@ -41,16 +39,13 @@ export const cardRoutes: Route[] = [
     tab: 'card',
     render: ({ content }) => {
       const { ui, member, ribbon } = content;
-      const ribbonText = `${ui.card.ribbonUpdated} ${ribbon.updatedAt}`;
-      const ribbonEl = el('span', { class: 'ribbon-text' }, [ribbonText]);
+      const ribbonEl = el('span', { class: 'ribbon-text' }, [ribbon.updatedAt]);
       const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
         el('p', { class: 'card-label' }, [ui.card.label]),
         el('div', { class: 'card-body' }, [
           avatar(ui.card.avatarAlt),
           el('dl', { class: 'card-fields' }, [
-            field(ui.card.birthDateLabel, member.birthDate),
-            field(ui.card.tierLabel, member.tier),
-            field(ui.card.numberLabel, member.membershipNumber),
+            field(`${ui.card.birthDateLabel}:`, member.birthDate),
           ]),
         ]),
         el('div', { class: 'ribbon' }, [ribbonEl]),

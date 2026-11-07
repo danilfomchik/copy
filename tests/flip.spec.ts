@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import jsQR from 'jsqr';
 import { QR_DEMO_MESSAGE } from '../qr-message';
 
-const card = (page: Page) => page.getByRole('region', { name: 'Картка учасника' });
+const card = (page: Page) => page.getByRole('region', { name: 'ID користувача' });
 const qrView = (page: Page) => page.getByRole('region', { name: 'QR-код' });
 
 test('tapping the card shows the QR view and tapping again shows the card', async ({ page }) => {
@@ -11,8 +11,8 @@ test('tapping the card shows the QR view and tapping again shows the card', asyn
   await card(page).click();
   await expect(qrView(page)).toBeVisible();
   await expect(card(page)).toBeHidden();
-  await expect(qrView(page).getByText('Діє до 06.11.2026')).toBeVisible();
-  await expect(qrView(page).getByText('Покажіть цей код лише в демонстраційних цілях.')).toBeVisible();
+  await expect(qrView(page).getByText('QR-код дійсний до 8 жовтня 2027')).toBeVisible();
+  await expect(qrView(page).getByText('Використовуйте QR-код лише за потреби та відповідально ставтеся до його поширення.')).toBeVisible();
   await qrView(page).click();
   await expect(card(page)).toBeVisible();
   await expect(qrView(page)).toBeHidden();

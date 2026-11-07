@@ -18,7 +18,7 @@ test.describe('iOS install hint', () => {
     await page.getByRole('button', { name: 'Зрозуміло' }).click();
     await expect(page.getByText(HINT)).toBeHidden();
     await page.reload();
-    await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
     await expect(page.getByText(HINT)).toBeHidden();
     expect(await page.evaluate(() => localStorage.getItem('orbit.installHintDismissed'))).toBeTruthy();
   });
@@ -28,14 +28,14 @@ test.describe('iOS install hint', () => {
       Object.defineProperty(navigator, 'standalone', { value: true });
     });
     await page.goto('./');
-    await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
     await expect(page.getByText(HINT)).toBeHidden();
   });
 });
 
 test('the iOS hint is not shown on other platforms', async ({ page }) => {
   await page.goto('./');
-  await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
   await expect(page.getByText(HINT)).toBeHidden();
 });
 
@@ -81,7 +81,7 @@ test('update banner appears for a waiting worker and reloads only when the user 
     expect(await page.evaluate(() => (window as any).__marker)).toBe('same-page');
 
     await page.getByRole('button', { name: 'Перезавантажити' }).click();
-    await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
     await expect.poll(() => page.evaluate(() => (window as any).__marker).catch(() => 'busy')).toBeUndefined();
     await expect(page.getByText('Доступне оновлення')).toBeHidden();
   } finally {

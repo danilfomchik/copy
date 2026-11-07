@@ -14,7 +14,6 @@ const ui = obj({
     birthDateLabel: str(),
     tierLabel: str(),
     numberLabel: str(),
-    ribbonUpdated: str(),
     actions: obj({
       openLabel: str(),
       sheetLabel: str(),

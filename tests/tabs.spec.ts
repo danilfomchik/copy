@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 test('tab bar switches between the four tabs', async ({ page }) => {
   await page.goto('./');
   const nav = page.getByRole('navigation', { name: 'Головна навігація' });
-  await expect(nav.getByRole('link')).toHaveText(['Картка', 'Послуги', 'Оголошення', 'Меню']);
-  await expect(nav.getByRole('link', { name: 'Картка' })).toHaveAttribute('aria-current', 'page');
+  await expect(nav.getByRole('link')).toHaveText(['ID', 'Послуги', 'Оголошення', 'Меню']);
+  await expect(nav.getByRole('link', { name: 'ID' })).toHaveAttribute('aria-current', 'page');
 
   for (const name of ['Послуги', 'Оголошення']) {
     await nav.getByRole('link', { name }).click();
@@ -15,6 +15,6 @@ test('tab bar switches between the four tabs', async ({ page }) => {
     }
   }
 
-  await nav.getByRole('link', { name: 'Картка' }).click();
-  await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+  await nav.getByRole('link', { name: 'ID' }).click();
+  await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
 });

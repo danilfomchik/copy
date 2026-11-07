@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Onest is self-hosted: loads for Cyrillic text with no third-party requests', async ({ page, baseURL }) => {
+test('Inter is self-hosted: loads for Cyrillic text with no third-party requests', async ({ page, baseURL }) => {
   const origin = new URL(baseURL!).origin;
   const foreign: string[] = [];
   const fontFiles: string[] = [];
@@ -10,16 +10,16 @@ test('Onest is self-hosted: loads for Cyrillic text with no third-party requests
     if (!u.startsWith(origin) && !u.startsWith('data:') && !u.startsWith('blob:')) foreign.push(u);
   });
   await page.goto('./');
-  await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
   const loaded = await page.evaluate(async () => {
     await document.fonts.ready;
     return [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family);
   });
-  expect(loaded.some((f) => f.includes('Onest'))).toBe(true);
+  expect(loaded.some((f) => f.includes('Inter'))).toBe(true);
   expect(fontFiles.length).toBeGreaterThan(0);
   for (const f of fontFiles) expect(f.startsWith(origin)).toBe(true);
   const family = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
-  expect(family).toContain('Onest');
+  expect(family).toContain('Inter');
   expect(foreign).toEqual([]);
 });
 
