@@ -12,10 +12,10 @@ export function actionsButton(content: Content, ribbonText: HTMLElement): HTMLEl
   const a = content.ui.card.actions;
   const button = el('button', { type: 'button', class: 'card-plus', 'aria-label': a.openLabel }, [icon('plus')]);
   button.addEventListener('click', () => {
-    const sheet = openSheet({ label: a.sheetLabel, body: actionList() });
+    const sheet = openSheet({ label: a.sheetLabel, body: actionList(), className: 'sheet-actions-panel' });
 
     function actionList(): HTMLElement {
-      const details = el('button', { type: 'button', class: 'sheet-action' }, [a.viewDetails]);
+      const details = el('button', { type: 'button', class: 'sheet-action' }, [icon('info'), el('span', {}, [a.viewDetails])]);
       details.addEventListener('click', () => {
         sheet.close();
         location.hash = '#/card/details';
@@ -26,15 +26,15 @@ export function actionsButton(content: Content, ribbonText: HTMLElement): HTMLEl
         href: `${import.meta.env.BASE_URL}${DEMO_PDF}`,
         download: DEMO_PDF,
         role: 'button',
-      }, [a.downloadPdf]);
+      }, [icon('file'), el('span', {}, [a.downloadPdf])]);
       pdf.addEventListener('click', () => setTimeout(sheet.close, 0));
 
-      const refresh = el('button', { type: 'button', class: 'sheet-action' }, [a.refresh]);
+      const refresh = el('button', { type: 'button', class: 'sheet-action' }, [icon('refresh-cw'), el('span', {}, [a.refresh])]);
       refresh.addEventListener('click', () => {
         refresh.disabled = true;
         refresh.append(el('span', { class: 'spinner', role: 'status', 'aria-label': a.refreshing }));
         setTimeout(() => {
-          ribbonText.textContent = `${content.ui.card.ribbonUpdated} ${content.ribbon.refreshedAt}`;
+          ribbonText.textContent = content.ribbon.refreshedAt;
           sheet.close();
         }, REFRESH_MS);
       });

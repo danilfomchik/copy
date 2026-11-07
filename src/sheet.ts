@@ -8,6 +8,8 @@ export interface SheetOptions {
   label: string;
   /** Sheet body. */
   body: Node;
+  /** Extra class on the sheet panel, for per-sheet styling. */
+  className?: string;
   /** Called after the sheet is removed, however it was closed. */
   onClose?: () => void;
 }
@@ -18,9 +20,9 @@ export interface Sheet {
 
 const SWIPE_CLOSE_PX = 80;
 
-export function openSheet({ label, body, onClose }: SheetOptions): Sheet {
+export function openSheet({ label, body, className, onClose }: SheetOptions): Sheet {
   const handle = el('div', { class: 'sheet-handle' });
-  const panel = el('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': label }, [
+  const panel = el('div', { class: className ? `sheet ${className}` : 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': label }, [
     el('div', { class: 'sheet-grab' }, [handle]),
     body,
   ]);

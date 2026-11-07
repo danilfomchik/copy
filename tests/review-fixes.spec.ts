@@ -21,7 +21,7 @@ test('a malformed URL escape falls back to the card instead of throwing', async 
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./#/services/%');
-  await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
   expect(errors).toEqual([]);
 });
 

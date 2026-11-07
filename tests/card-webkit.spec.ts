@@ -6,7 +6,7 @@ test.use({ browserName: 'webkit' });
 test('card and its buttons stay inside a phone-width viewport on first load', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('./');
-  const card = page.getByRole('region', { name: 'Картка учасника' });
+  const card = page.getByRole('region', { name: 'ID користувача' });
   await expect(card).toBeVisible();
   const box = await card.boundingBox();
   expect(box!.x).toBeGreaterThanOrEqual(0);

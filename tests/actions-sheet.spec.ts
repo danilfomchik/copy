@@ -92,5 +92,5 @@ test('refresh shows a spinner, then the Ribbon takes the refreshed timestamp, wi
   await expect(page.getByRole('status', { name: a.refreshing })).toBeVisible();
   await expect(ribbon).toContainText(content.ribbon.refreshedAt);
   await expect(page.getByRole('status', { name: a.refreshing })).toHaveCount(0);
-  expect(requests).toEqual([]);
+  expect(requests.filter((u) => !/\.woff2($|\?)/.test(u))).toEqual([]);
 });

@@ -16,7 +16,7 @@ test('the app reloads and works offline after the first load', async ({ page }) 
     await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
     server.stop();
     await page.reload();
-    await expect(page.getByRole('region', { name: 'Картка учасника' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'ID користувача' })).toBeVisible();
     await page.getByRole('link', { name: 'Меню' }).click();
     await expect(page.getByRole('link', { name: 'Меню' })).toHaveAttribute('aria-current', 'page');
     // a fresh navigation to a deep hash route also works offline
@@ -40,7 +40,7 @@ test('no request leaves the apps own origin', async ({ page, baseURL }) => {
   });
   await page.goto('./');
   await page.evaluate(() => navigator.serviceWorker.ready);
-  for (const tab of ['Послуги', 'Оголошення', 'Меню', 'Картка']) {
+  for (const tab of ['Послуги', 'Оголошення', 'Меню', 'ID']) {
     await page.getByRole('link', { name: tab }).click();
   }
   await page.reload();

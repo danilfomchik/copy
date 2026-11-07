@@ -70,9 +70,23 @@ function serviceWorkerPlugin(): Plugin {
   };
 }
 
+// The page's CSP blocks two things Vite's dev server needs: the HMR WebSocket
+// (`connect-src 'none'`) and the <style> tags it injects for CSS
+// (`style-src 'self'`). In dev only, relax both; the built index.html is untouched.
+function devCspPlugin(): Plugin {
+  return {
+    name: 'orbit-dev-csp',
+    apply: 'serve',
+    transformIndexHtml: (html) =>
+      html
+        .replace("connect-src 'none'", 'connect-src ws: wss:')
+        .replace("style-src 'self'", "style-src 'self' 'unsafe-inline'"),
+  };
+}
+
 export default defineConfig({
   base: '/copy/',
-  plugins: [contentPlugin(), qrPlugin(), serviceWorkerPlugin()],
+  plugins: [contentPlugin(), qrPlugin(), serviceWorkerPlugin(), devCspPlugin()],
   define: {
     __APP_VERSION__: JSON.stringify(
       JSON.parse(readFileSync('package.json', 'utf8')).version as string,

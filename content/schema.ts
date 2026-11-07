@@ -10,10 +10,10 @@ const ui = obj({
   card: obj({
     label: str(),
     avatarAlt: str(),
+    holderLabel: str(),
     birthDateLabel: str(),
     tierLabel: str(),
     numberLabel: str(),
-    ribbonUpdated: str(),
     actions: obj({
       openLabel: str(),
       sheetLabel: str(),

@@ -1,22 +1,31 @@
-/* Self-hosted Onest (SIL OFL, see fonts/OFL.txt). Cyrillic covers Ukrainian. */
-@font-face { font-family: 'Onest'; font-weight: 400; font-style: normal; font-display: swap;
-  src: url('./fonts/onest-cyrillic-400-normal.woff2') format('woff2');
+/* Self-hosted Inter (SIL OFL, see fonts/OFL.txt), the Figma design font. Cyrillic covers Ukrainian. */
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("./fonts/inter-cyrillic-400-normal.woff2") format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: 'Onest'; font-weight: 400; font-style: normal; font-display: swap;
-  src: url('./fonts/onest-latin-400-normal.woff2') format('woff2');
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("./fonts/inter-latin-400-normal.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Onest'; font-weight: 600; font-style: normal; font-display: swap;
-  src: url('./fonts/onest-cyrillic-600-normal.woff2') format('woff2');
+@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("./fonts/inter-cyrillic-500-normal.woff2") format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: 'Onest'; font-weight: 600; font-style: normal; font-display: swap;
-  src: url('./fonts/onest-latin-600-normal.woff2') format('woff2');
+@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("./fonts/inter-latin-500-normal.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Onest'; font-weight: 700; font-style: normal; font-display: swap;
-  src: url('./fonts/onest-cyrillic-700-normal.woff2') format('woff2');
+@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("./fonts/inter-cyrillic-700-normal.woff2") format("woff2");
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: 'Onest'; font-weight: 700; font-style: normal; font-display: swap;
-  src: url('./fonts/onest-latin-700-normal.woff2') format('woff2');
+@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("./fonts/inter-latin-700-normal.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+/* Lora Bold Italic: only the "i" of the information icon (SIL OFL). */
+@font-face {
+  font-family: "Lora";
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+  src: url("./fonts/lora-latin-700-italic.woff2") format("woff2");
+  unicode-range: U+0069;
+}
 
 :root {
   --bg: #eaf4f3;
@@ -24,19 +33,40 @@
   --text: #1f2933;
   --muted: #566870;
   --teal: #0f766e;
-  --charcoal: #2b3338;
   --border: #d3e0e0;
   --handle: #c3d1d1;
   --backdrop: rgba(0, 0, 0, 0.45);
-  --card-from: var(--teal);
-  --card-to: var(--charcoal);
+  --home-bg: #e1dfca;
+  --card-bg: #d5d3bd;
+  --card-border: #92927f;
+  --card-muted: #57574c;
+  --ribbon-bg: #80591f;
+  --fab: #ff8900;
+  --pill-bg: #fbfdfc;
+  --tabbar-bg: #fbfdfc;
+  --text-strong: #050603;
+  /* Layout unit: 1u = 1px of the 591px-wide Figma frame (an iPhone 13 Pro Max
+     screenshot), scaled to the viewport and capped at a 480px-wide phone. */
+  --u: calc(min(100vw, 480px) / 591);
+  --nav-h: calc(var(--u) * 70 + env(safe-area-inset-bottom));
+  --doc-bg: #fbfdfc;
+  --doc-border: #bdbeaf;
+  --notice-bg: #d5d3bd;
+  --notice-border: #92927f;
+  --notice-icon: #57574c;
+  --indicator: #666865;
   color-scheme: light;
-  font-family: 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: "Inter",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 /* Dark palette: explicit choice, or "system" (no data-theme) following the OS.
    Deeper background, raised surfaces, a dimmer card gradient and a stronger backdrop. */
-:root[data-theme='dark'] {
+:root[data-theme="dark"] {
   --bg: #0c1315;
   --surface: #172124;
   --text: #e6eef0;
@@ -45,8 +75,20 @@
   --border: #2a383c;
   --handle: #3a4b50;
   --backdrop: rgba(0, 0, 0, 0.65);
-  --card-from: #0f6b64;
-  --card-to: #1a2125;
+  --home-bg: #17160f;
+  --card-bg: #26241a;
+  --card-border: #4a4736;
+  --card-muted: #aaa68f;
+  --ribbon-bg: #7a5217;
+  --pill-bg: #26241a;
+  --text-strong: #e6eef0;
+  --tabbar-bg: #1d1c14;
+  --doc-bg: #26241a;
+  --doc-border: #4a4736;
+  --notice-bg: #33301f;
+  --notice-border: #5c5844;
+  --notice-icon: #aaa68f;
+  --indicator: #8a8878;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -59,14 +101,50 @@
     --border: #2a383c;
     --handle: #3a4b50;
     --backdrop: rgba(0, 0, 0, 0.65);
-    --card-from: #0f6b64;
-    --card-to: #1a2125;
+    --home-bg: #17160f;
+    --card-bg: #26241a;
+    --card-border: #4a4736;
+    --card-muted: #aaa68f;
+    --ribbon-bg: #7a5217;
+    --pill-bg: #26241a;
+    --text-strong: #e6eef0;
+    --tabbar-bg: #1d1c14;
+    --doc-bg: #26241a;
+    --doc-border: #4a4736;
+    --notice-bg: #33301f;
+    --notice-border: #5c5844;
+    --notice-icon: #aaa68f;
+    --indicator: #8a8878;
     color-scheme: dark;
   }
 }
-* { box-sizing: border-box; }
-.icon { width: 24px; height: 24px; flex: none; display: block; }
-:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+* {
+  box-sizing: border-box;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  display: block;
+}
+.icon-fill {
+  fill: currentColor;
+  stroke: none;
+}
+.icon-cutout {
+  fill: var(--tabbar-bg);
+  stroke: none;
+}
+.icon-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -79,28 +157,96 @@ body {
 }
 #screen {
   flex: 1;
-  padding: calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(88px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
+  padding: calc(16px + env(safe-area-inset-top))
+    calc(16px + env(safe-area-inset-right))
+    calc(88px + env(safe-area-inset-bottom))
+    calc(16px + env(safe-area-inset-left));
 }
-[tabindex='-1']:focus { outline: none; }
-h1 { font-size: 1.25rem; margin: 0 0 8px; }
+[tabindex="-1"]:focus {
+  outline: none;
+}
+h1 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
 
+/* Home screen: every size below is in Figma units (1u, see --u). */
 .card {
-  background: linear-gradient(160deg, var(--card-from), var(--card-to));
-  color: #fff;
-  border-radius: 28px;
-  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 525 / 710;
+  background: var(--card-bg);
+  color: var(--text-strong);
+  /* The 1.3u border is an inset shadow so the ribbon paints over it, as in the design. */
+  box-shadow: inset 0 0 0 calc(var(--u) * 1.3) var(--card-border);
+  border-radius: calc(var(--u) * 12);
+  padding: calc(var(--u) * 33) calc(var(--u) * 22) calc(var(--u) * 20);
   overflow: hidden;
 }
-.card-label { margin: 0 0 12px; opacity: 0.8; font-size: 0.85rem; }
-.avatar { width: 96px; height: 96px; display: block; margin-bottom: 12px; }
-.card-name { letter-spacing: 0.04em; }
-.card-fields { margin: 0 0 16px; display: grid; gap: 8px; }
-.field dt { font-size: 0.75rem; opacity: 0.7; }
-.field dd { margin: 0; font-weight: 600; }
+body:has(.card-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.card-screen) {
+  display: flex;
+  flex-direction: column;
+  padding: calc(env(safe-area-inset-top) + var(--u) * 31) 0 var(--nav-h);
+}
+.card-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+}
+/* The card sits centred between the pill and the tab bar (156u each side in the design). */
+.card-screen > .flip {
+  margin: auto 0;
+  border-radius: calc(var(--u) * 12);
+}
+.card-label {
+  margin: 0 0 calc(var(--u) * 30);
+  font-size: calc(var(--u) * 30);
+  font-weight: 500;
+  line-height: 1.2;
+}
+.card-body {
+  display: grid;
+  grid-template-columns: 216fr 242fr;
+  gap: calc(var(--u) * 22);
+  align-items: start;
+}
+.avatar {
+  width: 100%;
+  aspect-ratio: 216 / 289;
+  border-radius: calc(var(--u) * 12);
+  display: block;
+}
+.card-fields {
+  margin: 0;
+  display: grid;
+  gap: calc(var(--u) * 22);
+}
+.field dt {
+  font-size: calc(var(--u) * 22);
+  line-height: 26 / 22;
+  color: var(--card-muted);
+}
+.field dd {
+  margin: calc(var(--u) * 10) 0 0;
+  font-size: calc(var(--u) * 24);
+  line-height: 28 / 24;
+  font-weight: 400;
+}
 .ribbon {
-  margin: 0 -20px -20px;
-  padding: 8px 0;
-  background: rgba(0, 0, 0, 0.25);
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: calc(var(--u) * 33);
+  margin: calc(var(--u) * 84) calc(var(--u) * -22) 0;
+  background: var(--ribbon-bg);
+  color: #fbfdfc;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -108,11 +254,38 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
   display: inline-block;
   padding-left: 100%;
   animation: ribbon 14s linear infinite;
-  font-size: 0.85rem;
+  font-size: calc(var(--u) * 22);
 }
-@keyframes ribbon { to { transform: translateX(-100%); } }
+@keyframes ribbon {
+  to {
+    transform: translateX(-100%);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .ribbon-text { animation: none; padding-left: 20px; }
+  .ribbon-text {
+    animation: none;
+    padding-left: calc(var(--u) * 22);
+  }
+}
+.card-footer {
+  margin-top: calc(var(--u) * 43);
+  padding-right: calc(var(--u) * 56 + var(--u) * 12);
+}
+.card-holder-label {
+  margin: 0 0 calc(var(--u) * 10);
+  font-size: calc(var(--u) * 22);
+  line-height: 27 / 22;
+  color: var(--card-muted);
+}
+/* One word per line, as in the design (width: min-content). */
+.card-name {
+  width: min-content;
+  max-width: 100%;
+  margin: 0;
+  font-size: calc(var(--u) * 32);
+  line-height: 35 / 32;
+  letter-spacing: 0;
+  font-weight: 500;
 }
 
 .tabbar {
@@ -120,95 +293,308 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
   inset: auto 0 0 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: var(--tabbar-bg);
+  padding: calc(var(--u) * 9) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 .tab {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  min-height: 56px; padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--u) * 5);
+  padding: 0 calc(var(--u) * 4);
   text-align: center;
   text-decoration: none;
-  color: var(--muted);
-  font-size: 0.75rem;
+  color: var(--text-strong);
+  font-size: max(11px, var(--u) * 17);
+  line-height: 21 / 17;
 }
-.tab[aria-current='page'] { color: var(--teal); font-weight: 700; }
+.tab .icon {
+  width: calc(var(--u) * 34);
+  height: calc(var(--u) * 35);
+}
+.tab[aria-current="page"] {
+  font-weight: 700;
+}
 
-.card { position: relative; }
 .card-plus {
-  position: absolute; top: 14px; right: 84px;
-  width: 40px; height: 40px; border-radius: 50%;
-  border: 0; background: rgba(255, 255, 255, 0.2); color: #fff;
-  display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; z-index: 1;
+  position: absolute;
+  right: calc(var(--u) * 22);
+  bottom: calc(var(--u) * 21);
+  width: calc(var(--u) * 56);
+  height: calc(var(--u) * 56);
+  border-radius: 50%;
+  border: 0;
+  background: var(--fab);
+  color: #050603;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+.card-plus .icon {
+  /* The plus icon is the full 56u design box: a 25u cross, 8u thick. */
+  width: calc(var(--u) * 56);
+  height: calc(var(--u) * 56);
 }
 .card-bell {
-  position: absolute; top: 14px; right: 14px;
-  height: 40px; padding: 0 18px; border-radius: 999px;
-  border: 0; background: rgba(255, 255, 255, 0.2); color: #fff;
-  display: inline-flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1;
+  align-self: flex-end;
+  width: calc(var(--u) * 189);
+  height: calc(var(--u) * 45);
+  padding: 0;
+  gap: calc(var(--u) * 11);
+  border-radius: calc(var(--u) * 32);
+  border: 0;
+  background: var(--pill-bg);
+  color: var(--text-strong);
+  font: inherit;
+  font-size: calc(var(--u) * 21);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-.notification-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.notification { padding: 14px 16px; border-radius: 14px; background: var(--bg); }
-.notification-body { margin: 4px 0 0; color: var(--muted); }
-.details-fields { display: grid; gap: 12px; margin: 0; background: var(--surface); border-radius: 16px; padding: 16px; }
-.details-fields .field dt { color: var(--muted); }
+.card-bell .icon {
+  width: calc(var(--u) * 23);
+  height: calc(var(--u) * 24);
+}
+.notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.notification {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--bg);
+}
+.notification-body {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+.details-fields {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+}
+.details-fields .field dt {
+  color: var(--muted);
+}
 
 /* Reusable bottom sheet (src/sheet.ts) */
-.sheet-root { position: fixed; inset: 0; z-index: 50; }
-.sheet-backdrop { position: absolute; inset: 0; background: var(--backdrop); }
-.sheet {
-  position: absolute; inset: auto 0 0 0;
-  background: var(--surface); border-radius: 24px 24px 0 0;
-  padding: 0 calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
-  max-height: 85dvh; overflow: auto;
+.sheet-root {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
 }
-.sheet-grab { padding: 12px 0; cursor: grab; touch-action: none; }
-.sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--handle); margin: 0 auto; }
-.sheet-actions { display: grid; gap: 8px; }
+.sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--backdrop);
+}
+.sheet {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
+  padding: 0 calc(16px + env(safe-area-inset-right))
+    calc(16px + env(safe-area-inset-bottom))
+    calc(16px + env(safe-area-inset-left));
+  max-height: 85dvh;
+  overflow: auto;
+}
+.sheet-grab {
+  padding: 12px 0;
+  cursor: grab;
+  touch-action: none;
+}
+.sheet-handle {
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--handle);
+  margin: 0 auto;
+}
+.sheet-actions {
+  display: grid;
+  gap: 8px;
+}
 .sheet-action {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 14px 16px; border: 0; border-radius: 14px; background: var(--bg);
-  color: var(--text); font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
 }
 .spinner {
-  width: 18px; height: 18px; border-radius: 50%;
-  border: 3px solid var(--handle); border-top-color: var(--teal);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid var(--handle);
+  border-top-color: var(--teal);
   animation: spin 0.7s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+/* Actions sheet, from Figma (1u = --u): 569u panel, 55x6u handle, 48u rows on a 77u pitch. */
+.sheet-actions-panel {
+  inset: auto calc(var(--u) * 11) calc(var(--u) * 48) calc(var(--u) * 11);
+  max-width: calc(var(--u) * 569);
+  margin: 0 auto;
+  background: var(--doc-bg);
+  border-radius: calc(var(--u) * 23);
+  padding: 0 calc(var(--u) * 11) calc(var(--u) * 26);
+}
+.sheet-actions-panel .sheet-grab {
+  padding: calc(var(--u) * 21) 0 calc(var(--u) * 37);
+}
+.sheet-actions-panel .sheet-handle {
+  width: calc(var(--u) * 55);
+  height: calc(var(--u) * 6);
+  border-radius: calc(var(--u) * 3);
+  background: var(--text-strong);
+}
+.sheet-actions-panel .sheet-actions {
+  gap: calc(var(--u) * 29);
+}
+.sheet-actions-panel .sheet-action {
+  justify-content: flex-start;
+  gap: calc(var(--u) * 24);
+  height: calc(var(--u) * 48);
+  padding: 0 calc(var(--u) * 24);
+  background: transparent;
+  color: var(--text-strong);
+  font-size: calc(var(--u) * 22);
+  font-weight: 500;
+}
+.sheet-actions-panel .sheet-action .icon {
+  width: calc(var(--u) * 29);
+  height: calc(var(--u) * 29);
+}
+.sheet-actions-panel .sheet-action .icon-stroke {
+  stroke-width: 2.7;
+  stroke-linecap: round;
+}
+.sheet-actions-panel .spinner {
+  margin-left: auto;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 /* Card flip: 3D rotation (instant swap under reduced motion, see the end of this file) */
-.flip { perspective: 1200px; cursor: pointer; border-radius: 28px; }
+.flip {
+  perspective: 1200px;
+  cursor: pointer;
+  border-radius: 14px;
+}
 .flip-inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   transform-style: preserve-3d;
   transition: transform 500ms ease;
 }
-.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
 .flip-face {
   grid-area: 1 / 1;
   min-width: 0;
   backface-visibility: hidden;
   transition: visibility 0s linear 250ms;
 }
-.flip-back { transform: rotateY(180deg); visibility: hidden; }
-.flip.flipped .flip-back { visibility: visible; }
-.flip.flipped .flip-front { visibility: hidden; }
-.qr-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  height: 100%;
-  box-sizing: border-box;
-  justify-content: center;
+.flip-back {
+  transform: rotateY(180deg);
+  visibility: hidden;
 }
-.qr-caption { margin: 0; font-weight: 600; }
-.qr-notice { margin: 0; font-size: 0.85rem; opacity: 0.85; text-align: center; }
-.qr { width: min(100%, 240px); height: auto; border-radius: 12px; }
+.flip.flipped .flip-back {
+  visibility: visible;
+}
+.flip.flipped .flip-front {
+  visibility: hidden;
+}
+/* QR document: a 525 x 709u frame; children are placed at the design's coordinates
+   (the design measures from inside the 1u border, hence the +1u offsets). */
+.qr-view {
+  height: 100%;
+  background: var(--doc-bg);
+  box-shadow: inset 0 0 0 var(--u) var(--doc-border);
+  border-radius: calc(var(--u) * 23);
+  padding: 0;
+}
+.qr-caption {
+  position: absolute;
+  top: calc(var(--u) * 30);
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: calc(var(--u) * 21.5);
+  font-weight: 500;
+  line-height: 27 / 21.5;
+  text-align: center;
+}
+.qr {
+  position: absolute;
+  left: calc(var(--u) * 47);
+  top: calc(var(--u) * 93);
+  width: calc(var(--u) * 431);
+  height: calc(var(--u) * 431);
+  display: block;
+}
+.qr-notice {
+  position: absolute;
+  left: calc(var(--u) * 34);
+  top: calc(var(--u) * 562);
+  width: calc(var(--u) * 457);
+  height: calc(var(--u) * 114);
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--u) * 22);
+  padding: calc(var(--u) * 20.8);
+  background: var(--notice-bg);
+  border: calc(var(--u) * 1.2) solid var(--notice-border);
+  border-radius: calc(var(--u) * 12);
+}
+.qr-notice p {
+  margin: 0;
+  width: calc(var(--u) * 365);
+  font-size: calc(var(--u) * 22);
+  font-weight: 500;
+  line-height: 23 / 22;
+}
+.qr-notice-icon {
+  flex: none;
+  width: calc(var(--u) * 32);
+  height: calc(var(--u) * 32);
+  border: calc(var(--u) * 2.5) solid var(--notice-icon);
+  border-radius: calc(var(--u) * 4);
+  color: var(--notice-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: calc(var(--u) * 5);
+  font: italic 700 calc(var(--u) * 31) / 1 Lora, Georgia, "Times New Roman", serif;
+}
 
 /* Menu screens */
-.menu-list { display: grid; gap: 8px; }
+.menu-list {
+  display: grid;
+  gap: 8px;
+}
 .menu-item {
   display: block;
   padding: 16px;
@@ -218,40 +604,159 @@ h1 { font-size: 1.25rem; margin: 0 0 8px; }
   color: var(--text);
   text-decoration: none;
 }
-.theme-group { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 12px 16px; }
-.theme-option { display: flex; gap: 12px; align-items: center; padding: 10px 0; }
-.demo-notice { padding: 12px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--teal); }
-.privacy-list { padding-left: 20px; display: grid; gap: 10px; }
-.help-section h2 { font-size: 1rem; margin: 16px 0 4px; }
-/* Shared list/detail pattern (Services, Listings) */
-.tile-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.tile {
-  display: flex; flex-direction: column; gap: 6px; height: 100%;
-  padding: 16px; border-radius: 16px; background: var(--surface);
-  color: var(--text); text-decoration: none; border: 1px solid var(--border);
+.theme-group {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 12px 16px;
 }
-.tile-title { font-weight: 700; color: var(--teal); }
-.tile-desc { font-size: 0.85rem; color: var(--muted); }
-.row-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.row { display: flex; flex-direction: column; gap: 2px; padding: 14px 4px; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
-.row-title { font-weight: 700; }
-.row-desc { font-size: 0.85rem; color: var(--muted); }
-.back { display: inline-block; padding: 8px 0; margin-bottom: 12px; color: var(--teal); font-weight: 600; text-decoration: none; }
-.detail .lead { font-weight: 600; color: var(--muted); }
+.theme-option {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+}
+.demo-notice {
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--teal);
+}
+.privacy-list {
+  padding-left: 20px;
+  display: grid;
+  gap: 10px;
+}
+.help-section h2 {
+  font-size: 1rem;
+  margin: 16px 0 4px;
+}
+/* Shared list/detail pattern (Services, Listings) */
+.tile-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--border);
+}
+.tile-title {
+  font-weight: 700;
+  color: var(--teal);
+}
+.tile-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 4px;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.row-title {
+  font-weight: 700;
+}
+.row-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.back {
+  display: inline-block;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+.detail .lead {
+  font-weight: 600;
+  color: var(--muted);
+}
 
 /* Reduced motion: no transitions, no running animations anywhere. The flip
    swaps faces instantly, the ribbon is static text, the spinner is a static ring. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-  .flip-inner, .flip.flipped .flip-inner { transform: none; }
-  .flip-back { transform: none; }
-  .flip-face { backface-visibility: visible; }
-  .spinner { border-top-color: var(--teal); border-right-color: var(--teal); }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+  .flip-inner,
+  .flip.flipped .flip-inner {
+    transform: none;
+  }
+  .flip-back {
+    transform: none;
+  }
+  .flip-face {
+    backface-visibility: visible;
+  }
+  .spinner {
+    border-top-color: var(--teal);
+    border-right-color: var(--teal);
+  }
 }
 
 /* Install / update notices */
-.pwa-stack { position: fixed; left: 0; right: 0; bottom: calc(72px + env(safe-area-inset-bottom)); z-index: 40; display: grid; gap: 8px; padding: 0 12px; }
-.pwa-notice { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--teal); color: var(--text); }
-.pwa-notice[hidden] { display: none; }
-.pwa-notice p { flex: 1; margin: 0; }
-.pwa-notice button { font: inherit; padding: 8px 12px; border-radius: 10px; border: 0; background: var(--teal); color: var(--bg); font-weight: 600; cursor: pointer; }
+.pwa-stack {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  z-index: 40;
+  display: grid;
+  gap: 8px;
+  padding: 0 12px;
+}
+.pwa-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--teal);
+  color: var(--text);
+}
+.pwa-notice[hidden] {
+  display: none;
+}
+.pwa-notice p {
+  flex: 1;
+  margin: 0;
+}
+.pwa-notice button {
+  font: inherit;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 0;
+  background: var(--teal);
+  color: var(--bg);
+  font-weight: 600;
+  cursor: pointer;
+}

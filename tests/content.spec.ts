@@ -6,7 +6,6 @@ test('editing the Content file and rebuilding changes what the app shows', async
   test.setTimeout(120_000);
   const content = readContent();
   content.member.fullName = 'ІРИНА ВЕСНЯНА';
-  content.member.tier = 'Золотий';
   content.ui.tabs.services = 'Сервіси';
   const { dir, file } = writeTempContent(content);
   const outDir = path.join(dir, 'dist');
@@ -15,11 +14,10 @@ test('editing the Content file and rebuilding changes what the app shows', async
   const server = await servePreview(outDir, 4180);
   try {
     await page.goto(server.url);
-    const card = page.getByRole('region', { name: 'Картка учасника' });
+    const card = page.getByRole('region', { name: 'ID користувача' });
     await expect(card.getByText('ІРИНА ВЕСНЯНА')).toBeVisible();
-    await expect(card.getByText('Золотий')).toBeVisible();
     await expect(page.getByRole('link', { name: 'Сервіси' })).toBeVisible();
-    await expect(page.getByText('ОРЕСТ ЛІСОВИЙ')).toHaveCount(0);
+    await expect(page.getByText('ЛІСОВИЙ ОРЕСТ ВАСИЛЬОВИЧ')).toHaveCount(0);
   } finally {
     server.stop();
   }
@@ -28,7 +26,6 @@ test('editing the Content file and rebuilding changes what the app shows', async
 test('a broken Content file makes the build fail with a clear error', () => {
   test.setTimeout(120_000);
   const content = readContent();
-  delete content.member.tier;
   content.member.fullName = 42;
   content.membr = {};
   const { dir, file } = writeTempContent(content);
@@ -36,7 +33,6 @@ test('a broken Content file makes the build fail with a clear error', () => {
   const result = buildWith(file, path.join(dir, 'dist'));
   expect(result.ok).toBe(false);
   expect(result.output).toContain('Файл контенту некоректний');
-  expect(result.output).toContain('content.member.tier: відсутнє обов\'язкове поле');
   expect(result.output).toContain('content.member.fullName: очікується рядок');
   expect(result.output).toContain('content.membr: невідоме поле');
 });
