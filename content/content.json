@@ -17,6 +17,7 @@
     "card": {
       "label": "Картка учасника",
       "avatarAlt": "Аватар",
+      "holderLabel": "Учасник",
       "birthDateLabel": "Дата народження",
       "tierLabel": "Рівень",
       "numberLabel": "Номер",

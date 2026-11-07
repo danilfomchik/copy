@@ -13,6 +13,7 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 function avatar(alt: string): SVGElement {
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.setAttribute('viewBox', '0 0 64 64');
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
   svg.setAttribute('role', 'img');
   svg.setAttribute('aria-label', alt);
   svg.setAttribute('class', 'avatar');
@@ -21,9 +22,9 @@ function avatar(alt: string): SVGElement {
     for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
     svg.append(n);
   };
-  add('rect', { width: '64', height: '64', rx: '16', fill: '#0f766e' });
-  add('circle', { cx: '32', cy: '25', r: '11', fill: '#e6fffb' });
-  add('path', { d: 'M10 64c0-14 10-22 22-22s22 8 22 22z', fill: '#e6fffb' });
+  add('rect', { width: '64', height: '64', fill: '#ffffff' });
+  add('circle', { cx: '32', cy: '25', r: '11', fill: '#d5d2bc' });
+  add('path', { d: 'M10 64c0-14 10-22 22-22s22 8 22 22z', fill: '#d5d2bc' });
   return svg;
 }
 
@@ -43,19 +44,28 @@ export const cardRoutes: Route[] = [
       const ribbonText = `${ui.card.ribbonUpdated} ${ribbon.updatedAt}`;
       const ribbonEl = el('span', { class: 'ribbon-text' }, [ribbonText]);
       const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
-          actionsButton(content, ribbonEl),
-          notificationsButton(content),
-          el('p', { class: 'card-label' }, [ui.card.label]),
+        el('p', { class: 'card-label' }, [ui.card.label]),
+        el('div', { class: 'card-body' }, [
           avatar(ui.card.avatarAlt),
-          el('h1', { class: 'card-name' }, [member.fullName]),
           el('dl', { class: 'card-fields' }, [
             field(ui.card.birthDateLabel, member.birthDate),
             field(ui.card.tierLabel, member.tier),
             field(ui.card.numberLabel, member.membershipNumber),
           ]),
-          el('div', { class: 'ribbon' }, [ribbonEl]),
+        ]),
+        el('div', { class: 'ribbon' }, [ribbonEl]),
+        el('div', { class: 'card-footer' }, [
+          el('div', {}, [
+            el('p', { class: 'card-holder-label' }, [ui.card.holderLabel]),
+            el('h1', { class: 'card-name' }, [member.fullName]),
+          ]),
+          actionsButton(content, ribbonEl),
+        ]),
       ]);
-      return el('section', { class: 'screen card-screen' }, [flip(front, qrView(content))]);
+      return el('section', { class: 'screen card-screen' }, [
+        notificationsButton(content),
+        flip(front, qrView(content)),
+      ]);
     },
   },
   cardDetailsRoute,

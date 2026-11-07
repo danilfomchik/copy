@@ -36,7 +36,7 @@ test('tab bar and card buttons use SVG icons, not emoji', async ({ page }) => {
   await expect(page.locator('.tabbar .tab svg')).toHaveCount(4);
   await expect(page.locator('.card-bell svg')).toHaveCount(1);
   await expect(page.locator('.card-plus svg')).toHaveCount(1);
-  expect(await page.locator('.card-bell, .card-plus').allTextContents()).toEqual(['', '']);
+  expect(await page.locator('.card-plus').allTextContents()).toEqual(['']);
 });
 
 test('reduced motion leaves no running animation or transition', async ({ page }) => {

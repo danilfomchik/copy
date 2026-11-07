@@ -11,3 +11,22 @@ test('home screen is the Card with Member values from the Content file', async (
   await expect(card.getByRole('img', { name: 'Аватар' })).toBeVisible();
   await expect(card.getByText('Дані оновлено 06.11.2026, 09:30').first()).toBeVisible();
 });
+
+test('home screen follows the design: notifications pill outside the card, holder label above the name', async ({ page }) => {
+  await page.goto('./');
+  const card = page.getByRole('region', { name: 'Картка учасника' });
+  const bell = page.getByRole('button', { name: 'Сповіщення' });
+  await expect(bell).toHaveText('Сповіщення');
+  await expect(bell.locator('svg')).toHaveCount(1);
+  await expect(card.getByRole('button', { name: 'Сповіщення' })).toHaveCount(0);
+  await expect(card.getByText('Учасник', { exact: true })).toBeVisible();
+  const [nameBox, plusBox, cardBox] = await Promise.all([
+    card.getByText('ОРЕСТ ЛІСОВИЙ').boundingBox(),
+    card.getByRole('button', { name: 'Дії' }).boundingBox(),
+    card.boundingBox(),
+  ]);
+  // "+" sits in the bottom-right corner of the card, beside the name.
+  expect(plusBox!.x + plusBox!.width).toBeGreaterThan(cardBox!.x + cardBox!.width - 40);
+  expect(plusBox!.y + plusBox!.height).toBeGreaterThan(cardBox!.y + cardBox!.height - 40);
+  expect(plusBox!.x).toBeGreaterThan(nameBox!.x);
+});
