@@ -2,8 +2,20 @@ import { test, expect } from '@playwright/test';
 import path from 'node:path';
 import { buildWith, readContent, servePreview, writeTempContent } from './helpers/build';
 
-test('Listings tab shows 5 rows; each opens its detail page and back returns to the list', async ({ page }) => {
+test('Listings tab opens on the intro; Start shows the list, and "don\'t show again" skips the intro', async ({ page }) => {
   await page.goto('./#/listings');
+  await expect(page.getByRole('heading', { level: 1, name: 'Оголошення' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Почати' })).toBeVisible();
+  await page.getByLabel('Більше не показувати').check();
+  await page.getByRole('link', { name: 'Почати' }).click();
+  await expect(page.getByRole('list', { name: 'Оголошення' }).getByRole('link')).toHaveCount(5);
+  await page.goto('./#/listings');
+  await page.reload();
+  await expect(page.getByRole('list', { name: 'Оголошення' }).getByRole('link')).toHaveCount(5);
+});
+
+test('Listings tab shows 5 rows; each opens its detail page and back returns to the list', async ({ page }) => {
+  await page.goto('./#/listings/list');
   const list = page.getByRole('list', { name: 'Оголошення' });
   const rows = list.getByRole('link');
   await expect(rows).toHaveCount(5);
@@ -23,7 +35,7 @@ test('Listings tab shows 5 rows; each opens its detail page and back returns to 
 });
 
 test('Listings render as stacked rows, unlike the two-column Services grid', async ({ page }) => {
-  await page.goto('./#/listings');
+  await page.goto('./#/listings/list');
   const rows = page.getByRole('list', { name: 'Оголошення' }).getByRole('link');
   const a = await rows.nth(0).boundingBox();
   const b = await rows.nth(1).boundingBox();
@@ -45,7 +57,7 @@ test('adding a listing to the Content file adds a row', async ({ page }) => {
   expect(buildWith(file, outDir).ok).toBe(true);
   const server = await servePreview(outDir, 4290);
   try {
-    await page.goto(`${server.url}#/listings`);
+    await page.goto(`${server.url}#/listings/list`);
     const rows = page.getByRole('list', { name: 'Оголошення' }).getByRole('link');
     await expect(rows).toHaveCount(6);
     await rows.nth(5).click();

@@ -590,19 +590,102 @@ body:has(.card-screen) {
   font: italic 700 calc(var(--u) * 31) / 1 Lora, Georgia, "Times New Roman", serif;
 }
 
-/* Menu screens */
-.menu-list {
-  display: grid;
-  gap: 8px;
+/* Menu screen: sizes in Figma units (1u, see --u). */
+body:has(.menu-screen) {
+  background: var(--home-bg);
 }
-.menu-item {
-  display: block;
-  padding: 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  color: var(--text);
+#screen:has(.menu-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 21) 0 var(--nav-h);
+}
+.menu-screen {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+  color: var(--text-strong);
+}
+.menu-title {
+  margin: 0;
+  font-size: calc(var(--u) * 40);
+  font-weight: 500;
+  line-height: 46 / 40;
+}
+.menu-version {
+  margin: calc(var(--u) * 6) 0 calc(var(--u) * 28);
+  font-size: calc(var(--u) * 19);
+  color: var(--card-muted);
   text-decoration: none;
+}
+.menu-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: calc(var(--u) * 11);
+  padding: 0 calc(var(--u) * 27);
+  background: var(--pill-bg);
+  border-radius: calc(var(--u) * 25);
+}
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 22);
+  height: calc(var(--u) * 84.5);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: calc(var(--u) * 25);
+  font-weight: 500;
+  line-height: 30 / 25;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.menu-row + .menu-row {
+  border-top: calc(var(--u) * 1.4) solid var(--doc-border);
+}
+.menu-label {
+  flex: 1;
+  min-width: 0;
+}
+.menu-icon,
+.menu-chevron {
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.menu-icon {
+  width: calc(var(--u) * 33);
+  height: calc(var(--u) * 33);
+}
+.menu-chevron {
+  width: calc(var(--u) * 31);
+  height: calc(var(--u) * 31);
+}
+.menu-signout {
+  align-self: center;
+  width: calc(var(--u) * 167);
+  height: calc(var(--u) * 67);
+  margin-top: calc(var(--u) * 22);
+  border: 0;
+  border-radius: calc(var(--u) * 50);
+  background: var(--text-strong);
+  color: var(--tabbar-bg);
+  font: inherit;
+  font-size: calc(var(--u) * 24);
+  font-weight: 500;
+  cursor: pointer;
+}
+.menu-privacy {
+  align-self: center;
+  margin-top: calc(var(--u) * 21);
+  color: inherit;
+  font-size: calc(var(--u) * 19);
+  font-weight: 500;
+  text-align: center;
+  text-decoration: underline;
 }
 .theme-group {
   border: 1px solid var(--border);
@@ -631,6 +714,45 @@ body:has(.card-screen) {
   font-size: 1rem;
   margin: 16px 0 4px;
 }
+/* Services screen: sizes in Figma units (1u, see --u). */
+body:has(.services-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.services-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 32) 0 var(--nav-h);
+}
+.services-screen {
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+  color: var(--text-strong);
+}
+.services-title {
+  margin: 0 0 calc(var(--u) * 40);
+  font-size: calc(var(--u) * 44);
+  font-weight: 500;
+  line-height: 49 / 44;
+}
+.services-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.service-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 12);
+  height: calc(var(--u) * 90);
+  color: inherit;
+  font-size: calc(var(--u) * 25);
+  font-weight: 500;
+  line-height: 30 / 25;
+  text-decoration: none;
+}
+.services-list li + li {
+  border-top: calc(var(--u) * 1.2) solid var(--card-bg);
+}
+
 /* Shared list/detail pattern (Services, Listings) */
 .tile-grid {
   list-style: none;
@@ -759,4 +881,102 @@ body:has(.card-screen) {
   color: var(--bg);
   font-weight: 600;
   cursor: pointer;
+}
+
+/* Listings intro screen: sizes in Figma units (1u, see --u). */
+body:has(.listings-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.listings-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 79) 0 var(--nav-h);
+  display: flex;
+}
+.listings-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+  color: var(--text-strong);
+}
+.listings-help {
+  align-self: flex-end;
+  width: calc(var(--u) * 33);
+  height: calc(var(--u) * 33);
+  margin-right: 0;
+  color: inherit;
+}
+.listings-help-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.listings-title {
+  margin: calc(var(--u) * 13) 0 calc(var(--u) * 32);
+  font-size: calc(var(--u) * 44);
+  font-weight: 500;
+  line-height: 49 / 44;
+}
+.listings-text {
+  margin: 0 0 calc(var(--u) * 26.5);
+  font-size: calc(var(--u) * 25);
+  font-weight: 500;
+  line-height: 26.5 / 25;
+}
+.listings-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--u) * 34);
+  margin-top: auto;
+  padding-bottom: calc(var(--u) * 32);
+}
+.listings-hide {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 23);
+  font-size: calc(var(--u) * 22);
+  font-weight: 500;
+  cursor: pointer;
+}
+.listings-check {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  box-sizing: border-box;
+  margin: 0;
+  width: calc(var(--u) * 32);
+  height: calc(var(--u) * 32);
+  border: calc(var(--u) * 2.8) solid currentColor;
+  border-radius: calc(var(--u) * 8);
+  background: transparent;
+  color: inherit;
+}
+.listings-check:checked {
+  background: currentColor
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M8 16.5l5.5 5.5L24 10.5' fill='none' stroke='%23e1dfca' stroke-width='3.5'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+.listings-check:focus-visible,
+.listings-start:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+.listings-start {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(var(--u) * 89);
+  border-radius: calc(var(--u) * 50);
+  background: var(--fab);
+  color: var(--text-strong);
+  font-size: calc(var(--u) * 24);
+  font-weight: 500;
+  text-decoration: none;
 }

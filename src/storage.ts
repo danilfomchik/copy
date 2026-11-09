@@ -1,6 +1,6 @@
 // The only place the app touches browser storage. Only allowlisted keys may
 // be written; anything else throws, so the Privacy promise stays true.
-export const STORAGE_KEYS = ['orbit.theme', 'orbit.installHintDismissed'] as const;
+export const STORAGE_KEYS = ['orbit.theme', 'orbit.installHintDismissed', 'orbit.listingsIntroHidden'] as const;
 export type StorageKey = (typeof STORAGE_KEYS)[number];
 
 function check(key: string): asserts key is StorageKey {

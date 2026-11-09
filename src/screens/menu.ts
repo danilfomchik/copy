@@ -1,5 +1,12 @@
 import { el } from '../dom';
 import type { Route, RouteContext } from '../router';
+import copyIcon from '../assets/menu/copy.svg?url';
+import disclosureIcon from '../assets/menu/disclosure.svg?url';
+import messagesIcon from '../assets/menu/messages-square.svg?url';
+import scanIcon from '../assets/menu/scan-qr-code.svg?url';
+import settingsIcon from '../assets/menu/settings.svg?url';
+import smartphoneIcon from '../assets/menu/smartphone.svg?url';
+import wrenchIcon from '../assets/menu/wrench.svg?url';
 import { THEMES, getTheme, setTheme, type Theme } from '../theme';
 
 declare const __APP_VERSION__: string;
@@ -9,7 +16,7 @@ const DEMO_NOTICE = 'Це демонстраційний застосунок з
 const PRIVACY_STATEMENTS = [
   'Застосунок не надсилає жодних мережевих запитів.',
   'Немає облікових записів, аналітики, файлів cookie чи трекерів.',
-  'Зберігаються лише вибір теми та закриття підказки про встановлення.',
+  'Зберігаються лише вибір теми, закриття підказки про встановлення та прапорець «Більше не показувати» на вкладці оголошень.',
   'Усі дані вигадані.',
   'Застосунок схований від пошукових систем.',
 ];
@@ -42,25 +49,51 @@ function settings(ctx: RouteContext): HTMLElement {
   return screen(ctx, menu.items.settings, [group]);
 }
 
+// Icons are CSS masks so they follow the theme's text colour.
+function icon(url: string, cls = 'menu-icon'): HTMLElement {
+  const node = el('span', { class: cls, 'aria-hidden': 'true' });
+  node.style.setProperty('--icon', `url("${url}")`);
+  return node;
+}
+
+// `href` makes a row a link; without it the row is a button with no destination
+// yet (the demo app has no sessions, support chat, scanner or account).
+function row(label: string, iconUrl: string, href?: string, chevron = false): HTMLElement {
+  const children: Node[] = [icon(iconUrl), el('span', { class: 'menu-label' }, [label])];
+  if (chevron) children.push(icon(disclosureIcon, 'menu-chevron'));
+  return href
+    ? el('a', { href, class: 'menu-row' }, children)
+    : el('button', { type: 'button', class: 'menu-row' }, children);
+}
+
+function group(rows: HTMLElement[]): HTMLElement {
+  return el('div', { class: 'menu-group' }, rows);
+}
+
 export const menuRoutes: Route[] = [
   {
     pattern: '/menu',
     tab: 'menu',
     render: (ctx) => {
       const { ui, menu } = ctx.content;
-      const entries: [string, string][] = [
-        ['settings', menu.items.settings],
-        ['about', menu.items.about],
-        ['privacy', menu.items.privacy],
-        ['help', menu.items.help],
-      ];
-      return el('section', { class: 'screen', 'aria-label': ui.tabs.menu }, [
-        el('h1', {}, [ui.tabs.menu]),
-        el(
-          'div',
-          { class: 'menu-list' },
-          entries.map(([id, label]) => el('a', { href: `#/menu/${id}`, class: 'menu-item' }, [label])),
-        ),
+      const { items } = menu;
+      return el('section', { class: 'screen menu-screen', 'aria-label': ui.tabs.menu }, [
+        el('h1', { class: 'menu-title' }, [ui.tabs.menu]),
+        el('a', { href: '#/menu/about', class: 'menu-version' }, [
+          `${menu.about.versionLabel} ${__APP_VERSION__}`,
+        ]),
+        group([
+          row(items.sessions, smartphoneIcon, undefined, true),
+          row(items.settings, settingsIcon, '#/menu/settings', true),
+        ]),
+        group([
+          row(items.faq, messagesIcon, '#/menu/help', true),
+          row(items.support, wrenchIcon, undefined, true),
+          row(items.copyDevice, copyIcon),
+        ]),
+        group([row(items.scan, scanIcon)]),
+        el('button', { type: 'button', class: 'menu-signout' }, [items.signOut]),
+        el('a', { href: '#/menu/privacy', class: 'menu-privacy' }, [items.privacyNotice]),
       ]);
     },
   },
