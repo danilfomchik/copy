@@ -5,9 +5,12 @@ async function openMenu(page: Page) {
   await page.getByRole('navigation', { name: 'Головна навігація' }).getByRole('link', { name: 'Меню' }).click();
 }
 
-test('Menu lists Settings, About, Privacy and Help', async ({ page }) => {
+test('Menu shows the design rows and links to Settings, About, Privacy and Help', async ({ page }) => {
   await openMenu(page);
-  for (const name of ['Налаштування', 'Про застосунок', 'Конфіденційність', 'Допомога']) {
+  for (const name of ['Активні сесії', 'Копіювати номер пристрою', 'Сканувати документ', 'Вийти']) {
+    await expect(page.getByRole('button', { name })).toBeVisible();
+  }
+  for (const name of ['Налаштування', 'Питання та відповіді', 'Повідомлення про обробку персональних даних', 'Версія']) {
     await expect(page.getByRole('link', { name })).toBeVisible();
   }
 });
@@ -43,7 +46,7 @@ test('system theme follows the OS preference', async ({ page }) => {
 
 test('About shows version and the permanent demo notice', async ({ page }) => {
   await openMenu(page);
-  await page.getByRole('link', { name: 'Про застосунок' }).click();
+  await page.getByRole('link', { name: /^Версія/ }).click();
   await expect(page.getByRole('heading', { name: 'Про застосунок' })).toBeVisible();
   await expect(page.getByText('Версія 0.1.0')).toBeVisible();
   await expect(page.getByText('Це демонстраційний застосунок з вигаданими даними.')).toBeVisible();
@@ -51,11 +54,11 @@ test('About shows version and the permanent demo notice', async ({ page }) => {
 
 test('Privacy states what the app does and does not do', async ({ page }) => {
   await openMenu(page);
-  await page.getByRole('link', { name: 'Конфіденційність' }).click();
+  await page.getByRole('link', { name: 'Повідомлення про обробку персональних даних' }).click();
   await expect(page.getByRole('main').getByRole('listitem')).toHaveCount(5);
   await expect(page.getByText('Застосунок не надсилає жодних мережевих запитів.')).toBeVisible();
   await expect(page.getByText('Немає облікових записів, аналітики, файлів cookie чи трекерів.')).toBeVisible();
-  await expect(page.getByText('Зберігаються лише вибір теми та закриття підказки про встановлення.')).toBeVisible();
+  await expect(page.getByText('Зберігаються лише вибір теми, закриття підказки про встановлення та прапорець «Більше не показувати» на вкладці оголошень.')).toBeVisible();
   await expect(page.getByText('Усі дані вигадані.')).toBeVisible();
   await expect(page.getByText('Застосунок схований від пошукових систем.')).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
@@ -63,7 +66,7 @@ test('Privacy states what the app does and does not do', async ({ page }) => {
 
 test('Help screen opens', async ({ page }) => {
   await openMenu(page);
-  await page.getByRole('link', { name: 'Допомога' }).click();
+  await page.getByRole('link', { name: 'Питання та відповіді' }).click();
   await expect(page.getByRole('heading', { name: 'Допомога', level: 1 })).toBeVisible();
   await expect(page.getByRole('heading', { level: 2 }).first()).toBeVisible();
 });
@@ -87,7 +90,7 @@ test('only allowlisted keys are written to browser storage; no cookies, no exter
   });
 
   await openMenu(page);
-  for (const name of ['Налаштування', 'Про застосунок', 'Конфіденційність', 'Допомога']) {
+  for (const name of ['Налаштування', /^Версія/, 'Повідомлення про обробку персональних даних', 'Питання та відповіді']) {
     await page.getByRole('link', { name }).click();
     if (name === 'Налаштування') await page.getByRole('radio', { name: 'Темна', exact: true }).check();
     await page.goBack();
@@ -98,7 +101,7 @@ test('only allowlisted keys are written to browser storage; no cookies, no exter
     session: Object.keys(sessionStorage),
     writes: (window as any).__writes as string[],
   }));
-  const allowed = ['orbit.theme', 'orbit.installHintDismissed'];
+  const allowed = ['orbit.theme', 'orbit.installHintDismissed', 'orbit.listingsIntroHidden'];
   for (const k of [...stored.local, ...stored.writes]) expect(allowed).toContain(k);
   expect(stored.local).toEqual(['orbit.theme']);
   expect(stored.session).toEqual([]);

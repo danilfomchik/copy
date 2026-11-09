@@ -24,6 +24,7 @@ const ui = obj({
     }),
   }),
   details: obj({ title: str(), back: str(), fullNameLabel: str() }),
+  listingsIntro: obj({ help: str(), lead: str(), body: str(), hide: str(), start: str() }),
   pwa: obj({ updateAvailable: str(), reload: str(), install: str(), iosHint: str(), dismiss: str() }),
 });
 
@@ -41,7 +42,19 @@ const qr = obj({ label: str(), caption: str(), notice: str() });
 // Menu tab (Settings, About, Privacy, Help). The About demo notice and the
 // Privacy statements are fixed in code, deliberately not editable here.
 const menu = obj({
-  items: obj({ settings: str(), about: str(), privacy: str(), help: str() }),
+  items: obj({
+    settings: str(),
+    about: str(),
+    privacy: str(),
+    help: str(),
+    sessions: str(),
+    faq: str(),
+    support: str(),
+    copyDevice: str(),
+    scan: str(),
+    signOut: str(),
+    privacyNotice: str(),
+  }),
   back: str(),
   settings: obj({ themeLabel: str(), light: str(), dark: str(), system: str() }),
   about: obj({ versionLabel: str() }),
