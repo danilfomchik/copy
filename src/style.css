@@ -64,60 +64,6 @@
     sans-serif;
   -webkit-text-size-adjust: 100%;
 }
-/* Dark palette: explicit choice, or "system" (no data-theme) following the OS.
-   Deeper background, raised surfaces, a dimmer card gradient and a stronger backdrop. */
-:root[data-theme="dark"] {
-  --bg: #0c1315;
-  --surface: #172124;
-  --text: #e6eef0;
-  --muted: #9bb0b5;
-  --teal: #2dd4bf;
-  --border: #2a383c;
-  --handle: #3a4b50;
-  --backdrop: rgba(0, 0, 0, 0.65);
-  --home-bg: #17160f;
-  --card-bg: #26241a;
-  --card-border: #4a4736;
-  --card-muted: #aaa68f;
-  --ribbon-bg: #7a5217;
-  --pill-bg: #26241a;
-  --text-strong: #e6eef0;
-  --tabbar-bg: #1d1c14;
-  --doc-bg: #26241a;
-  --doc-border: #4a4736;
-  --notice-bg: #33301f;
-  --notice-border: #5c5844;
-  --notice-icon: #aaa68f;
-  --indicator: #8a8878;
-  color-scheme: dark;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --bg: #0c1315;
-    --surface: #172124;
-    --text: #e6eef0;
-    --muted: #9bb0b5;
-    --teal: #2dd4bf;
-    --border: #2a383c;
-    --handle: #3a4b50;
-    --backdrop: rgba(0, 0, 0, 0.65);
-    --home-bg: #17160f;
-    --card-bg: #26241a;
-    --card-border: #4a4736;
-    --card-muted: #aaa68f;
-    --ribbon-bg: #7a5217;
-    --pill-bg: #26241a;
-    --text-strong: #e6eef0;
-    --tabbar-bg: #1d1c14;
-    --doc-bg: #26241a;
-    --doc-border: #4a4736;
-    --notice-bg: #33301f;
-    --notice-border: #5c5844;
-    --notice-icon: #aaa68f;
-    --indicator: #8a8878;
-    color-scheme: dark;
-  }
-}
 * {
   box-sizing: border-box;
 }
@@ -687,18 +633,6 @@ body:has(.menu-screen) {
   text-align: center;
   text-decoration: underline;
 }
-.theme-group {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--surface);
-  padding: 12px 16px;
-}
-.theme-option {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 10px 0;
-}
 .demo-notice {
   padding: 12px 16px;
   border-radius: 14px;
@@ -714,6 +648,111 @@ body:has(.menu-screen) {
   font-size: 1rem;
   margin: 16px 0 4px;
 }
+/* Settings screen: sizes in Figma units (1u, see --u). */
+body:has(.settings-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.settings-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 21) 0 var(--nav-h);
+}
+.settings-screen {
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+  color: var(--text-strong);
+}
+.settings-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 50);
+  height: calc(var(--u) * 50);
+  margin-left: calc(var(--u) * -6);
+  border-radius: 50%;
+  background: var(--pill-bg);
+  color: inherit;
+}
+.settings-back-icon {
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 28);
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.settings-title {
+  margin: calc(var(--u) * 8) 0 calc(var(--u) * 46);
+  font-size: calc(var(--u) * 40);
+  font-weight: 500;
+  line-height: 48 / 40;
+  letter-spacing: calc(var(--u) * -0.7);
+}
+.settings-card {
+  padding: 0 calc(var(--u) * 22);
+  background: var(--pill-bg);
+  border-radius: calc(var(--u) * 23);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--u) * 16);
+  width: 100%;
+  height: calc(var(--u) * 84);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: calc(var(--u) * 24);
+  line-height: 27.6 / 24;
+  text-align: left;
+}
+.settings-row + .settings-row {
+  border-top: calc(var(--u) * 1.3) solid var(--home-bg);
+}
+.settings-row-button {
+  height: calc(var(--u) * 88);
+  cursor: pointer;
+}
+.settings-row:nth-child(4) {
+  height: calc(var(--u) * 110);
+}
+.settings-row:nth-child(5) {
+  height: calc(var(--u) * 95);
+}
+.settings-label {
+  flex: 1;
+  min-width: 0;
+}
+.settings-switch {
+  position: relative;
+  flex: none;
+  width: calc(var(--u) * 71);
+  height: calc(var(--u) * 43);
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--u) * 21.5);
+  background: #e6e7e8;
+  cursor: pointer;
+}
+.settings-switch::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--u) * 2.5);
+  left: calc(var(--u) * 3);
+  width: calc(var(--u) * 38);
+  height: calc(var(--u) * 38);
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+.settings-switch[aria-checked="true"] {
+  background: var(--fab);
+}
+.settings-switch[aria-checked="true"]::after {
+  transform: translateX(calc(var(--u) * 27));
+}
+
 /* Services screen: sizes in Figma units (1u, see --u). */
 body:has(.services-screen) {
   background: var(--home-bg);
@@ -816,6 +855,92 @@ body:has(.services-screen) {
 .detail .lead {
   font-weight: 600;
   color: var(--muted);
+}
+
+/* Questions and answers screen: sizes in Figma units (1u, see --u). */
+body:has(.qa-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.qa-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 24) 0 var(--nav-h);
+}
+.qa-screen {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 44);
+  color: var(--text-strong);
+}
+.qa-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  width: calc(var(--u) * 50);
+  height: calc(var(--u) * 50);
+  margin-left: calc(var(--u) * -17);
+  border-radius: 50%;
+  background: var(--pill-bg);
+  color: var(--text-strong);
+}
+.qa-back-icon,
+.qa-chevron {
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.qa-back-icon {
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 28);
+}
+.qa-title {
+  margin: calc(var(--u) * 8) 0 calc(var(--u) * 41);
+  font-size: calc(var(--u) * 40);
+  font-weight: 500;
+  line-height: 48 / 40;
+  letter-spacing: calc(var(--u) * -0.7);
+}
+.qa-list {
+  margin: 0;
+  padding: calc(var(--u) * 10) calc(var(--u) * 22);
+  list-style: none;
+  background: var(--pill-bg);
+  border-radius: calc(var(--u) * 23);
+}
+.qa-list li + li {
+  border-top: calc(var(--u) * 1.3) solid var(--home-bg);
+}
+.qa-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 19);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(var(--u) * 71);
+  padding: calc(var(--u) * 22) 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: calc(var(--u) * 24);
+  line-height: 27 / 24;
+  text-align: left;
+  cursor: pointer;
+}
+.qa-label {
+  flex: 1;
+  min-width: 0;
+}
+.qa-chevron {
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 25);
+}
+.qa-back:focus-visible,
+.qa-row:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
 }
 
 /* Reduced motion: no transitions, no running animations anywhere. The flip
@@ -979,4 +1104,171 @@ body:has(.listings-screen) {
   font-size: calc(var(--u) * 24);
   font-weight: 500;
   text-decoration: none;
+}
+
+/* Active sessions screen: sizes in Figma units (1u, see --u). */
+body:has(.sessions-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.sessions-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 3) 0 var(--nav-h);
+}
+.sessions-screen {
+  --sessions-back-bg: #f1f0e6;
+  --sessions-muted: #969688;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+  color: var(--text-strong);
+}
+.sessions-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 50);
+  height: calc(var(--u) * 50);
+  margin-left: calc(var(--u) * -6);
+  border-radius: 50%;
+  background: var(--sessions-back-bg);
+  color: var(--text-strong);
+}
+.sessions-back-icon,
+.sessions-chevron {
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.sessions-back-icon {
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 28);
+}
+.sessions-title {
+  margin: calc(var(--u) * 8) 0 calc(var(--u) * 30);
+  font-size: calc(var(--u) * 40);
+  font-weight: 500;
+  line-height: 48 / 40;
+  letter-spacing: calc(var(--u) * -0.7);
+}
+.sessions-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: calc(var(--u) * 34) calc(var(--u) * 22) calc(var(--u) * 28);
+  border: 0;
+  border-radius: calc(var(--u) * 23);
+  background: var(--pill-bg);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.sessions-current {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 11);
+  font-size: calc(var(--u) * 21);
+  line-height: 24.15 / 21;
+}
+.sessions-dot {
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 11);
+  border-radius: 50%;
+  background: #458d34;
+}
+.sessions-device {
+  margin: calc(var(--u) * 33.85) 0 calc(var(--u) * 10.4);
+  font-size: calc(var(--u) * 24);
+  line-height: 27.6 / 24;
+}
+.sessions-meta {
+  font-size: calc(var(--u) * 20);
+  line-height: 27 / 20;
+  color: var(--sessions-muted);
+}
+.sessions-meta + .sessions-meta {
+  margin-top: calc(var(--u) * 7);
+}
+.sessions-chevron {
+  position: absolute;
+  right: calc(var(--u) * 29);
+  top: calc(var(--u) * 116);
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 25);
+}
+
+/* Notifications screen: sizes in Figma units (1u, see --u). */
+body:has(.notif-screen) {
+  background: var(--home-bg);
+}
+#screen:has(.notif-screen) {
+  padding: calc(env(safe-area-inset-top) + var(--u) * 21) 0 var(--nav-h);
+}
+.notif-screen {
+  --notif-date: #969688;
+  --notif-back-bg: color-mix(in srgb, var(--pill-bg) 60%, var(--home-bg));
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 33);
+  color: var(--text-strong);
+}
+.notif-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 50);
+  height: calc(var(--u) * 50);
+  margin: 0 0 calc(var(--u) * 8) calc(var(--u) * -6);
+  border-radius: 50%;
+  background: var(--notif-back-bg);
+}
+.notif-back-icon {
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 28);
+  background: var(--text-strong);
+  -webkit-mask: var(--icon) center / 100% 100% no-repeat;
+  mask: var(--icon) center / 100% 100% no-repeat;
+}
+.notif-title {
+  margin: 0 0 calc(var(--u) * 46);
+  font-size: calc(var(--u) * 40);
+  font-weight: 500;
+  line-height: 48 / 40;
+  letter-spacing: calc(var(--u) * -0.7);
+}
+.notif-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 22);
+}
+.notif-card {
+  padding: calc(var(--u) * 22) calc(var(--u) * 22) calc(var(--u) * 17);
+  border-radius: calc(var(--u) * 23);
+  background: var(--pill-bg);
+  font-size: calc(var(--u) * 21);
+}
+.notif-card-title {
+  display: block;
+  font-weight: 400;
+  line-height: calc(var(--u) * 27);
+}
+.notif-card-body {
+  margin: calc(var(--u) * 19) 0 0;
+  line-height: calc(var(--u) * 24);
+}
+.notif-sep {
+  height: calc(var(--u) * 1.3);
+  margin: calc(var(--u) * 21.5) 0 calc(var(--u) * 22.7);
+  border: 0;
+  background: var(--home-bg);
+}
+.notif-card-date {
+  margin: 0;
+  line-height: calc(var(--u) * 27);
+  color: var(--notif-date);
 }

@@ -35,7 +35,6 @@ Not done by the agent. Leave unchecked until you have checked them yourself.
 - [ ] Launches standalone (no address bar); status bar colour matches the app
 - [ ] Airplane mode: the app still opens and every tab works
 - [ ] Layout is correct on a small and a large phone, portrait
-- [ ] Light and dark theme (Menu > Theme, and system) look right
 - [ ] Onest font is used (Cyrillic text is not in a fallback font)
 - [ ] Bell, +, flip, Actions sheet, Notifications sheet, swipe-down close work
 - [ ] With "remove animations" on, the card flip, ribbon and spinner do not animate
@@ -47,5 +46,4 @@ Not done by the agent. Leave unchecked until you have checked them yourself.
 - [ ] Tab bar clears the home indicator; sheets respect the bottom inset
 - [ ] Landscape: content respects the left and right insets
 - [ ] Airplane mode: the app still opens and every tab works
-- [ ] Light and dark theme look right
 - [ ] With "Reduce Motion" on, the card flip, ribbon and spinner do not animate

@@ -3,11 +3,8 @@ import './style.css';
 import { el } from './dom';
 import { icon } from './icons';
 import { routes } from './routes';
-import { applyTheme, getTheme } from './theme';
 import { startPwa } from './pwa';
 import { startRouter, type TabId } from './router';
-
-applyTheme(getTheme());
 
 const TABS: TabId[] = ['card', 'services', 'listings', 'menu'];
 
