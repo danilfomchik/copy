@@ -67,16 +67,6 @@ test('route change resets scroll and moves focus to the screen heading', async (
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
 });
 
-test('theme-color meta follows the in-app theme', async ({ page }) => {
-  await page.goto('./#/menu/settings');
-  const metas = () =>
-    page.evaluate(() => [...document.querySelectorAll('meta[name=theme-color]')].map((m) => m.getAttribute('content')));
-  await page.getByRole('radio', { name: content.menu.settings.dark, exact: true }).check();
-  expect(await metas()).toEqual(['#0c1315', '#0c1315']);
-  await page.getByRole('radio', { name: content.menu.settings.light, exact: true }).check();
-  expect(await metas()).toEqual(['#0f766e', '#0f766e']);
-});
-
 test('the validator rejects duplicate ids and empty paragraphs', () => {
   test.setTimeout(120_000);
   const c = readContent();

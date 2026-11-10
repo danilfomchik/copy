@@ -56,9 +56,10 @@ const menu = obj({
     privacyNotice: str(),
   }),
   back: str(),
-  settings: obj({ themeLabel: str(), light: str(), dark: str(), system: str() }),
   about: obj({ versionLabel: str() }),
+  sessions: obj({ current: str(), device: str(), connected: str(), lastActive: str() }),
   help: obj({ sections: arr(obj({ title: str(), body: str() })) }),
+  faq: obj({ categories: arr(str(), { nonEmpty: true }) }),
 });
 
 // Shared shape of an entry that opens a static detail page (Services; reused
@@ -77,7 +78,7 @@ const listings = arr(detailItem, { uniqueBy: 'id' });
 const notifications = obj({
   openLabel: str(),
   sheetLabel: str(),
-  items: arr(obj({ id: str(), title: str(), body: str() })),
+  items: arr(obj({ id: str(), date: str(), title: str(), body: str() })),
 });
 
 export const contentSchema = obj({ ui, member, ribbon, services, listings, qr, menu, notifications });

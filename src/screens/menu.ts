@@ -1,13 +1,14 @@
 import { el } from '../dom';
 import type { Route, RouteContext } from '../router';
+import { faqRoutes } from './faq';
 import copyIcon from '../assets/menu/copy.svg?url';
 import disclosureIcon from '../assets/menu/disclosure.svg?url';
 import messagesIcon from '../assets/menu/messages-square.svg?url';
 import scanIcon from '../assets/menu/scan-qr-code.svg?url';
+import backArrowIcon from '../assets/settings/back-arrow.svg?url';
 import settingsIcon from '../assets/menu/settings.svg?url';
 import smartphoneIcon from '../assets/menu/smartphone.svg?url';
 import wrenchIcon from '../assets/menu/wrench.svg?url';
-import { THEMES, getTheme, setTheme, type Theme } from '../theme';
 
 declare const __APP_VERSION__: string;
 
@@ -29,24 +30,38 @@ function screen(ctx: RouteContext, title: string, body: Node[]): HTMLElement {
   ]);
 }
 
+// The switches are visual only for now: the demo app has no PIN, Face ID,
+// push or offline-QR features, so they just hold local state.
+function switchRow(label: string, on: boolean): HTMLElement {
+  const toggle = el('button', {
+    type: 'button',
+    role: 'switch',
+    class: 'settings-switch',
+    'aria-checked': String(on),
+  });
+  toggle.addEventListener('click', () => {
+    toggle.setAttribute('aria-checked', String(toggle.getAttribute('aria-checked') !== 'true'));
+  });
+  toggle.setAttribute('aria-label', label);
+  return el('div', { class: 'settings-row' }, [el('span', { class: 'settings-label' }, [label]), toggle]);
+}
+
 function settings(ctx: RouteContext): HTMLElement {
   const { menu } = ctx.content;
-  const labels: Record<Theme, string> = {
-    light: menu.settings.light,
-    dark: menu.settings.dark,
-    system: menu.settings.system,
-  };
-  const current = getTheme();
-  const group = el('fieldset', { class: 'theme-group' }, [
-    el('legend', {}, [menu.settings.themeLabel]),
+  const back = el('a', { href: '#/menu', class: 'settings-back', 'aria-label': menu.back });
+  back.append(icon(backArrowIcon, 'settings-back-icon'));
+  return el('section', { class: 'screen settings-screen' }, [
+    back,
+    el('h1', { class: 'settings-title' }, [menu.items.settings]),
+    el('div', { class: 'settings-card' }, [
+      el('button', { type: 'button', class: 'settings-row settings-row-button' }, [
+        el('span', { class: 'settings-label' }, ['Змінити код для входу']),
+      ]),
+      switchRow('Використовувати Face ID', true),
+      switchRow('Отримувати сповіщення про повістки, надіслані Укрпоштою', false),
+      switchRow('Перевіряти QR офлайн', false),
+    ]),
   ]);
-  for (const theme of THEMES) {
-    const input = el('input', { type: 'radio', name: 'theme', value: theme });
-    input.checked = theme === current;
-    input.addEventListener('change', () => setTheme(theme));
-    group.append(el('label', { class: 'theme-option' }, [input, labels[theme]]));
-  }
-  return screen(ctx, menu.items.settings, [group]);
 }
 
 // Icons are CSS masks so they follow the theme's text colour.
@@ -71,6 +86,7 @@ function group(rows: HTMLElement[]): HTMLElement {
 }
 
 export const menuRoutes: Route[] = [
+  ...faqRoutes,
   {
     pattern: '/menu',
     tab: 'menu',
@@ -83,11 +99,11 @@ export const menuRoutes: Route[] = [
           `${menu.about.versionLabel} ${__APP_VERSION__}`,
         ]),
         group([
-          row(items.sessions, smartphoneIcon, undefined, true),
+          row(items.sessions, smartphoneIcon, '#/menu/sessions', true),
           row(items.settings, settingsIcon, '#/menu/settings', true),
         ]),
         group([
-          row(items.faq, messagesIcon, '#/menu/help', true),
+          row(items.faq, messagesIcon, '#/menu/faq', true),
           row(items.support, wrenchIcon, undefined, true),
           row(items.copyDevice, copyIcon),
         ]),

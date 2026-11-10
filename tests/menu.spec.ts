@@ -7,41 +7,12 @@ async function openMenu(page: Page) {
 
 test('Menu shows the design rows and links to Settings, About, Privacy and Help', async ({ page }) => {
   await openMenu(page);
-  for (const name of ['Активні сесії', 'Копіювати номер пристрою', 'Сканувати документ', 'Вийти']) {
+  for (const name of ['Копіювати номер пристрою', 'Сканувати документ', 'Вийти']) {
     await expect(page.getByRole('button', { name })).toBeVisible();
   }
-  for (const name of ['Налаштування', 'Питання та відповіді', 'Повідомлення про обробку персональних даних', 'Версія']) {
+  for (const name of ['Активні сесії', 'Налаштування', 'Питання та відповіді', 'Повідомлення про обробку персональних даних', 'Версія']) {
     await expect(page.getByRole('link', { name })).toBeVisible();
   }
-});
-
-test('theme choice applies immediately and survives a reload', async ({ page }) => {
-  await openMenu(page);
-  await page.getByRole('link', { name: 'Налаштування' }).click();
-  const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-
-  await page.getByRole('radio', { name: 'Темна', exact: true }).check();
-  const dark = await bg();
-  await page.getByRole('radio', { name: 'Світла', exact: true }).check();
-  const light = await bg();
-  expect(dark).not.toBe(light);
-
-  await page.getByRole('radio', { name: 'Темна', exact: true }).check();
-  expect(await bg()).toBe(dark);
-  await page.reload();
-  expect(await bg()).toBe(dark);
-  await expect(page.getByRole('radio', { name: 'Темна', exact: true })).toBeChecked();
-});
-
-test('system theme follows the OS preference', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'dark' });
-  await openMenu(page);
-  await page.getByRole('link', { name: 'Налаштування' }).click();
-  await expect(page.getByRole('radio', { name: 'Системна' })).toBeChecked();
-  const dark = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  await page.emulateMedia({ colorScheme: 'light' });
-  const light = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(dark).not.toBe(light);
 });
 
 test('About shows version and the permanent demo notice', async ({ page }) => {
@@ -64,11 +35,18 @@ test('Privacy states what the app does and does not do', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
 });
 
-test('Help screen opens', async ({ page }) => {
+test('Questions and answers screen lists the categories', async ({ page }) => {
   await openMenu(page);
   await page.getByRole('link', { name: 'Питання та відповіді' }).click();
-  await expect(page.getByRole('heading', { name: 'Допомога', level: 1 })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2 }).first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Питання та відповіді', level: 1 })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Електронна черга' })).toBeVisible();
+});
+
+test('Active sessions screen opens', async ({ page }) => {
+  await openMenu(page);
+  await page.getByRole('link', { name: 'Активні сесії' }).click();
+  await expect(page.getByRole('heading', { name: 'Активні сесії', level: 1 })).toBeVisible();
+  await expect(page.getByText('Поточна сесія')).toBeVisible();
 });
 
 test('only allowlisted keys are written to browser storage; no cookies, no external requests', async ({
@@ -92,7 +70,6 @@ test('only allowlisted keys are written to browser storage; no cookies, no exter
   await openMenu(page);
   for (const name of ['Налаштування', /^Версія/, 'Повідомлення про обробку персональних даних', 'Питання та відповіді']) {
     await page.getByRole('link', { name }).click();
-    if (name === 'Налаштування') await page.getByRole('radio', { name: 'Темна', exact: true }).check();
     await page.goBack();
   }
 
@@ -101,9 +78,9 @@ test('only allowlisted keys are written to browser storage; no cookies, no exter
     session: Object.keys(sessionStorage),
     writes: (window as any).__writes as string[],
   }));
-  const allowed = ['orbit.theme', 'orbit.installHintDismissed', 'orbit.listingsIntroHidden'];
+  const allowed = ['orbit.installHintDismissed', 'orbit.listingsIntroHidden'];
   for (const k of [...stored.local, ...stored.writes]) expect(allowed).toContain(k);
-  expect(stored.local).toEqual(['orbit.theme']);
+  expect(stored.local).toEqual([]);
   expect(stored.session).toEqual([]);
   expect(await context.cookies()).toEqual([]);
   expect(external).toEqual([]);
