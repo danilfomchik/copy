@@ -15,12 +15,18 @@ declare const __APP_VERSION__: string;
 // Fixed in code on purpose: the Content file cannot remove or soften these.
 const DEMO_NOTICE = 'Це демонстраційний застосунок з вигаданими даними.';
 const PRIVACY_STATEMENTS = [
-  'Застосунок не надсилає жодних мережевих запитів.',
-  'Немає облікових записів, аналітики, файлів cookie чи трекерів.',
+  'Застосунок звертається до мережі лише для перевірки коду для входу та завантаження даних вашої картки.',
+  'Облікові записи створює адміністратор. Немає аналітики, файлів cookie чи трекерів.',
   'Зберігаються лише вибір теми, закриття підказки про встановлення та прапорець «Більше не показувати» на вкладці оголошень.',
   'Усі дані вигадані.',
   'Застосунок схований від пошукових систем.',
 ];
+
+function signOutButton(ctx: RouteContext, label: string): HTMLElement {
+  const b = el('button', { type: 'button', class: 'menu-signout' }, [label]);
+  b.addEventListener('click', ctx.lock);
+  return b;
+}
 
 function screen(ctx: RouteContext, title: string, body: Node[]): HTMLElement {
   return el('section', { class: 'screen' }, [
@@ -108,7 +114,7 @@ export const menuRoutes: Route[] = [
           row(items.copyDevice, copyIcon),
         ]),
         group([row(items.scan, scanIcon)]),
-        el('button', { type: 'button', class: 'menu-signout' }, [items.signOut]),
+        signOutButton(ctx, items.signOut),
         el('a', { href: '#/menu/privacy', class: 'menu-privacy' }, [items.privacyNotice]),
       ]);
     },

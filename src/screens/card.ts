@@ -37,8 +37,8 @@ export const cardRoutes: Route[] = [
   {
     pattern: '/card',
     tab: 'card',
-    render: ({ content }) => {
-      const { ui, member, ribbon } = content;
+    render: ({ content, member }) => {
+      const { ui, ribbon } = content;
       const ribbonEl = el('span', { class: 'ribbon-text' }, [ribbon.updatedAt]);
       const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
         el('p', { class: 'card-label' }, [ui.card.label]),

@@ -3,7 +3,23 @@
 // Keep each feature's fields in its own const to avoid merge conflicts.
 import { arr, obj, str, type Infer } from './validate.ts';
 
+// PIN gate and its companion pages (Lockout, Forgot-PIN, Offline).
+const gate = obj({
+  title: str(),
+  digitsLabel: str(),
+  keypadLabel: str(),
+  deleteLabel: str(),
+  forgot: str(),
+  wrong: str(),
+  checking: str(),
+  back: str(),
+  lockout: obj({ title: str(), body: str(), retry: str() }),
+  forgotPin: obj({ title: str(), body: str() }),
+  offline: obj({ title: str(), body: str(), retry: str() }),
+});
+
 const ui = obj({
+  gate,
   tabs: obj({ card: str(), services: str(), listings: str(), menu: str() }),
   tabBarLabel: str(),
   back: str(),
@@ -28,12 +44,8 @@ const ui = obj({
   pwa: obj({ updateAvailable: str(), reload: str(), install: str(), iosHint: str(), dismiss: str() }),
 });
 
-const member = obj({
-  fullName: str(),
-  birthDate: str(),
-  tier: str(),
-  membershipNumber: str(),
-});
+// The Member's personal data is not part of the Content file: it is stored in
+// Firestore and only loaded after the PIN is accepted (see src/member.ts).
 
 const ribbon = obj({ updatedAt: str(), refreshedAt: str() });
 
@@ -81,5 +93,5 @@ const notifications = obj({
   items: arr(obj({ id: str(), date: str(), title: str(), body: str() })),
 });
 
-export const contentSchema = obj({ ui, member, ribbon, services, listings, qr, menu, notifications });
+export const contentSchema = obj({ ui, ribbon, services, listings, qr, menu, notifications });
 export type Content = Infer<typeof contentSchema>;

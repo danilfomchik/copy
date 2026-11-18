@@ -1272,3 +1272,122 @@ body:has(.notif-screen) {
   line-height: calc(var(--u) * 27);
   color: var(--notif-date);
 }
+
+/* App views: the gate and the app shell share this container; PWA banners sit beside it. */
+.view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* PIN gate and status pages: sizes in units of the 428px-wide Figma frame. */
+body:has(.gate) {
+  background: #e0dfcc;
+}
+.gate {
+  --g: calc(min(100vw, 480px) / 428);
+  flex: 1;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(env(safe-area-inset-top) + var(--g) * 224) calc(var(--g) * 30)
+    calc(env(safe-area-inset-bottom) + var(--g) * 40);
+  color: #000;
+}
+.gate-title {
+  margin: 0;
+  font-size: calc(var(--g) * 31);
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+}
+.gate-dots {
+  display: flex;
+  gap: calc(var(--g) * 24);
+  margin-top: calc(var(--g) * 60);
+}
+.gate-dot {
+  width: calc(var(--g) * 12);
+  height: calc(var(--g) * 12);
+  border-radius: 50%;
+  background: #fff;
+  transition: background 0.1s;
+}
+.gate-dot.filled {
+  background: #000;
+}
+.gate-dots.shake {
+  animation: gate-shake 0.4s;
+}
+@keyframes gate-shake {
+  20%, 60% { transform: translateX(calc(var(--g) * -10)); }
+  40%, 80% { transform: translateX(calc(var(--g) * 10)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-dots.shake { animation: none; }
+}
+.gate-message {
+  min-height: calc(var(--g) * 22);
+  margin: calc(var(--g) * 16) 0 calc(var(--g) * 45);
+  font-size: calc(var(--g) * 16);
+  text-align: center;
+}
+.gate-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, calc(var(--g) * 79.333));
+  gap: calc(var(--g) * 16) calc(var(--g) * 24);
+}
+.gate-key {
+  width: calc(var(--g) * 79.333);
+  height: calc(var(--g) * 79.333);
+  border: 0;
+  border-radius: 50%;
+  background: #fbfcfc;
+  color: #000;
+  font: inherit;
+  font-size: calc(var(--g) * 32);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.gate-key:active {
+  background: #fff;
+  filter: brightness(0.92);
+}
+.gate-del {
+  background: none;
+}
+.gate-del:active {
+  filter: none;
+  opacity: 0.6;
+}
+.gate-del img {
+  width: calc(var(--g) * 38);
+  height: calc(var(--g) * 30);
+}
+.gate-link {
+  margin-top: auto;
+  padding: calc(var(--g) * 6) calc(var(--g) * 12);
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: calc(var(--g) * 18);
+  cursor: pointer;
+}
+.gate-status {
+  text-align: center;
+}
+.gate-text {
+  margin: calc(var(--g) * 24) 0 0;
+  font-size: calc(var(--g) * 18);
+  line-height: 1.4;
+}
+.gate-status .gate-link {
+  margin-top: calc(var(--g) * 40);
+  text-decoration: underline;
+}
