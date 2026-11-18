@@ -1,11 +1,14 @@
 // Small hash router. A route is a pattern like "/services/:id" mapped to a
 // render function; `tab` says which tab-bar item is highlighted for it.
 import type { Content } from '../content/schema';
+import type { Member } from './member';
 
 export type TabId = 'card' | 'services' | 'listings' | 'menu';
 
 export interface RouteContext {
   content: Content;
+  member: Member;
+  lock(): void;
   params: Record<string, string>;
 }
 
@@ -48,7 +51,7 @@ export function matchRoute(
 export function startRouter(
   routes: Route[],
   onChange: (m: { route: Route; params: Record<string, string> }) => void,
-): void {
+): () => void {
   let first = true;
   const run = () => {
     const m = matchRoute(routes, currentPath()) ?? matchRoute(routes, '/card');
@@ -69,4 +72,5 @@ export function startRouter(
   };
   addEventListener('hashchange', run);
   run();
+  return () => removeEventListener('hashchange', run);
 }

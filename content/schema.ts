@@ -3,17 +3,29 @@
 // Keep each feature's fields in its own const to avoid merge conflicts.
 import { arr, obj, str, type Infer } from './validate.ts';
 
+// PIN gate and its companion pages (Lockout, Forgot-PIN, Offline).
+const gate = obj({
+  title: str(),
+  digitsLabel: str(),
+  keypadLabel: str(),
+  deleteLabel: str(),
+  forgot: str(),
+  wrong: str(),
+  back: str(),
+  lockout: obj({ title: str(), body: str(), retry: str() }),
+  forgotPin: obj({ title: str(), body: str() }),
+  offline: obj({ title: str(), body: str(), retry: str() }),
+});
+
 const ui = obj({
+  gate,
   tabs: obj({ card: str(), services: str(), listings: str(), menu: str() }),
   tabBarLabel: str(),
   back: str(),
   card: obj({
     label: str(),
     avatarAlt: str(),
-    holderLabel: str(),
     birthDateLabel: str(),
-    tierLabel: str(),
-    numberLabel: str(),
     actions: obj({
       openLabel: str(),
       sheetLabel: str(),
@@ -23,19 +35,16 @@ const ui = obj({
       refreshing: str(),
     }),
   }),
-  details: obj({ title: str(), back: str(), fullNameLabel: str() }),
+  details: obj({ title: str(), back: str(), fullNameLabel: str(), labelFieldLabel: str() }),
   listingsIntro: obj({ help: str(), lead: str(), body: str(), hide: str(), start: str() }),
   pwa: obj({ updateAvailable: str(), reload: str(), install: str(), iosHint: str(), dismiss: str() }),
 });
 
-const member = obj({
-  fullName: str(),
-  birthDate: str(),
-  tier: str(),
-  membershipNumber: str(),
-});
+// The Member's personal data is not part of the Content file: it is stored in
+// Firestore and only loaded after the PIN is accepted (see src/member.ts).
 
-const ribbon = obj({ updatedAt: str(), refreshedAt: str() });
+// updatedAt (the initial ribbon text) comes from the Member record; refreshedAt is the demo refresh text.
+const ribbon = obj({ refreshedAt: str() });
 
 const qr = obj({ label: str(), caption: str(), notice: str() });
 
@@ -81,5 +90,5 @@ const notifications = obj({
   items: arr(obj({ id: str(), date: str(), title: str(), body: str() })),
 });
 
-export const contentSchema = obj({ ui, member, ribbon, services, listings, qr, menu, notifications });
+export const contentSchema = obj({ ui, ribbon, services, listings, qr, menu, notifications });
 export type Content = Infer<typeof contentSchema>;

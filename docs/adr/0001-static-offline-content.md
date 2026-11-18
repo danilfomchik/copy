@@ -1,3 +1,5 @@
+> Partly superseded by [0002](0002-firebase-pin-gate.md): the Member's personal data now comes from Firebase after a PIN. Everything else here still holds.
+
 # All content is bundled at build time, with no runtime network access
 
 Orbit Pass is a privacy-first practice app, so every piece of content lives in the Content file and is compiled into the bundle. The app makes no fetches after the first load, and a strict Content-Security-Policy (`connect-src 'none'`) enforces this in the browser. We rejected loading a JSON file at runtime and running a small backend: both make editing easier but add a request surface, and the privacy guarantee would then depend on discipline rather than on the browser.

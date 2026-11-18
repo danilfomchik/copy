@@ -1,22 +1,58 @@
 /* Self-hosted Inter (SIL OFL, see fonts/OFL.txt), the Figma design font. Cyrillic covers Ukrainian. */
-@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap;
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
   src: url("./fonts/inter-cyrillic-400-normal.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
   src: url("./fonts/inter-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
   src: url("./fonts/inter-cyrillic-500-normal.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
   src: url("./fonts/inter-latin-500-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
   src: url("./fonts/inter-cyrillic-700-normal.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
   src: url("./fonts/inter-latin-700-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /* Lora Bold Italic: only the "i" of the information icon (SIL OFL). */
 @font-face {
   font-family: "Lora";
@@ -56,7 +92,8 @@
   --notice-icon: #57574c;
   --indicator: #666865;
   color-scheme: light;
-  font-family: "Inter",
+  font-family:
+    "Inter",
     system-ui,
     -apple-system,
     "Segoe UI",
@@ -168,6 +205,7 @@ body:has(.card-screen) {
   aspect-ratio: 216 / 289;
   border-radius: calc(var(--u) * 12);
   display: block;
+  object-fit: cover;
 }
 .card-fields {
   margin: 0;
@@ -217,7 +255,7 @@ body:has(.card-screen) {
   margin-top: calc(var(--u) * 43);
   padding-right: calc(var(--u) * 56 + var(--u) * 12);
 }
-.card-holder-label {
+.card-member-label {
   margin: 0 0 calc(var(--u) * 10);
   font-size: calc(var(--u) * 22);
   line-height: 27 / 22;
@@ -533,7 +571,11 @@ body:has(.card-screen) {
   align-items: center;
   justify-content: center;
   padding-bottom: calc(var(--u) * 5);
-  font: italic 700 calc(var(--u) * 31) / 1 Lora, Georgia, "Times New Roman", serif;
+  font:
+    italic 700 calc(var(--u) * 31) / 1 Lora,
+    Georgia,
+    "Times New Roman",
+    serif;
 }
 
 /* Menu screen: sizes in Figma units (1u, see --u). */
@@ -1271,4 +1313,146 @@ body:has(.notif-screen) {
   margin: 0;
   line-height: calc(var(--u) * 27);
   color: var(--notif-date);
+}
+
+/* App views: the gate and the app shell share this container; PWA banners sit beside it. */
+.view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* PIN gate and status pages: sizes in units of the 428px-wide Figma frame. */
+body:has(.gate) {
+  background: #e0dfcc;
+}
+.gate {
+  /* Figma frame is 428x926: scale by whichever of width/height is tighter, so the
+     whole screen fits without scrolling. */
+  --g: calc(
+    min(100vw, 480px, (100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 428 / 926) / 428
+  );
+  flex: 1;
+  width: min(100%, 480px);
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(env(safe-area-inset-top) + var(--g) * 224) calc(var(--g) * 30)
+    calc(env(safe-area-inset-bottom) + var(--g) * 40);
+  color: #000;
+}
+.gate-title {
+  margin: 0;
+  font-size: calc(var(--g) * 31);
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+}
+.gate-dots {
+  display: flex;
+  gap: calc(var(--g) * 24);
+  margin-top: calc(var(--g) * 60);
+}
+.gate-dot {
+  width: calc(var(--g) * 12);
+  height: calc(var(--g) * 12);
+  border-radius: 50%;
+  background: #fff;
+  transition: background 0.1s;
+}
+.gate-dot.filled {
+  background: #000;
+}
+.gate-dots.shake {
+  animation: gate-shake 0.4s;
+}
+@keyframes gate-shake {
+  20%,
+  60% {
+    transform: translateX(calc(var(--g) * -10));
+  }
+  40%,
+  80% {
+    transform: translateX(calc(var(--g) * 10));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-dots.shake {
+    animation: none;
+  }
+}
+.gate-message {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.gate-keypad {
+  display: grid;
+  margin-top: calc(
+    var(--g) * 82
+  ); /* the space the removed message used to take */
+  grid-template-columns: repeat(3, calc(var(--g) * 79.333));
+  gap: calc(var(--g) * 16) calc(var(--g) * 24);
+}
+.gate-key {
+  width: calc(var(--g) * 79.333);
+  height: calc(var(--g) * 79.333);
+  border: 0;
+  border-radius: 50%;
+  background: #fbfcfc;
+  color: #000;
+  font: inherit;
+  font-size: calc(var(--g) * 32);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.gate-key:active {
+  background: #fff;
+  filter: brightness(0.92);
+}
+.gate-del {
+  background: none;
+}
+.gate-del:active {
+  filter: none;
+  opacity: 0.6;
+}
+.gate-del img {
+  width: calc(var(--g) * 38);
+  height: calc(var(--g) * 30);
+}
+.gate-link {
+  margin-top: auto;
+  padding: calc(var(--g) * 6) calc(var(--g) * 12);
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: calc(var(--g) * 18);
+  cursor: pointer;
+}
+.gate-status {
+  text-align: center;
+}
+.gate-text {
+  margin: calc(var(--g) * 24) 0 0;
+  font-size: calc(var(--g) * 18);
+  line-height: 1.4;
+}
+/* Figma: 58px between the keypad and the 31px-high "forgot PIN" link. */
+.gate-keypad + .gate-link {
+  margin-top: calc(var(--g) * 58);
+  height: calc(var(--g) * 31);
+  padding-block: 0;
+}
+.gate-status .gate-link {
+  margin-top: calc(var(--g) * 40);
+  text-decoration: underline;
 }

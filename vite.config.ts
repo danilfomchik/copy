@@ -79,7 +79,7 @@ function devCspPlugin(): Plugin {
     apply: 'serve',
     transformIndexHtml: (html) =>
       html
-        .replace("connect-src 'none'", 'connect-src ws: wss:')
+        .replace(/connect-src [^;]+/, (m) => `${m} ws: wss:`)
         .replace("style-src 'self'", "style-src 'self' 'unsafe-inline'"),
   };
 }

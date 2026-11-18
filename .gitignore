@@ -6,3 +6,8 @@ playwright-report
 .tmp
 *.log
 .DS_Store
+functions/lib
+functions/node_modules
+.firebase
+/content/members
+/docs/members-guide.md
