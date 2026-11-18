@@ -11,7 +11,6 @@ const gate = obj({
   deleteLabel: str(),
   forgot: str(),
   wrong: str(),
-  checking: str(),
   back: str(),
   lockout: obj({ title: str(), body: str(), retry: str() }),
   forgotPin: obj({ title: str(), body: str() }),
@@ -26,10 +25,7 @@ const ui = obj({
   card: obj({
     label: str(),
     avatarAlt: str(),
-    holderLabel: str(),
     birthDateLabel: str(),
-    tierLabel: str(),
-    numberLabel: str(),
     actions: obj({
       openLabel: str(),
       sheetLabel: str(),
@@ -39,7 +35,7 @@ const ui = obj({
       refreshing: str(),
     }),
   }),
-  details: obj({ title: str(), back: str(), fullNameLabel: str() }),
+  details: obj({ title: str(), back: str(), fullNameLabel: str(), labelFieldLabel: str() }),
   listingsIntro: obj({ help: str(), lead: str(), body: str(), hide: str(), start: str() }),
   pwa: obj({ updateAvailable: str(), reload: str(), install: str(), iosHint: str(), dismiss: str() }),
 });
@@ -47,7 +43,8 @@ const ui = obj({
 // The Member's personal data is not part of the Content file: it is stored in
 // Firestore and only loaded after the PIN is accepted (see src/member.ts).
 
-const ribbon = obj({ updatedAt: str(), refreshedAt: str() });
+// updatedAt (the initial ribbon text) comes from the Member record; refreshedAt is the demo refresh text.
+const ribbon = obj({ refreshedAt: str() });
 
 const qr = obj({ label: str(), caption: str(), notice: str() });
 

@@ -10,4 +10,6 @@ We rejected shipping a hashed PIN in the bundle (a four-digit PIN falls to offli
 - A cold start with no network shows the Offline page; a signed-in session keeps working offline.
 - The Content-Security-Policy now allows connections to Google API and Cloud Functions hosts, not only to the app's own origin.
 - Accounts are created by hand with `functions/scripts/seed-member.mjs`; there is no sign-up.
+- The Member record holds `fullName`, `birthDate`, `label`, `updatedAt` and the Avatar as an inline data URL (jpeg, png or webp, at most 300 KB); the seed script validates it.
+- Wrong attempts are counted in one shared record, so one person's mistakes lock sign-in for every Member.
 - The "no requests leave the origin" test from 0001 no longer applies and was removed.

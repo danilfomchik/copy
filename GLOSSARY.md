@@ -12,8 +12,12 @@ _Avoid_: Резерв+, Reserve+, the original app, the
 The fictional person the app is shown for. All of their details are invented.
 _Avoid_: User, holder, conscript
 
+**Label**:
+The short text from the Member's record shown above their name on the Member card (e.g. "Призовник").
+_Avoid_: Tier, status
+
 **Member card**:
-The home-screen card showing the Member's photo, name, and a few fields.
+The home-screen card showing the Member's avatar, name, birth date, label and the ribbon.
 _Avoid_: ID, document, pass
 
 **QR view**:
@@ -25,11 +29,11 @@ The bottom sheet opened by the "+" button on the Member card, offering view deta
 _Avoid_: Popup, modal, menu
 
 **Avatar**:
-The generated illustration shown on the Member card in place of a photo.
+The image in the Member's record, shown on the Member card. The administrator supplies an image file; it is stored inline in Firestore.
 _Avoid_: Photo, portrait
 
 **Ribbon**:
-The scrolling strip across the Member card with a "last updated" message.
+The scrolling strip across the Member card. Its text is the Member's `updatedAt`, until a refresh replaces it with the Content file's `ribbon.refreshedAt`.
 _Avoid_: Ticker, banner
 
 **Service**:

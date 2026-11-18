@@ -8,10 +8,15 @@ One-time setup by the administrator. Nothing here needs a PIN in the repo, an en
 4. **Install tools:** `npm i -g firebase-tools`, `firebase login`, `gcloud auth application-default login`, then `firebase use --add` to pick the project.
 5. **Create the HMAC key** (a random 32-byte secret that never leaves Secret Manager):
    `openssl rand -hex 32 | firebase functions:secrets:set PIN_HMAC_KEY --data-file -`
+   (The piped value ends in a newline; the function and the seed script both trim it, so they hash with the same key.)
 6. **Deploy rules and the function:**
    `firebase deploy --only firestore:rules` and `cd functions && npm install && npm run deploy`.
+   Then let the function sign custom tokens (without this, sign-in fails with `iam.serviceAccounts.signBlob denied`):
+   `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<project-number>-compute@developer.gserviceaccount.com --role=roles/iam.serviceAccountTokenCreator`
+   Wait a minute for it to propagate.
 7. **Create a Member** (repeat per Member; each PIN must be unique):
    `cd functions && node scripts/seed-member.mjs --project <project-id> --member ../content/member.example.json`
+   The `avatar` field is a path to an image file (jpeg, png or webp, at most 300 KB, e.g. `content/member-avatar.example.png`); the script inlines it.
    The script asks for the 4-digit PIN at a hidden prompt and stores only its HMAC.
    To change a Member's PIN or data, re-run it with `--uid <uid>` (printed on creation).
 8. **Optional hardening:** enable App Check, and set a budget alert on the project.

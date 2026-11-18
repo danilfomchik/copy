@@ -56,6 +56,7 @@ export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Memb
     let busy = false;
     const dots = Array.from({ length: PIN_LENGTH }, () => el('span', { class: 'gate-dot' }));
     const dotRow = el('div', { class: 'gate-dots', role: 'img' }, dots);
+    // Screen-reader-only announcement of a wrong PIN (the visual cue is the shake).
     const message = el('p', { class: 'gate-message', role: 'alert' });
 
     const render = () => {
@@ -65,7 +66,6 @@ export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Memb
 
     async function submit() {
       busy = true;
-      message.textContent = g.checking;
       const result = await signInWithPin(pin);
       busy = false;
       if (result.ok) return onUnlock(result.member);

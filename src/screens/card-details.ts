@@ -15,8 +15,7 @@ export const cardDetailsRoute: Route = {
       el('dl', { class: 'details-fields' }, [
         row(ui.details.fullNameLabel, member.fullName),
         row(ui.card.birthDateLabel, member.birthDate),
-        row(ui.card.tierLabel, member.tier),
-        row(ui.card.numberLabel, member.membershipNumber),
+        row(ui.details.labelFieldLabel, member.label),
       ]),
     ]);
   },

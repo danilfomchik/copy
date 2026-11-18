@@ -53,7 +53,8 @@ export const signInWithPin = onCall(
     });
     if (!allowed) throw new HttpsError('resource-exhausted', 'Locked.');
 
-    const hash = createHmac('sha256', PIN_HMAC_KEY.value()).update(pin).digest('hex');
+    // trim(): the secret may carry a trailing newline (e.g. piped from openssl); the seed script trims too.
+    const hash = createHmac('sha256', PIN_HMAC_KEY.value().trim()).update(pin).digest('hex');
     const snap = await db.doc(`pins/${hash}`).get();
     const uid = snap.exists ? (snap.data() as { uid?: string }).uid : undefined;
 
