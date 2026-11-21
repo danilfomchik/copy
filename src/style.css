@@ -362,6 +362,13 @@ body:has(.tabbar) {
 .tab[aria-current="page"] {
   font-weight: 700;
 }
+.tab .tab-icon-active,
+.tab[aria-current="page"] .tab-icon-idle {
+  display: none;
+}
+.tab[aria-current="page"] .tab-icon-active {
+  display: block;
+}
 
 .card-plus {
   position: absolute;
