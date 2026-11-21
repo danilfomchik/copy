@@ -195,7 +195,7 @@ body:has(.card-screen) {
 #screen:has(.card-screen) {
   display: flex;
   flex-direction: column;
-  padding: calc(env(safe-area-inset-top) + var(--u) * 31) 0 max(0px, calc(var(--nav-h) - var(--vp-gap)));
+  padding: calc(env(safe-area-inset-top) + var(--u) * 31) 0 var(--nav-h);
 }
 .card-screen {
   flex: 1;
@@ -320,14 +320,15 @@ body:has(.card-screen) {
 }
 
 .tabbar {
-  /* Hung from the top at the screen height rather than pinned to the viewport bottom:
-     iOS standalone PWAs grow the layout viewport on the first scroll, and a bottom-pinned
-     bar jumps with it. --screen-h is the real screen height in a standalone PWA. */
+  /* Pinned to the layout viewport bottom. iOS standalone PWAs can launch with that bottom
+     about one status-bar height above the screen edge and paint a system band below it
+     that no page content can reach (WebKit bug 301994). Pinning keeps the labels visible
+     above the band; when iOS grows the viewport on the first tap or scroll, the bar moves
+     down once to the screen edge. */
   position: fixed;
   left: 0;
   right: 0;
-  top: var(--screen-h, 100dvh);
-  transform: translateY(-100%);
+  bottom: 0;
   height: var(--nav-h);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
