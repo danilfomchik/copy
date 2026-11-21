@@ -1518,42 +1518,50 @@ body:has(.gate) {
   margin-top: calc(var(--g) * 40);
   text-decoration: underline;
 }
-/* Forgot-PIN page (Figma 428x926): icon ring, text, then two pill buttons at the bottom. */
+/* Forgot-PIN page, measured off an iPhone 13 Pro Max screenshot of the original:
+   icon ring, title 28, centred text 16, then two pill buttons 50px above the screen bottom. */
 .gate-forgot {
   padding-top: max(env(safe-area-inset-top), var(--g) * 234);
   padding-inline: calc(var(--g) * 24);
+  /* As on the PIN screen: the layout viewport stops --vp-gap above the screen bottom. */
+  padding-bottom: max(0px, max(env(safe-area-inset-bottom), var(--g) * 50) - var(--vp-gap));
+  text-align: center;
 }
 .gate-icon {
   width: calc(var(--g) * 160);
   height: calc(var(--g) * 160);
   box-sizing: border-box;
-  border: calc(var(--g) * 8) solid #9a9a8a;
+  border: calc(var(--g) * 8) solid #959485;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  margin-bottom: calc(var(--g) * 41);
+  margin-bottom: calc(var(--g) * 40);
 }
 .gate-icon img {
   width: calc(var(--g) * 64);
-  height: calc(var(--g) * 62);
+  height: calc(var(--g) * 78);
+}
+.gate-forgot .gate-title {
+  font-size: calc(var(--g) * 28);
+  font-weight: 400;
 }
 .gate-forgot .gate-text {
-  margin-top: calc(var(--g) * 12);
-  max-width: calc(var(--g) * 320);
+  margin-top: calc(var(--g) * 16);
+  font-size: calc(var(--g) * 16);
+  line-height: calc(var(--g) * 19);
 }
 .gate-actions {
   margin-top: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--g) * 17);
+  gap: calc(var(--g) * 16);
 }
 .gate-btn {
   height: calc(var(--g) * 64);
   border-radius: 999px;
   font: inherit;
-  font-size: calc(var(--g) * 18);
-  font-weight: 500;
+  font-size: calc(var(--g) * 16);
   color: #000;
   cursor: pointer;
   touch-action: manipulation;
@@ -1561,7 +1569,7 @@ body:has(.gate) {
 }
 .gate-btn-primary {
   border: 0;
-  background: var(--fab);
+  background: #fc8809;
 }
 .gate-btn-outline {
   border: 2px solid #000;

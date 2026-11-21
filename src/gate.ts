@@ -48,7 +48,7 @@ export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Memb
     cancel.addEventListener('click', gate);
     show(
       el('section', { class: 'gate gate-forgot' }, [
-        el('div', { class: 'gate-icon' }, [el('img', { src: shieldAlert, alt: '', width: '64', height: '62' })]),
+        el('div', { class: 'gate-icon' }, [el('img', { src: shieldAlert, alt: '', width: '64', height: '78' })]),
         el('h1', { class: 'gate-title' }, [g.forgotPin.title]),
         el('p', { class: 'gate-text' }, [g.forgotPin.body]),
         el('div', { class: 'gate-actions' }, [authorize, cancel]),
