@@ -113,6 +113,16 @@ const ICONS = {
     viewBox: '0 0 56 56',
     parts: [{ d: rect(15.5, 25.25, 25, 5.5) + rect(25.25, 15.5, 5.5, 25), kind: 'fill' }],
   },
+  // QR notice "i": a rounded frame and a hand-drawn italic i, traced from the original at 3x
+  // (1 unit = 2 screenshot pixels, so the 3-unit outlines are the original's 6px strokes).
+  'notice-info': {
+    viewBox: '2.5 2 35.5 36',
+    parts: [
+      { d: rrect(3.65, 3.5, 32.85, 33, 3.5), kind: 'stroke' },
+      { d: 'M20.85 16.75L17.8 27.4C17.15 30.05 18.4 31.3 20.25 30.4L24.1 27.2', kind: 'stroke' },
+      { d: 'M19.35 10a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0zM15.05 15.15H22.7L21.9 18.1H14.55Z', kind: 'fill' },
+    ],
+  },
   // Action sheet row icons: 29 x 29, 2.7-unit outlines.
   info: {
     viewBox: '0 0 29 29',

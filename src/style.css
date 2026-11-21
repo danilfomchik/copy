@@ -53,15 +53,6 @@
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-/* Lora Bold Italic: only the "i" of the information icon (SIL OFL). */
-@font-face {
-  font-family: "Lora";
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-  src: url("./fonts/lora-latin-700-italic.woff2") format("woff2");
-  unicode-range: U+0069;
-}
 /* e-Ukraine (free font by the Ministry of Digital Transformation, plan.diia.gov.ua):
    the design font of the PIN and forgot-PIN screens. Subset to Latin, Cyrillic and digits. */
 @font-face {
@@ -101,7 +92,7 @@
      screenshot), scaled to the viewport and capped at a 480px-wide phone. */
   --u: calc(min(100vw, 480px) / 591);
   --status-h: 0px;
-  --nav-h: calc(var(--u) * 66 + env(safe-area-inset-bottom));
+  --nav-h: calc(var(--u) * 67.8 + env(safe-area-inset-bottom));
   --doc-bg: #fbfdfc;
   --doc-border: #bdbeaf;
   --notice-bg: #d5d3bd;
@@ -195,7 +186,7 @@ body:has(.card-screen) {
 #screen:has(.card-screen) {
   display: flex;
   flex-direction: column;
-  padding: calc(env(safe-area-inset-top) + var(--u) * 31) 0 var(--nav-h);
+  padding: calc(env(safe-area-inset-top) + var(--u) * 33.3) 0 var(--nav-h);
 }
 .card-screen {
   flex: 1;
@@ -334,7 +325,7 @@ body:has(.card-screen) {
   grid-template-columns: repeat(4, 1fr);
   align-items: start;
   background: var(--tabbar-bg);
-  padding: calc(var(--u) * 8.9) env(safe-area-inset-right) env(safe-area-inset-bottom)
+  padding: calc(var(--u) * 8.4) env(safe-area-inset-right) env(safe-area-inset-bottom)
     env(safe-area-inset-left);
 }
 html:has(.tabbar) {
@@ -347,7 +338,7 @@ body:has(.tabbar) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(var(--u) * 3.6);
+  gap: calc(var(--u) * 4.1);
   padding: 0 calc(var(--u) * 4);
   text-align: center;
   text-decoration: none;
@@ -394,23 +385,23 @@ body:has(.tabbar) {
 .card-bell {
   align-self: flex-end;
   width: calc(var(--u) * 189);
-  height: calc(var(--u) * 45);
+  height: calc(var(--u) * 44.2);
   padding: 0;
-  gap: calc(var(--u) * 11);
+  gap: calc(var(--u) * 12);
   border-radius: calc(var(--u) * 32);
   border: 0;
   background: var(--pill-bg);
   color: var(--text-strong);
   font: inherit;
-  font-size: calc(var(--u) * 17.6);
+  font-size: calc(var(--u) * 18);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 .card-bell .icon {
-  width: calc(var(--u) * 23);
-  height: calc(var(--u) * 24);
+  width: calc(var(--u) * 20);
+  height: calc(var(--u) * 21);
 }
 .notification-list {
   list-style: none;
@@ -592,7 +583,7 @@ body:has(.tabbar) {
 }
 .qr-caption {
   position: absolute;
-  top: calc(var(--u) * 30);
+  top: calc(var(--u) * 31.8);
   left: 0;
   right: 0;
   margin: 0;
@@ -603,49 +594,42 @@ body:has(.tabbar) {
 }
 .qr {
   position: absolute;
-  left: calc(var(--u) * 47);
-  top: calc(var(--u) * 93);
-  width: calc(var(--u) * 431);
-  height: calc(var(--u) * 431);
+  left: calc(var(--u) * 48.3);
+  top: calc(var(--u) * 95.3);
+  width: calc(var(--u) * 428.5);
+  height: calc(var(--u) * 428.5);
   display: block;
 }
 .qr-notice {
   position: absolute;
-  left: calc(var(--u) * 34);
-  top: calc(var(--u) * 562);
-  width: calc(var(--u) * 457);
-  height: calc(var(--u) * 114);
+  left: calc(var(--u) * 33.2);
+  top: calc(var(--u) * 562.5);
+  width: calc(var(--u) * 458.5);
+  height: calc(var(--u) * 114.2);
   display: flex;
   align-items: flex-start;
-  gap: calc(var(--u) * 22);
+  gap: calc(var(--u) * 22.12);
   padding: calc(var(--u) * 20.8);
   background: var(--notice-bg);
   border: calc(var(--u) * 1.2) solid var(--notice-border);
   border-radius: calc(var(--u) * 12);
 }
 .qr-notice p {
-  margin: calc(var(--u) * 2.2) 0 0;
+  margin: calc(var(--u) * 0.3) 0 0;
   width: calc(var(--u) * 365);
   font-size: calc(var(--u) * 19.3);
   font-weight: 400;
-  line-height: calc(var(--u) * 23);
+  line-height: calc(var(--u) * 24);
 }
 .qr-notice-icon {
-  flex: none;
-  width: calc(var(--u) * 32);
-  height: calc(var(--u) * 32);
-  border: calc(var(--u) * 2.5) solid var(--notice-icon);
-  border-radius: calc(var(--u) * 4);
+  /* 35.5 x 36 viewBox units at 0.9205u each; the original sits just inside the padding. */
+  width: calc(var(--u) * 32.68);
+  height: calc(var(--u) * 33.14);
+  margin: calc(var(--u) * 0.4) 0 0 calc(var(--u) * 0.9);
   color: var(--notice-icon);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: calc(var(--u) * 5);
-  font:
-    italic 700 calc(var(--u) * 31) / 1 Lora,
-    Georgia,
-    "Times New Roman",
-    serif;
+}
+.qr-notice-icon .icon-stroke {
+  stroke-linecap: round;
 }
 
 /* Menu screen: sizes in Figma units (1u, see --u). */
