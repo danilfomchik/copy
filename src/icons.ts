@@ -56,7 +56,7 @@ const ICONS = {
   // Actions button plus: 56 x 56 (the orange disc is the button's own background).
   plus: {
     viewBox: '0 0 56 56',
-    parts: [{ d: rect(16, 24, 25, 8) + rect(24, 16, 8, 25), kind: 'fill' }],
+    parts: [{ d: rect(15.5, 25.25, 25, 5.5) + rect(25.25, 15.5, 5.5, 25), kind: 'fill' }],
   },
   // Action sheet row icons: 29 x 29, 2.7-unit outlines.
   info: {
