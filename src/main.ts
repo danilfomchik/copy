@@ -9,22 +9,22 @@ import { showGate } from './gate';
 import { lock } from './auth';
 import type { Member } from './member';
 
-// iOS standalone PWAs can launch with a layout viewport shorter than the screen and grow it
+// iOS standalone PWAs can launch with a layout viewport shorter than the web view and grow it
 // to full height on the first tap or scroll (WebKit bug 301994). Publish the current shortfall
 // as --vp-gap so screens that must fit without scrolling can subtract it. The tab bar needs
 // nothing: it is pinned to the viewport bottom and follows iOS on its own.
+// The full height comes from a 100lvh probe, not screen.height: with the default status bar
+// style the web view starts below the status bar, so the screen is taller than it.
+const lvhProbe = document.createElement('div');
+lvhProbe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none';
+document.body.append(lvhProbe);
 function syncViewportGap(): void {
   const standalone =
     (navigator as Navigator & { standalone?: boolean }).standalone === true ||
     matchMedia('(display-mode: standalone)').matches;
   const root = document.documentElement.style;
-  if (!standalone) {
-    root.setProperty('--vp-gap', '0px');
-    return;
-  }
-  const portrait = window.innerHeight >= window.innerWidth;
-  const screenH = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
-  root.setProperty('--vp-gap', `${Math.max(0, Math.round(screenH - window.innerHeight))}px`);
+  const gap = standalone ? Math.max(0, Math.round(lvhProbe.offsetHeight - window.innerHeight)) : 0;
+  root.setProperty('--vp-gap', `${gap}px`);
 }
 syncViewportGap();
 addEventListener('resize', syncViewportGap);

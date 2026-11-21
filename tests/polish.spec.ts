@@ -10,7 +10,7 @@ test("iOS standalone meta tags are present", async ({ page }) => {
   ).toHaveAttribute("content", "yes");
   await expect(
     page.locator('meta[name="apple-mobile-web-app-status-bar-style"]'),
-  ).toHaveAttribute("content", "black-translucent");
+  ).toHaveAttribute("content", "default");
   await expect(page.locator('meta[name="viewport"]')).toHaveAttribute(
     "content",
     /viewport-fit=cover/,
