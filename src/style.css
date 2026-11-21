@@ -337,14 +337,10 @@ body:has(.card-screen) {
   padding: calc(var(--u) * 8.9) env(safe-area-inset-right) env(safe-area-inset-bottom)
     env(safe-area-inset-left);
 }
-/* The canvas is always the tab bar colour, even on the PIN gate. iOS standalone PWAs paint
-   a band at the bottom of the screen at launch and take its colour from the page background
-   (WebKit bug 301994); this way the band reads as part of the tab bar. Each screen paints
-   its own colour on body, so body must cover the viewport. */
-html {
+html:has(.tabbar) {
   background: var(--tabbar-bg);
 }
-body {
+body:has(.tabbar) {
   min-height: 100dvh;
 }
 .tab {
