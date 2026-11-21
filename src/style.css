@@ -325,8 +325,8 @@ body:has(.card-screen) {
   grid-template-columns: repeat(4, 1fr);
   align-items: start;
   background: var(--tabbar-bg);
-  padding: calc(var(--u) * 8.4) env(safe-area-inset-right) env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
+  padding: calc(var(--u) * 8.4) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 html:has(.tabbar) {
   background: var(--tabbar-bg);
@@ -1385,8 +1385,8 @@ body:has(.gate) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: max(env(safe-area-inset-top), var(--g) * 224 - var(--status-h)) calc(var(--g) * 30)
-    max(env(safe-area-inset-bottom), var(--g) * 40);
+  padding: max(env(safe-area-inset-top), var(--g) * 224 - var(--status-h))
+    calc(var(--g) * 30) max(env(safe-area-inset-bottom), var(--g) * 40);
   color: #000;
 }
 .gate-title {
@@ -1473,8 +1473,12 @@ body:has(.gate) {
   touch-action: manipulation; /* no double-tap zoom on fast taps */
   -webkit-tap-highlight-color: transparent;
 }
-.gate-key:active {
-  background: #fff;
+.gate-key:not(.gate-del):active {
+  background: black;
+  color: white;
+}
+.gate-key:is(.gate-del):active {
+  color: white;
   filter: brightness(0.92);
 }
 .gate-del {
