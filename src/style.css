@@ -320,15 +320,21 @@ body:has(.card-screen) {
 }
 
 .tabbar {
+  /* Hung from the top at the screen height rather than pinned to the viewport bottom:
+     iOS standalone PWAs grow the layout viewport on the first scroll, and a bottom-pinned
+     bar jumps with it. --screen-h is the real screen height in a standalone PWA. */
   position: fixed;
-  inset: auto 0 calc(var(--vp-gap) * -1) 0;
+  left: 0;
+  right: 0;
+  top: var(--screen-h, 100dvh);
+  transform: translateY(-100%);
+  height: var(--nav-h);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-items: start;
   background: var(--tabbar-bg);
-  /* iOS standalone PWAs paint nothing below the (--vp-gap short) layout viewport, so keep
-     the labels above that line; the root background below fills in the bar's colour. */
-  padding: calc(var(--u) * 8.9) env(safe-area-inset-right)
-    max(env(safe-area-inset-bottom), var(--vp-gap) + var(--u) * 2) env(safe-area-inset-left);
+  padding: calc(var(--u) * 8.9) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
 }
 html:has(.tabbar) {
   background: var(--tabbar-bg);
