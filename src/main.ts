@@ -9,29 +9,29 @@ import { showGate } from './gate';
 import { lock } from './auth';
 import type { Member } from './member';
 
-// iOS standalone PWAs can launch with a layout viewport shorter than the web view and grow it
-// to full height on the first tap or scroll (WebKit bug 301994). Publish the current shortfall
-// as --vp-gap so screens that must fit without scrolling can subtract it. The tab bar needs
-// nothing: it is pinned to the viewport bottom and follows iOS on its own.
-// The full height comes from a 100lvh probe, not screen.height: with the default status bar
-// style the web view starts below the status bar, so the screen is taller than it.
-const lvhProbe = document.createElement('div');
-lvhProbe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none';
-document.body.append(lvhProbe);
-function syncViewportGap(): void {
+// With the default status bar style, an iOS standalone PWA's web view starts below the status
+// bar, but the PIN gate is designed for the whole screen, status bar included. Publish the
+// screen height as --screen-h, which the gate scales by (it never changes, so the gate can't
+// jump in size as the viewport settles), and the height the web view is missing at the top as
+// --status-h, which the gate subtracts from its top spacing.
+function syncStatusHeight(): void {
   const standalone =
     (navigator as Navigator & { standalone?: boolean }).standalone === true ||
     matchMedia('(display-mode: standalone)').matches;
+  const portrait = window.innerHeight >= window.innerWidth;
+  const screenH = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
   const root = document.documentElement.style;
-  const gap = standalone ? Math.max(0, Math.round(lvhProbe.offsetHeight - window.innerHeight)) : 0;
-  root.setProperty('--vp-gap', `${gap}px`);
+  if (!standalone) {
+    root.removeProperty('--screen-h');
+    root.setProperty('--status-h', '0px');
+    return;
+  }
+  root.setProperty('--screen-h', `${screenH}px`);
+  root.setProperty('--status-h', `${Math.max(0, Math.round(screenH - window.innerHeight))}px`);
 }
-syncViewportGap();
-addEventListener('resize', syncViewportGap);
-addEventListener('scroll', syncViewportGap, { passive: true });
-addEventListener('touchend', () => requestAnimationFrame(syncViewportGap), { passive: true });
-window.visualViewport?.addEventListener('resize', syncViewportGap);
-addEventListener('orientationchange', () => setTimeout(syncViewportGap, 300));
+syncStatusHeight();
+addEventListener('resize', syncStatusHeight);
+addEventListener('orientationchange', () => setTimeout(syncStatusHeight, 300));
 
 const TABS: TabId[] = ['card', 'services', 'listings', 'menu'];
 
