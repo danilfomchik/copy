@@ -27,6 +27,27 @@ function syncViewportGap(): void {
   root.setProperty('--vp-gap', `${Math.max(0, Math.round(screenH - window.innerHeight))}px`);
 }
 syncViewportGap();
+
+// A user scroll makes iOS grow the short launch viewport. Try the same with a 1px programmatic
+// scroll and straight back, making the page briefly scrollable so the scroll can happen.
+// Experimental: iOS may only react to real touches.
+function nudgeViewport(): void {
+  const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vp-gap'));
+  const scroller = document.scrollingElement;
+  if (!scroller || !(gap > 4)) return;
+  const top = scroller.scrollTop;
+  const html = document.documentElement.style;
+  const prev = html.minHeight;
+  html.minHeight = 'calc(100lvh + 2px)';
+  scroller.scrollTop = top + 1;
+  requestAnimationFrame(() => {
+    scroller.scrollTop = top;
+    html.minHeight = prev;
+    syncViewportGap();
+  });
+}
+for (const ms of [100, 400, 1000]) setTimeout(nudgeViewport, ms);
+addEventListener('pageshow', () => setTimeout(nudgeViewport, 100));
 addEventListener('resize', syncViewportGap);
 addEventListener('scroll', syncViewportGap, { passive: true });
 addEventListener('touchend', () => requestAnimationFrame(syncViewportGap), { passive: true });
@@ -66,6 +87,7 @@ function mountApp(member: Member): void {
     nav.append(a);
   }
   view.replaceChildren(main, nav);
+  setTimeout(nudgeViewport, 100);
 
   stopRouter = startRouter(routes, ({ route, params }) => {
     main.replaceChildren(route.render({ content, member, params, lock: lockApp }));
