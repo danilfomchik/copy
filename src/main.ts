@@ -33,6 +33,10 @@ syncStatusHeight();
 addEventListener('resize', syncStatusHeight);
 addEventListener('orientationchange', () => setTimeout(syncStatusHeight, 300));
 
+// iOS Safari only applies :active to a tapped element when a touch listener
+// sits on it or an ancestor; this empty one turns the press styles on.
+document.addEventListener('touchstart', () => {}, { passive: true });
+
 const TABS: TabId[] = ['card', 'services', 'listings', 'menu'];
 
 const RELOCK_MS = 5 * 60 * 1000;

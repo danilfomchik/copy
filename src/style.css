@@ -140,6 +140,9 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
+  /* app-like: no text selection on long-press (inherited by every element) */
+  -webkit-user-select: none;
+  user-select: none;
 }
 #app {
   min-height: 100dvh;
