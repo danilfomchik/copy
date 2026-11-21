@@ -61,7 +61,12 @@ function mountApp(member: Member): void {
   const nav = el('nav', { class: 'tabbar', 'aria-label': content.ui.tabBarLabel });
   const links = new Map<TabId, HTMLAnchorElement>();
   for (const tab of TABS) {
-    const a = el('a', { href: `#/${tab}`, class: 'tab' }, [icon(tab), el('span', {}, [content.ui.tabs[tab]])]);
+    // Each tab swaps to a solid (or, for the menu, heavier) icon when active.
+    const a = el('a', { href: `#/${tab}`, class: 'tab' }, [
+      icon(tab, 'tab-icon-idle'),
+      icon(`${tab}-active`, 'tab-icon-active'),
+      el('span', {}, [content.ui.tabs[tab]]),
+    ]);
     links.set(tab, a);
     nav.append(a);
   }

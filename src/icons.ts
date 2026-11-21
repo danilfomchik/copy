@@ -10,38 +10,93 @@ type Def = { viewBox: string; parts: readonly Part[] };
 
 const rect = (x: number, y: number, w: number, h: number) => `M${x} ${y}h${w}v${h}h${-w}z`;
 
+// Rounded rectangle, drawn clockwise from the top-left corner.
+const rrect = (x: number, y: number, w: number, h: number, r: number) =>
+  `M${x + r} ${y}h${w - 2 * r}a${r} ${r} 0 0 1 ${r} ${r}v${h - 2 * r}a${r} ${r} 0 0 1 ${-r} ${r}` +
+  `h${-(w - 2 * r)}a${r} ${r} 0 0 1 ${-r} ${-r}v${-(h - 2 * r)}a${r} ${r} 0 0 1 ${r} ${-r}z`;
+
+// Diamond |x - cx| + |y - cy| <= R with its four tips rounded to radius r.
+const roundDiamond = (cx: number, cy: number, R: number, r: number) => {
+  const t = r / Math.SQRT2;
+  const arc = (x: number, y: number) => `A${r} ${r} 0 0 1 ${x} ${y}`;
+  return (
+    `M${cx + t} ${cy - R + t}L${cx + R - t} ${cy - t}${arc(cx + R - t, cy + t)}` +
+    `L${cx + t} ${cy + R - t}${arc(cx - t, cy + R - t)}` +
+    `L${cx - R + t} ${cy + t}${arc(cx - R + t, cy - t)}` +
+    `L${cx - t} ${cy - R + t}${arc(cx + t, cy - R + t)}z`
+  );
+};
+
+// Tab bar geometry, traced from 3x reference screenshots of the original bar (1 unit = 1/591 of
+// a 428pt screen). Document icons are 27.62 x 33.15 with 2.77-unit outlines; the solid forms sit
+// 0.46 units left of the outlines (the menu is the other way round), as in the original.
+const DOC_W = 27.62;
+const DOC_H = 33.15;
+const LINE = 2.77;
+const docOutline = (x: number) =>
+  rrect(x, 0, DOC_W, DOC_H, 2.6) + rect(x + LINE, LINE, DOC_W - 2 * LINE, DOC_H - 2 * LINE);
+const docSolid = (x: number) => rrect(x, 0, DOC_W, DOC_H, 2.4);
+const idBars = (x: number, w: number) => rect(x, 16.57, w, 3.46) + rect(x, 23.47, w, 3.46);
+const SQUARES = [
+  [1.41, 0],
+  [17.98, 0],
+  [1.41, 17.95],
+  [17.98, 17.95],
+] as const;
+const DIAMOND_R = 7.82;
+const DIAMOND_TIP = 1.6;
+
 const ICONS = {
-  // Tab bar icons: 34 x 35.
+  // Tab bar icons: 34 x 35. Each tab has an inactive form and a solid `-active` form.
   card: {
     viewBox: '0 0 34 35',
     parts: [
-      { d: 'M3 3a3 3 0 0 1 3-3h21a3 3 0 0 1 3 3v27a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z', kind: 'fill' },
-      { d: rect(6, 17, 21, 4) + rect(6, 24, 21, 4), kind: 'cutout' },
+      { d: docOutline(3.25), kind: 'fill', evenodd: true },
+      { d: idBars(3.25 + LINE, DOC_W - 2 * LINE), kind: 'fill' },
+    ],
+  },
+  'card-active': {
+    viewBox: '0 0 34 35',
+    parts: [
+      { d: docSolid(2.79), kind: 'fill' },
+      { d: idBars(2.79 + LINE, DOC_W - 2 * LINE), kind: 'cutout' },
     ],
   },
   services: {
     viewBox: '0 0 34 35',
     parts: [
       {
-        d: rect(4.5, 2.5, 9, 11) + rect(21.5, 2.5, 9, 11) + rect(4.5, 20.5, 9, 11) + rect(21.5, 20.5, 9, 11),
-        kind: 'stroke',
+        d: SQUARES.map(([x, y]) => rrect(x, y, 13.81, 15.2, 2.6) + rect(x + LINE, y + LINE, 13.81 - 2 * LINE, 15.2 - 2 * LINE)).join(''),
+        kind: 'fill',
+        evenodd: true,
       },
     ],
+  },
+  'services-active': {
+    viewBox: '0 0 34 35',
+    parts: [{ d: SQUARES.map(([x, y]) => rrect(x, y, 13.81, 15.2, 2.6)).join(''), kind: 'fill' }],
   },
   listings: {
     viewBox: '0 0 34 35',
     parts: [
-      {
-        d: 'M3 3a2 2 0 0 1 2-2h21a2 2 0 0 1 2 2v27a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM6 4v25h19V4z',
-        kind: 'fill',
-        evenodd: true,
-      },
-      { d: 'M16.5 8L24 17L16.5 26L9 17z', kind: 'fill' },
+      { d: docOutline(3.25), kind: 'fill', evenodd: true },
+      { d: roundDiamond(3.25 + DOC_W / 2, DOC_H / 2, DIAMOND_R, DIAMOND_TIP), kind: 'fill' },
+    ],
+  },
+  'listings-active': {
+    viewBox: '0 0 34 35',
+    parts: [
+      { d: docSolid(2.79), kind: 'fill' },
+      { d: roundDiamond(2.79 + DOC_W / 2, DOC_H / 2, DIAMOND_R, DIAMOND_TIP), kind: 'cutout' },
     ],
   },
   menu: {
     viewBox: '0 0 34 35',
-    parts: [{ d: rect(3, 5, 28, 4) + rect(3, 15, 28, 4) + rect(3, 25, 28, 4), kind: 'fill' }],
+    parts: [{ d: rect(2.79, 5.14, DOC_W, 3.54) + rect(2.79, 14.81, DOC_W, 3.53) + rect(2.79, 24.47, DOC_W, 3.54), kind: 'fill' }],
+  },
+  'menu-active': {
+    viewBox: '0 0 34 35',
+    parts: [{ d: rect(3.25, 5.52, DOC_W, 4.15) + rect(3.25, 14.81, DOC_W, 4.15) + rect(3.25, 24.16, DOC_W, 4.16), kind: 'fill' }],
   },
   // Notification pill bell: 23 x 24.
   bell: {
@@ -90,12 +145,12 @@ const ICONS = {
 
 export type IconName = keyof typeof ICONS;
 
-export function icon(name: IconName): SVGElement {
+export function icon(name: IconName, extraClass?: string): SVGElement {
   const def: Def = ICONS[name];
   const svg = document.createElementNS(SVG_NS, 'svg');
   for (const [k, v] of Object.entries({
     viewBox: def.viewBox,
-    class: 'icon',
+    class: extraClass ? `icon ${extraClass}` : 'icon',
     fill: 'none',
     'aria-hidden': 'true',
     focusable: 'false',
