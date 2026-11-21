@@ -62,6 +62,22 @@
   src: url("./fonts/lora-latin-700-italic.woff2") format("woff2");
   unicode-range: U+0069;
 }
+/* e-Ukraine (free font by the Ministry of Digital Transformation, plan.diia.gov.ua):
+   the design font of the PIN and forgot-PIN screens. Subset to Latin, Cyrillic and digits. */
+@font-face {
+  font-family: "e-Ukraine";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("./fonts/e-ukraine-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "e-Ukraine";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("./fonts/e-ukraine-500.woff2") format("woff2");
+}
 
 :root {
   --bg: #eaf4f3;
@@ -1354,8 +1370,10 @@ body:has(.gate) {
 }
 .gate {
   /* Figma frame is 428x926 and covers the whole screen, safe areas included: scale
-     by whichever of width/height is tighter so the screen fits without scrolling. */
-  --g: calc(min(100vw, 480px, 100dvh * 428 / 926) / 428);
+     by whichever of width/height is tighter so the screen fits without scrolling.
+     iOS standalone PWAs report a viewport --vp-gap shorter than the screen; add it
+     back, or the whole gate renders ~5% small on the very phone it was designed for. */
+  --g: calc(min(100vw, 480px, (100dvh + var(--vp-gap)) * 428 / 926) / 428);
   flex: 1;
   width: min(100%, 480px);
   margin: 0 auto;
@@ -1374,10 +1392,27 @@ body:has(.gate) {
   line-height: 1.2;
   text-align: center;
 }
+/* PIN screen, measured off an iPhone 13 Pro Max screenshot of the original:
+   e-Ukraine throughout, title 28, digits 32, link 16. */
+.gate-pin,
+.gate-forgot {
+  font-family: "e-Ukraine", "Inter", system-ui, sans-serif;
+}
+.gate-pin {
+  /* The layout viewport stops --vp-gap above the screen bottom; keep the page from scrolling. */
+  padding-bottom: max(0px, max(env(safe-area-inset-bottom), var(--g) * 40) - var(--vp-gap));
+}
+.gate-pin .gate-title {
+  font-size: calc(var(--g) * 28);
+  font-weight: 400;
+}
 .gate-dots {
   display: flex;
   gap: calc(var(--g) * 24);
   margin-top: calc(var(--g) * 60);
+}
+.gate-pin .gate-dots {
+  margin-top: calc(var(--g) * 64);
 }
 .gate-dot {
   width: calc(var(--g) * 12);
@@ -1472,11 +1507,12 @@ body:has(.gate) {
   font-size: calc(var(--g) * 18);
   line-height: 1.4;
 }
-/* Figma: 58px between the keypad and the 31px-high "forgot PIN" link. */
+/* 56px between the keypad and the 31px-high "forgot PIN" link (text centred at y=852). */
 .gate-keypad + .gate-link {
-  margin-top: calc(var(--g) * 58);
+  margin-top: calc(var(--g) * 56);
   height: calc(var(--g) * 31);
   padding-block: 0;
+  font-size: calc(var(--g) * 16);
 }
 .gate-status .gate-link {
   margin-top: calc(var(--g) * 40);

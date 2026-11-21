@@ -116,7 +116,7 @@ export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Memb
     const forgotLink = el('button', { type: 'button', class: 'gate-link' }, [g.forgot]);
     forgotLink.addEventListener('click', forgot);
 
-    const view = el('section', { class: 'gate' }, [
+    const view = el('section', { class: 'gate gate-pin' }, [
       el('h1', { class: 'gate-title' }, [g.title]),
       dotRow,
       message,
