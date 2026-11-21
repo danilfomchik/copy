@@ -29,6 +29,29 @@ function syncViewportGap(): void {
   root.setProperty('--vp-gap', `${Math.max(0, Math.round(screenH - window.innerHeight))}px`);
 }
 syncViewportGap();
+
+// On launch, iOS can leave the shortened viewport in place and paint nothing below it until
+// the first scroll, which cuts off the tab labels. Hiding and re-showing the full-height app
+// root with a forced reflow in between makes WebKit re-measure the viewport (a reported
+// workaround for the same shrink after the keyboard closes; experimental for the launch case).
+function healViewport(): void {
+  const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vp-gap'));
+  const root = document.getElementById('app');
+  if (!root || !(gap > 4)) return;
+  const scroller = document.scrollingElement;
+  const top = scroller?.scrollTop ?? 0;
+  root.style.display = 'none';
+  void root.offsetHeight;
+  root.style.display = '';
+  if (scroller) scroller.scrollTop = top;
+  syncViewportGap();
+}
+for (const ms of [0, 150, 500, 1500]) setTimeout(healViewport, ms);
+addEventListener('pageshow', () => setTimeout(healViewport, 50));
+addEventListener('hashchange', () => setTimeout(healViewport, 50));
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') setTimeout(healViewport, 50);
+});
 addEventListener('resize', syncViewportGap);
 addEventListener('scroll', syncViewportGap, { passive: true });
 window.visualViewport?.addEventListener('resize', syncViewportGap);
