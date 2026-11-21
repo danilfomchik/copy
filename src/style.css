@@ -100,7 +100,7 @@
   /* Layout unit: 1u = 1px of the 591px-wide Figma frame (an iPhone 13 Pro Max
      screenshot), scaled to the viewport and capped at a 480px-wide phone. */
   --u: calc(min(100vw, 480px) / 591);
-  --vp-gap: 0px;
+  --status-h: 0px;
   --nav-h: calc(var(--u) * 66 + env(safe-area-inset-bottom));
   --doc-bg: #fbfdfc;
   --doc-border: #bdbeaf;
@@ -1392,9 +1392,10 @@ body:has(.gate) {
 .gate {
   /* Figma frame is 428x926 and covers the whole screen, safe areas included: scale
      by whichever of width/height is tighter so the screen fits without scrolling.
-     iOS standalone PWAs report a viewport --vp-gap shorter than the screen; add it
-     back, or the whole gate renders ~5% small on the very phone it was designed for. */
-  --g: calc(min(100vw, 480px, (100dvh + var(--vp-gap)) * 428 / 926) / 428);
+     In an iOS standalone PWA scale by the real screen height (--screen-h): the web view starts
+     below the status bar, and its height settles after launch, so 100dvh would render the
+     gate ~5% small on the very phone it was designed for, then resize it. */
+  --g: calc(min(100vw, 480px, var(--screen-h, 100dvh) * 428 / 926) / 428);
   flex: 1;
   width: min(100%, 480px);
   margin: 0 auto;
@@ -1402,7 +1403,7 @@ body:has(.gate) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: max(env(safe-area-inset-top), var(--g) * 224) calc(var(--g) * 30)
+  padding: max(env(safe-area-inset-top), var(--g) * 224 - var(--status-h)) calc(var(--g) * 30)
     max(env(safe-area-inset-bottom), var(--g) * 40);
   color: #000;
 }
@@ -1418,10 +1419,6 @@ body:has(.gate) {
 .gate-pin,
 .gate-forgot {
   font-family: "e-Ukraine", "Inter", system-ui, sans-serif;
-}
-.gate-pin {
-  /* The layout viewport stops --vp-gap above the screen bottom; keep the page from scrolling. */
-  padding-bottom: max(0px, max(env(safe-area-inset-bottom), var(--g) * 40) - var(--vp-gap));
 }
 .gate-pin .gate-title {
   font-size: calc(var(--g) * 28);
@@ -1542,10 +1539,9 @@ body:has(.gate) {
 /* Forgot-PIN page, measured off an iPhone 13 Pro Max screenshot of the original:
    icon ring, title 28, centred text 16, then two pill buttons 50px above the screen bottom. */
 .gate-forgot {
-  padding-top: max(env(safe-area-inset-top), var(--g) * 234);
+  padding-top: max(env(safe-area-inset-top), var(--g) * 234 - var(--status-h));
   padding-inline: calc(var(--g) * 24);
-  /* As on the PIN screen: the layout viewport stops --vp-gap above the screen bottom. */
-  padding-bottom: max(0px, max(env(safe-area-inset-bottom), var(--g) * 50) - var(--vp-gap));
+  padding-bottom: max(env(safe-area-inset-bottom), var(--g) * 50);
   text-align: center;
 }
 .gate-icon {
