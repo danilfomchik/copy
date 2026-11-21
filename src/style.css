@@ -76,7 +76,7 @@
   --card-bg: #d5d3bd;
   --card-border: #92927f;
   --card-muted: #57574c;
-  --ribbon-bg: #80591f;
+  --ribbon-bg: #6b4a19;
   --fab: #ff8900;
   --pill-bg: #fbfdfc;
   --tabbar-bg: #fbfdfc;
@@ -84,6 +84,7 @@
   /* Layout unit: 1u = 1px of the 591px-wide Figma frame (an iPhone 13 Pro Max
      screenshot), scaled to the viewport and capped at a 480px-wide phone. */
   --u: calc(min(100vw, 480px) / 591);
+  --vp-gap: 0px;
   --nav-h: calc(var(--u) * 70 + env(safe-area-inset-bottom));
   --doc-bg: #fbfdfc;
   --doc-border: #bdbeaf;
@@ -173,7 +174,7 @@ body:has(.card-screen) {
 #screen:has(.card-screen) {
   display: flex;
   flex-direction: column;
-  padding: calc(env(safe-area-inset-top) + var(--u) * 31) 0 var(--nav-h);
+  padding: calc(env(safe-area-inset-top) + var(--u) * 31) 0 max(0px, calc(var(--nav-h) - var(--vp-gap)));
 }
 .card-screen {
   flex: 1;
@@ -188,8 +189,20 @@ body:has(.card-screen) {
   margin: auto 0;
   border-radius: calc(var(--u) * 12);
 }
-.card-label {
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin: 0 0 calc(var(--u) * 30);
+}
+.card-emblem {
+  width: calc(var(--u) * 42);
+  height: calc(var(--u) * 50);
+  margin-top: calc(var(--u) * 2);
+  display: block;
+}
+.card-label {
+  margin: 0;
   font-size: calc(var(--u) * 30);
   font-weight: 500;
   line-height: 1.2;
@@ -234,21 +247,33 @@ body:has(.card-screen) {
   overflow: hidden;
   white-space: nowrap;
 }
-.ribbon-text {
-  display: inline-block;
-  padding-left: 100%;
+.ribbon-track {
+  display: flex;
+  flex: none;
+  width: max-content;
   animation: ribbon 14s linear infinite;
+}
+.ribbon-text {
+  flex: none;
+  padding-right: calc(var(--u) * 22);
   font-size: calc(var(--u) * 22);
+  font-weight: 500;
+}
+.ribbon-text::after {
+  content: "\00a0•\00a0";
 }
 @keyframes ribbon {
   to {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ribbon-text {
+  .ribbon-track {
     animation: none;
     padding-left: calc(var(--u) * 22);
+  }
+  .ribbon-text:last-child {
+    display: none;
   }
 }
 .card-footer {
@@ -274,7 +299,7 @@ body:has(.card-screen) {
 
 .tabbar {
   position: fixed;
-  inset: auto 0 0 0;
+  inset: auto 0 calc(var(--vp-gap) * -1) 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background: var(--tabbar-bg);
@@ -1325,13 +1350,12 @@ body:has(.notif-screen) {
 /* PIN gate and status pages: sizes in units of the 428px-wide Figma frame. */
 body:has(.gate) {
   background: #e0dfcc;
+  touch-action: manipulation;
 }
 .gate {
-  /* Figma frame is 428x926: scale by whichever of width/height is tighter, so the
-     whole screen fits without scrolling. */
-  --g: calc(
-    min(100vw, 480px, (100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 428 / 926) / 428
-  );
+  /* Figma frame is 428x926 and covers the whole screen, safe areas included: scale
+     by whichever of width/height is tighter so the screen fits without scrolling. */
+  --g: calc(min(100vw, 480px, 100dvh * 428 / 926) / 428);
   flex: 1;
   width: min(100%, 480px);
   margin: 0 auto;
@@ -1339,8 +1363,8 @@ body:has(.gate) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: calc(env(safe-area-inset-top) + var(--g) * 224) calc(var(--g) * 30)
-    calc(env(safe-area-inset-bottom) + var(--g) * 40);
+  padding: max(env(safe-area-inset-top), var(--g) * 224) calc(var(--g) * 30)
+    max(env(safe-area-inset-bottom), var(--g) * 40);
   color: #000;
 }
 .gate-title {
@@ -1411,6 +1435,7 @@ body:has(.gate) {
   display: grid;
   place-items: center;
   cursor: pointer;
+  touch-action: manipulation; /* no double-tap zoom on fast taps */
   -webkit-tap-highlight-color: transparent;
 }
 .gate-key:active {
@@ -1437,6 +1462,7 @@ body:has(.gate) {
   font: inherit;
   font-size: calc(var(--g) * 18);
   cursor: pointer;
+  touch-action: manipulation;
 }
 .gate-status {
   text-align: center;
@@ -1455,4 +1481,56 @@ body:has(.gate) {
 .gate-status .gate-link {
   margin-top: calc(var(--g) * 40);
   text-decoration: underline;
+}
+/* Forgot-PIN page (Figma 428x926): icon ring, text, then two pill buttons at the bottom. */
+.gate-forgot {
+  padding-top: max(env(safe-area-inset-top), var(--g) * 234);
+  padding-inline: calc(var(--g) * 24);
+}
+.gate-icon {
+  width: calc(var(--g) * 160);
+  height: calc(var(--g) * 160);
+  box-sizing: border-box;
+  border: calc(var(--g) * 8) solid #9a9a8a;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: calc(var(--g) * 41);
+}
+.gate-icon img {
+  width: calc(var(--g) * 64);
+  height: calc(var(--g) * 62);
+}
+.gate-forgot .gate-text {
+  margin-top: calc(var(--g) * 12);
+  max-width: calc(var(--g) * 320);
+}
+.gate-actions {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--g) * 17);
+}
+.gate-btn {
+  height: calc(var(--g) * 64);
+  border-radius: 999px;
+  font: inherit;
+  font-size: calc(var(--g) * 18);
+  font-weight: 500;
+  color: #000;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.gate-btn-primary {
+  border: 0;
+  background: var(--fab);
+}
+.gate-btn-outline {
+  border: 2px solid #000;
+  background: none;
+}
+.gate-btn:active {
+  filter: brightness(0.92);
 }

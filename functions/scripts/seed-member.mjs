@@ -1,7 +1,7 @@
 // Creates (or replaces) a Member: writes members/{uid} and the PIN lookup
 // document pins/{HMAC(PIN)}. Run by the administrator, never in CI.
 //
-//   node scripts/seed-member.mjs --project <id> --member ../content/member.example.json [--uid <uid>]
+//   node scripts/seed-member.mjs --project <id> --member ../content/members/member.example.json [--uid <uid>]
 //
 // The PIN is typed at a hidden prompt, so it never lands in shell history, env
 // files or the repo. The HMAC key is read from Secret Manager through gcloud.

@@ -8,7 +8,7 @@ import type { Content } from '../../content/schema';
 export const DEMO_PDF = 'orbit-pass-card-DEMO.pdf';
 const REFRESH_MS = 900;
 
-export function actionsButton(content: Content, ribbonText: HTMLElement): HTMLElement {
+export function actionsButton(content: Content, setRibbon: (text: string) => void): HTMLElement {
   const a = content.ui.card.actions;
   const button = el('button', { type: 'button', class: 'card-plus', 'aria-label': a.openLabel }, [icon('plus')]);
   button.addEventListener('click', () => {
@@ -34,7 +34,7 @@ export function actionsButton(content: Content, ribbonText: HTMLElement): HTMLEl
         refresh.disabled = true;
         refresh.append(el('span', { class: 'spinner', role: 'status', 'aria-label': a.refreshing }));
         setTimeout(() => {
-          ribbonText.textContent = content.ribbon.refreshedAt;
+          setRibbon(content.ribbon.refreshedAt);
           sheet.close();
         }, REFRESH_MS);
       });
