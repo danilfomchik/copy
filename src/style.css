@@ -549,36 +549,37 @@ body:has(.tabbar) {
     transform: rotate(360deg);
   }
 }
-/* Card flip: 3D rotation (instant swap under reduced motion, see the end of this file) */
+/* Card flip: two half-turns driven from flip.ts (instant swap under reduced motion).
+   Only the shown face is rendered, so no backface-visibility is involved. */
 .flip {
-  perspective: 1200px;
+  perspective: 2200px;
   cursor: pointer;
   border-radius: 14px;
 }
 .flip-inner {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  transform-style: preserve-3d;
-  transition: transform 500ms ease;
-}
-.flip.flipped .flip-inner {
-  transform: rotateY(180deg);
+  border-radius: calc(var(--u) * 12);
 }
 .flip-face {
   grid-area: 1 / 1;
   min-width: 0;
-  backface-visibility: hidden;
-  transition: visibility 0s linear 250ms;
 }
-.flip-back {
-  transform: rotateY(180deg);
-  visibility: hidden;
+.flip-face[hidden] {
+  display: none;
 }
-.flip.flipped .flip-back {
-  visibility: visible;
+/* Darkens the card as it turns edge-on, like the original app. */
+.flip-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
 }
-.flip.flipped .flip-front {
-  visibility: hidden;
+.flip.flipped .flip-inner {
+  border-radius: calc(var(--u) * 23); /* the QR document's corners */
 }
 /* QR document: a 525 x 709u frame; children are placed at the design's coordinates
    (the design measures from inside the 1u border, hence the +1u offsets). */
@@ -595,9 +596,9 @@ body:has(.tabbar) {
   left: 0;
   right: 0;
   margin: 0;
-  font-size: calc(var(--u) * 21.5);
-  font-weight: 500;
-  line-height: 27 / 21.5;
+  font-size: calc(var(--u) * 19.4);
+  font-weight: 400;
+  line-height: calc(var(--u) * 27);
   text-align: center;
 }
 .qr {
@@ -623,11 +624,11 @@ body:has(.tabbar) {
   border-radius: calc(var(--u) * 12);
 }
 .qr-notice p {
-  margin: 0;
+  margin: calc(var(--u) * 2.2) 0 0;
   width: calc(var(--u) * 365);
-  font-size: calc(var(--u) * 22);
-  font-weight: 500;
-  line-height: 23 / 22;
+  font-size: calc(var(--u) * 19.3);
+  font-weight: 400;
+  line-height: calc(var(--u) * 23);
 }
 .qr-notice-icon {
   flex: none;
@@ -1063,16 +1064,6 @@ body:has(.qa-screen) {
     transition: none !important;
     animation: none !important;
     scroll-behavior: auto !important;
-  }
-  .flip-inner,
-  .flip.flipped .flip-inner {
-    transform: none;
-  }
-  .flip-back {
-    transform: none;
-  }
-  .flip-face {
-    backface-visibility: visible;
   }
   .spinner {
     border-top-color: var(--teal);
