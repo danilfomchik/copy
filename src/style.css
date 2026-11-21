@@ -1603,3 +1603,20 @@ body:has(.gate) {
 .gate-btn:active {
   filter: brightness(0.92);
 }
+
+/* EXPERIMENT: launch-time edge strips, see main.ts. */
+.launch-sample {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: max(24px, env(safe-area-inset-top));
+  background: var(--tabbar-bg);
+  z-index: 2147483647;
+  pointer-events: none;
+}
+.launch-sample-top {
+  top: 0;
+}
+.launch-sample-bottom {
+  bottom: 0;
+}
