@@ -9,6 +9,22 @@ import { showGate } from './gate';
 import { lock } from './auth';
 import type { Member } from './member';
 
+// iOS standalone PWAs can report a layout viewport shorter than the screen, so `bottom: 0`
+// stops short and a strip of page background shows under the tab bar. Measure the gap and
+// publish it as --vp-gap, which the tab bar uses to sit flush with the screen bottom.
+function syncViewportGap(): void {
+  const standalone =
+    (navigator as Navigator & { standalone?: boolean }).standalone === true ||
+    matchMedia('(display-mode: standalone)').matches;
+  const portrait = window.innerHeight >= window.innerWidth;
+  const screenH = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+  const gap = standalone ? Math.max(0, Math.round(screenH - window.innerHeight)) : 0;
+  document.documentElement.style.setProperty('--vp-gap', `${gap}px`);
+}
+syncViewportGap();
+addEventListener('resize', syncViewportGap);
+addEventListener('orientationchange', () => setTimeout(syncViewportGap, 300));
+
 const TABS: TabId[] = ['card', 'services', 'listings', 'menu'];
 
 const RELOCK_MS = 5 * 60 * 1000;

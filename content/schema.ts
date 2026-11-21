@@ -11,9 +11,8 @@ const gate = obj({
   deleteLabel: str(),
   forgot: str(),
   wrong: str(),
-  back: str(),
   lockout: obj({ title: str(), body: str(), retry: str() }),
-  forgotPin: obj({ title: str(), body: str() }),
+  forgotPin: obj({ title: str(), body: str(), authorize: str(), cancel: str() }),
   offline: obj({ title: str(), body: str(), retry: str() }),
 });
 

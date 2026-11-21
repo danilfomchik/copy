@@ -15,8 +15,8 @@ One-time setup by the administrator. Nothing here needs a PIN in the repo, an en
    `gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:<project-number>-compute@developer.gserviceaccount.com --role=roles/iam.serviceAccountTokenCreator`
    Wait a minute for it to propagate.
 7. **Create a Member** (repeat per Member; each PIN must be unique):
-   `cd functions && node scripts/seed-member.mjs --project <project-id> --member ../content/member.example.json`
-   The `avatar` field is a path to an image file (jpeg, png or webp, at most 300 KB, e.g. `content/member-avatar.example.png`); the script inlines it.
+   `cd functions && node scripts/seed-member.mjs --project <project-id> --member ../content/members/member.example.json`
+   The `avatar` field is a path to an image file (jpeg, png or webp, at most 300 KB, relative to the Member file, e.g. `avatars/member-avatar.example.png`); the script inlines it.
    The script asks for the 4-digit PIN at a hidden prompt and stores only its HMAC.
    To change a Member's PIN or data, re-run it with `--uid <uid>` (printed on creation).
    To delete a Member (data, PIN and Auth user): `cd functions && node scripts/delete-member.mjs --project <project-id> --uid <uid>`.

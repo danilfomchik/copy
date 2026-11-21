@@ -2,6 +2,7 @@
 // replaces the contents of `root`; `onUnlock` is called with the Member once the
 // PIN is accepted. Nothing here is persisted.
 import backspace from './assets/gate/backspace.svg?url';
+import shieldAlert from './assets/gate/shield-alert.svg?url';
 import { el } from './dom';
 import { signInWithPin } from './auth';
 import type { Member } from './member';
@@ -40,13 +41,17 @@ export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Memb
     );
   const lockedOut = () => show(statusPage(g.lockout.title, g.lockout.body, { label: g.lockout.retry, run: gate }));
   const forgot = () => {
-    const back = el('button', { type: 'button', class: 'gate-link' }, [g.back]);
-    back.addEventListener('click', gate);
+    const authorize = el('button', { type: 'button', class: 'gate-btn gate-btn-primary' }, [g.forgotPin.authorize]);
+    const cancel = el('button', { type: 'button', class: 'gate-btn gate-btn-outline' }, [g.forgotPin.cancel]);
+    // There is no re-authorization flow yet: both actions return to the PIN keypad.
+    authorize.addEventListener('click', gate);
+    cancel.addEventListener('click', gate);
     show(
-      el('section', { class: 'gate gate-status' }, [
+      el('section', { class: 'gate gate-forgot' }, [
+        el('div', { class: 'gate-icon' }, [el('img', { src: shieldAlert, alt: '', width: '64', height: '62' })]),
         el('h1', { class: 'gate-title' }, [g.forgotPin.title]),
         el('p', { class: 'gate-text' }, [g.forgotPin.body]),
-        back,
+        el('div', { class: 'gate-actions' }, [authorize, cancel]),
       ]),
     );
   };
