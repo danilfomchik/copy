@@ -84,18 +84,5 @@ document.addEventListener('visibilitychange', () => {
   else if (hiddenAt && Date.now() - hiddenAt >= RELOCK_MS && !view.querySelector('.gate')) lockApp();
 });
 
-// EXPERIMENT: iOS standalone PWAs paint a band at the bottom of the screen at launch (WebKit
-// bug 301994) in a colour it seems to sample from the page edges, beige from the PIN gate.
-// For the first moments after launch, paint both edges in the tab bar colour so the sample,
-// and with it the band, comes out matching the tab bar.
-if (
-  (navigator as Navigator & { standalone?: boolean }).standalone === true ||
-  matchMedia('(display-mode: standalone)').matches
-) {
-  const strips = [el('div', { class: 'launch-sample launch-sample-top' }), el('div', { class: 'launch-sample launch-sample-bottom' })];
-  document.body.append(...strips);
-  setTimeout(() => strips.forEach((s) => s.remove()), 1500);
-}
-
 startGate();
 startPwa(app, content.ui.pwa);
