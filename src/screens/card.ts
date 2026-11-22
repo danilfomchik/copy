@@ -25,8 +25,10 @@ export const cardRoutes: Route[] = [
     tab: 'card',
     render: ({ content, member }) => {
       const { ui } = content;
-      // The ribbon text is repeated so the marquee loops without a gap (the track moves by half its width).
-      const ribbonCopies = [0, 1].map(() => el('span', { class: 'ribbon-text' }, [member.updatedAt]));
+      // The marquee track moves by half its width, so each half must be at least as wide as the ribbon
+      // or empty space shows before the loop restarts. Eight copies (four per half) cover it even for
+      // short text such as the refreshed-at message.
+      const ribbonCopies = Array.from({ length: 8 }, () => el('span', { class: 'ribbon-text' }, [member.updatedAt]));
       const setRibbon = (text: string) => ribbonCopies.forEach((c) => (c.textContent = text));
       const front = el('div', { class: 'card', role: 'region', 'aria-label': ui.card.label }, [
         el('div', { class: 'card-head' }, [

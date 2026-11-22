@@ -267,7 +267,8 @@ body:has(.card-screen) {
   display: flex;
   flex: none;
   width: max-content;
-  animation: ribbon 14s linear infinite;
+  /* 14s per copy; the track holds 8 copies and moves by half (4 copies) per loop. */
+  animation: ribbon 56s linear infinite;
 }
 .ribbon-text {
   flex: none;
@@ -288,7 +289,7 @@ body:has(.card-screen) {
     animation: none;
     padding-left: calc(var(--u) * 22);
   }
-  .ribbon-text:last-child {
+  .ribbon-text:not(:first-child) {
     display: none;
   }
 }
