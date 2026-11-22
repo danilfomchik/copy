@@ -21,12 +21,16 @@ The home-screen card showing the Member's avatar, name, birth date, label and th
 _Avoid_: ID, document, pass
 
 **QR view**:
-The reverse side of the Member card, with a QR code, its validity caption, and a usage notice. The QR code only encodes a fixed link to the Scan page.
+The reverse side of the Member card, with a QR code, its validity caption, and a usage notice. The QR code encodes a link to the Scan page carrying the Member's Scan id.
+_Avoid_: Back side, barcode
 
 **Scan page**:
-The standalone demo page (`scan.html`) that opens when the QR code is scanned. It shows no real data.
+The standalone page (`scan.html`) that opens when the QR code is scanned. It shows the Member's Scan record as an Orbit Pass card, marked "Демо". It never imitates a real document.
 _Avoid_: Verification page, result page
-_Avoid_: Back side, barcode
+
+**Scan record**:
+The public copy of a Member's fictional details shown on the Scan page, stored in Firestore under a random Scan id. Anyone with the link can read it, so it never holds the avatar or the PIN.
+_Avoid_: Profile, public profile
 
 **Actions sheet**:
 The bottom sheet opened by the "+" button on the Member card, offering view details, download PDF, and refresh.

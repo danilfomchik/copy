@@ -1,5 +1,5 @@
-// Deletes a Member: members/{uid}, every PIN document pointing at that uid, and
-// the Firebase Auth user (which also ends any signed-in session). Run by the
+// Deletes a Member: members/{uid}, their Scan record scans/{scanId}, every PIN
+// document pointing at that uid, and the Firebase Auth user (which also ends any signed-in session). Run by the
 // administrator, never in CI. This cannot be undone.
 //
 //   node scripts/delete-member.mjs --project <id> --uid <uid>
@@ -60,6 +60,8 @@ if ((await ask('Type "delete" to permanently remove this Member: ')) !== 'delete
 
 // PINs first: once they are gone the Member can no longer sign in.
 await Promise.all(pins.docs.map((d) => d.ref.delete()));
+const scanId = snap.exists ? snap.data().scanId : undefined;
+if (typeof scanId === 'string' && /^[0-9a-f]{32}$/.test(scanId)) await db.doc(`scans/${scanId}`).delete();
 await ref.delete();
 if (authUser) await getAuth().deleteUser(args.uid).catch((e) => { throw authHelp(e); });
 console.log(`Member ${args.uid} deleted.`);

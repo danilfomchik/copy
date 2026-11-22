@@ -1,12 +1,13 @@
-// Creates (or replaces) a Member: writes members/{uid} and the PIN lookup
-// document pins/{HMAC(PIN)}. Run by the administrator, never in CI.
+// Creates (or replaces) a Member: writes members/{uid}, the PIN lookup
+// document pins/{HMAC(PIN)} and the public Scan record scans/{scanId} shown on
+// the Scan page. Run by the administrator, never in CI.
 //
 //   node scripts/seed-member.mjs --project <id> --member ../content/members/member.example.json [--uid <uid>]
 //
 // The PIN is typed at a hidden prompt, so it never lands in shell history, env
 // files or the repo. The HMAC key is read from Secret Manager through gcloud.
 // Needs: `gcloud auth application-default login` and access to the project.
-import { createHmac, randomUUID } from 'node:crypto';
+import { createHmac, randomBytes, randomUUID } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -51,6 +52,22 @@ for (const f of ['fullName', 'birthDate', 'avatar', 'updatedAt', 'label']) {
 }
 member.avatar = avatarDataUrl(member.avatar, dirname(resolve(args.member)));
 
+// "scan" holds the extra fields of the public Scan record. That record is
+// readable by anyone who scans the QR code, so it copies only fullName, label
+// and birthDate from the Member, never the avatar.
+const SCAN_FIELDS = ['memberNumber', 'homeStation', 'tier', 'issuedAt', 'validUntil', 'confirmedAt'];
+const scanFile = member.scan ?? {};
+for (const f of SCAN_FIELDS) {
+  if (typeof scanFile[f] !== 'string' || !scanFile[f]) throw new Error(`Member file is missing "scan.${f}"`);
+}
+delete member.scan;
+const scan = {
+  fullName: member.fullName,
+  label: member.label,
+  birthDate: member.birthDate,
+  ...Object.fromEntries(SCAN_FIELDS.map((f) => [f, scanFile[f]])),
+};
+
 function askHidden(question) {
   return new Promise((resolve) => {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal: true });
@@ -77,7 +94,12 @@ const existing = await db.doc(`pins/${hash}`).get();
 if (existing.exists && existing.data().uid !== uid) {
   throw new Error('That PIN already belongs to another Member. Pick a different one.');
 }
-await db.doc(`members/${uid}`).set(member);
+// Keep the Member's Scan id across edits, so printed or saved QR codes keep working.
+const previous = await db.doc(`members/${uid}`).get();
+const oldScanId = previous.exists ? previous.data().scanId : undefined;
+const scanId = /^[0-9a-f]{32}$/.test(oldScanId ?? '') ? oldScanId : randomBytes(16).toString('hex');
+await db.doc(`scans/${scanId}`).set(scan);
+await db.doc(`members/${uid}`).set({ ...member, scanId });
 await db.doc(`pins/${hash}`).set({ uid });
 // Changing a Member's PIN must retire the old one.
 const old = await db.collection('pins').where('uid', '==', uid).get();

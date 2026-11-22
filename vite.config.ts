@@ -92,5 +92,9 @@ export default defineConfig({
       JSON.parse(readFileSync('package.json', 'utf8')).version as string,
     ),
   },
-  build: { outDir: process.env.OUT_DIR ?? 'dist' },
+  build: {
+    outDir: process.env.OUT_DIR ?? 'dist',
+    // The app, plus the Scan page opened by the QR code.
+    rollupOptions: { input: { main: 'index.html', scan: 'scan.html' } },
+  },
 });
