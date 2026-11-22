@@ -1,6 +1,6 @@
 import QRCode from 'qrcode';
 import type { Plugin } from 'vite';
-import { QR_DEMO_MESSAGE } from './qr-message.ts';
+import { QR_URL } from './qr-message.ts';
 
 const VIRTUAL = 'virtual:qr';
 const RESOLVED = '\0' + VIRTUAL;
@@ -9,10 +9,11 @@ const RESOLVED = '\0' + VIRTUAL;
 // never reaches the bundle). Exposes `virtual:qr` as { size, path }: the
 // module count per side and an SVG path of the dark modules. Version 18
 // (89 x 89 modules) matches the original's density. The original is filled to
-// capacity, so it reads as even noise; the short demo message alone would leave
-// most of the symbol as standard pad bytes, which render as diagonal stripes.
-// So the message is followed by a seeded (deterministic) demo token that fills
-// the symbol exactly.
+// capacity, so it reads as even noise; the short URL alone would leave most of
+// the symbol as standard pad bytes, which render as diagonal stripes. So the URL
+// is followed by a seeded (deterministic) demo token that fills the symbol
+// exactly. The token sits in the URL fragment (after `#`), so scanners still
+// open the page and the server never sees it.
 const VERSION = 18;
 const TOKEN_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 
@@ -38,9 +39,9 @@ function fits(text: string): boolean {
   }
 }
 
-// The longest message + token that still fits the version.
+// The longest URL + token that still fits the version.
 function filledMessage(): string {
-  const withToken = (n: number) => `${QR_DEMO_MESSAGE}\n${demoToken(n)}`;
+  const withToken = (n: number) => `${QR_URL}#${demoToken(n)}`;
   let lo = 0;
   let hi = 4096;
   while (lo < hi) {
