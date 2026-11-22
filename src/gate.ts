@@ -23,6 +23,22 @@ function statusPage(title: string, body: string, action: { label: string; run: (
   ]);
 }
 
+// Shield-in-a-ring page with pill buttons at the bottom (Forgot-PIN, Offline).
+function iconPage(variant: string, title: string, body: string, buttons: HTMLElement[]): HTMLElement {
+  return el('section', { class: `gate gate-icon-page ${variant}` }, [
+    el('div', { class: 'gate-icon' }, [el('img', { src: shieldAlert, alt: '', width: '64', height: '78' })]),
+    el('h1', { class: 'gate-title' }, [title]),
+    el('p', { class: 'gate-text', role: 'status' }, [body]),
+    el('div', { class: 'gate-actions' }, buttons),
+  ]);
+}
+
+function pillButton(kind: 'primary' | 'outline', label: string, run: () => void): HTMLElement {
+  const b = el('button', { type: 'button', class: `gate-btn gate-btn-${kind}` }, [label]);
+  b.addEventListener('click', run);
+  return b;
+}
+
 export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Member) => void): void {
   const g: Gate = content.ui.gate;
   const show = (node: HTMLElement) => {
@@ -34,27 +50,19 @@ export function showGate(root: HTMLElement, content: Content, onUnlock: (m: Memb
   const gate = () => show(pinView());
   const offline = () =>
     show(
-      statusPage(g.offline.title, g.offline.body, {
-        label: g.offline.retry,
-        run: () => (navigator.onLine ? gate() : offline()),
-      }),
-    );
-  const lockedOut = () => show(statusPage(g.lockout.title, g.lockout.body, { label: g.lockout.retry, run: gate }));
-  const forgot = () => {
-    const authorize = el('button', { type: 'button', class: 'gate-btn gate-btn-primary' }, [g.forgotPin.authorize]);
-    const cancel = el('button', { type: 'button', class: 'gate-btn gate-btn-outline' }, [g.forgotPin.cancel]);
-    // There is no re-authorization flow yet: both actions return to the PIN keypad.
-    authorize.addEventListener('click', gate);
-    cancel.addEventListener('click', gate);
-    show(
-      el('section', { class: 'gate gate-forgot' }, [
-        el('div', { class: 'gate-icon' }, [el('img', { src: shieldAlert, alt: '', width: '64', height: '78' })]),
-        el('h1', { class: 'gate-title' }, [g.forgotPin.title]),
-        el('p', { class: 'gate-text' }, [g.forgotPin.body]),
-        el('div', { class: 'gate-actions' }, [authorize, cancel]),
+      iconPage('gate-offline', g.offline.title, g.offline.body, [
+        pillButton('primary', g.offline.retry, () => (navigator.onLine ? gate() : offline())),
       ]),
     );
-  };
+  const lockedOut = () => show(statusPage(g.lockout.title, g.lockout.body, { label: g.lockout.retry, run: gate }));
+  // There is no re-authorization flow yet: both actions return to the PIN keypad.
+  const forgot = () =>
+    show(
+      iconPage('gate-forgot', g.forgotPin.title, g.forgotPin.body, [
+        pillButton('primary', g.forgotPin.authorize, gate),
+        pillButton('outline', g.forgotPin.cancel, gate),
+      ]),
+    );
 
   function pinView(): HTMLElement {
     let pin = '';
