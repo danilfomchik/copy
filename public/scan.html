@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#e1dfca" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/svg+xml" href="/copy/icons/favicon.svg" />
+    <title>Orbit Pass — QR-код</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; }
+      body {
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px 16px;
+        background: #e1dfca;
+        color: #1a1a1a;
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      }
+      .card {
+        width: 100%;
+        max-width: 400px;
+        background: #fff;
+        border-radius: 24px;
+        padding: 32px 24px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      }
+      .check {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: #e6f4ea;
+        display: grid;
+        place-items: center;
+      }
+      h1 { margin: 0 0 8px; font-size: 22px; font-weight: 700; }
+      p { margin: 0; font-size: 15px; line-height: 1.45; color: #555; }
+      .badge {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #f2f1e6;
+        font-size: 13px;
+        color: #6b6a5c;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="check" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12.5l4.5 4.5L19 7.5" />
+        </svg>
+      </div>
+      <h1>QR-код зчитано</h1>
+      <p>Це тестова сторінка Orbit Pass. Реальних даних тут немає.</p>
+      <span class="badge">Демо</span>
+    </main>
+  </body>
+</html>

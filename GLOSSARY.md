@@ -21,7 +21,11 @@ The home-screen card showing the Member's avatar, name, birth date, label and th
 _Avoid_: ID, document, pass
 
 **QR view**:
-The reverse side of the Member card, with a QR code, its validity caption, and a usage notice. The QR code only encodes a fixed demo message.
+The reverse side of the Member card, with a QR code, its validity caption, and a usage notice. The QR code only encodes a fixed link to the Scan page.
+
+**Scan page**:
+The standalone demo page (`scan.html`) that opens when the QR code is scanned. It shows no real data.
+_Avoid_: Verification page, result page
 _Avoid_: Back side, barcode
 
 **Actions sheet**:
