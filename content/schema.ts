@@ -47,6 +47,26 @@ const ribbon = obj({ refreshedAt: str() });
 
 const qr = obj({ label: str(), caption: str(), notice: str() });
 
+// Scan page (scan.html): field labels and its loading, not-found and offline states.
+// The values themselves come from the Member's Scan record in Firestore.
+const scan = obj({
+  pageTitle: str(),
+  title: str(),
+  logoAlt: str(),
+  demo: str(),
+  issuedAt: str(),
+  validUntil: str(),
+  birthDate: str(),
+  memberNumber: str(),
+  homeStation: str(),
+  tier: str(),
+  confirmed: str(),
+  confirmedAt: str(),
+  loading: str(),
+  notFound: obj({ title: str(), body: str() }),
+  offline: obj({ title: str(), body: str(), retry: str() }),
+});
+
 // Menu tab (Settings, About, Privacy, Help). The About demo notice and the
 // Privacy statements are fixed in code, deliberately not editable here.
 const menu = obj({
@@ -89,5 +109,5 @@ const notifications = obj({
   items: arr(obj({ id: str(), date: str(), title: str(), body: str() })),
 });
 
-export const contentSchema = obj({ ui, ribbon, services, listings, qr, menu, notifications });
+export const contentSchema = obj({ ui, ribbon, services, listings, qr, scan, menu, notifications });
 export type Content = Infer<typeof contentSchema>;

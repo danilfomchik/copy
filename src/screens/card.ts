@@ -52,7 +52,7 @@ export const cardRoutes: Route[] = [
       ]);
       return el('section', { class: 'screen card-screen' }, [
         notificationsButton(content),
-        flip(front, qrView(content)),
+        flip(front, qrView(content, member)),
       ]);
     },
   },

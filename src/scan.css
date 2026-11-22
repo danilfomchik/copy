@@ -1,0 +1,201 @@
+/* Scan page (scan.html). Layout and sizes from the Figma frame "Scan page"
+   (iPhone 13 Pro Max, 428 wide), set in e-Ukraine. 1 design px = var(--g). */
+@font-face {
+  font-family: "e-Ukraine";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("./fonts/e-ukraine-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "e-Ukraine";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("./fonts/e-ukraine-500.woff2") format("woff2");
+}
+
+:root {
+  --scan-bg: #e1decb;
+  --scan-surface: #ffffff;
+  --scan-text: #000000;
+  --scan-divider: #dad9ce;
+  --scan-ok: #3f7d32;
+  --scan-accent: #0f766e;
+  --g: calc(min(100vw, 480px) / 428);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+
+.scan-body {
+  min-height: 100dvh;
+  background: var(--scan-bg);
+  color: var(--scan-text);
+  font-family: "e-Ukraine", system-ui, sans-serif;
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+}
+
+.scan {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--g) * 8);
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: env(safe-area-inset-top) calc(var(--g) * 24) max(env(safe-area-inset-bottom), calc(var(--g) * 32));
+  font-size: calc(var(--g) * 24.5);
+  line-height: calc(var(--g) * 29);
+}
+.scan p, .scan h1, .scan h2 { margin: 0; }
+
+/* Header: sheet handle, title, logo */
+.scan-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--g) * 46);
+  padding: calc(var(--g) * 17) 0 calc(var(--g) * 15);
+}
+.scan-handle {
+  width: calc(var(--g) * 42);
+  height: calc(var(--g) * 4);
+  border-radius: calc(var(--g) * 2);
+  background: #000;
+}
+.scan-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: calc(var(--g) * 16);
+  width: 100%;
+}
+.scan-title {
+  font-size: calc(var(--g) * 32);
+  font-weight: 400;
+  line-height: calc(var(--g) * 31);
+  max-width: calc(var(--g) * 260);
+}
+.scan-logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--g) * 8);
+  flex: none;
+}
+/* Mock logo in place of the design's emblem: the Orbit Pass app icon. */
+.scan-logo {
+  display: block;
+  width: calc(var(--g) * 40);
+  height: calc(var(--g) * 40);
+  border-radius: calc(var(--g) * 10);
+}
+.scan-demo {
+  padding: calc(var(--g) * 2) calc(var(--g) * 8);
+  border-radius: 999px;
+  background: var(--scan-surface);
+  color: var(--scan-accent);
+  font-size: calc(var(--g) * 12);
+  font-weight: 500;
+  line-height: calc(var(--g) * 16);
+}
+
+/* White cards */
+.scan-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: calc(var(--g) * 16);
+  background: var(--scan-surface);
+}
+.scan-card-dates {
+  gap: calc(var(--g) * 15);
+  padding: calc(var(--g) * 16) calc(var(--g) * 34) calc(var(--g) * 16) calc(var(--g) * 17);
+}
+.scan-card-confirm {
+  gap: calc(var(--g) * 18);
+  padding: calc(var(--g) * 17);
+}
+.scan-divider {
+  height: 1px;
+  background: var(--scan-divider);
+}
+.scan-group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--g) * 9);
+  padding: calc(var(--g) * 17);
+}
+.scan-group-name { gap: calc(var(--g) * 18); }
+.scan-group-rows {
+  gap: calc(var(--g) * 16);
+  line-height: calc(var(--g) * 26);
+}
+.scan-name {
+  font-size: calc(var(--g) * 28.3);
+  line-height: calc(var(--g) * 32);
+  overflow-wrap: anywhere;
+}
+
+/* Label | value rows; the value column is 139 wide in the design */
+.scan-row {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--g) * 8);
+}
+.scan-row-label { flex: 1 1 0; min-width: 0; }
+.scan-row-value {
+  flex: none;
+  min-width: calc(var(--g) * 139);
+  white-space: nowrap;
+}
+.scan-card-dates .scan-row-value { min-width: 0; }
+.scan-card-confirm .scan-row { line-height: calc(var(--g) * 26); }
+
+.scan-stack {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--g) * 9);
+}
+.scan-stack span:last-child { line-height: calc(var(--g) * 26); }
+
+.scan-confirmed {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--g) * 9);
+}
+.scan-check {
+  flex: none;
+  width: calc(var(--g) * 16);
+  height: calc(var(--g) * 16);
+  color: var(--scan-ok);
+}
+
+/* Loading, not-found and offline states */
+.scan-loading { padding: calc(var(--g) * 17); text-align: center; }
+.scan-message {
+  gap: calc(var(--g) * 12);
+  padding: calc(var(--g) * 17);
+  line-height: calc(var(--g) * 26);
+}
+.scan-message p { font-size: calc(var(--g) * 18); }
+.scan-message-title {
+  font-size: calc(var(--g) * 24.5);
+  font-weight: 500;
+  line-height: calc(var(--g) * 29);
+}
+.scan-retry {
+  align-self: flex-start;
+  margin-top: calc(var(--g) * 4);
+  padding: calc(var(--g) * 12) calc(var(--g) * 20);
+  border: 0;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font: inherit;
+  font-size: calc(var(--g) * 18);
+  line-height: calc(var(--g) * 24);
+  cursor: pointer;
+}
+.scan-retry:focus-visible { outline: 2px solid var(--scan-accent); outline-offset: 2px; }

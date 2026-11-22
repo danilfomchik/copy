@@ -1,21 +1,22 @@
 import QRCode from 'qrcode';
 import type { Plugin } from 'vite';
-import { QR_URL } from './qr-message.ts';
+import { QR_VERSION, qrText } from './qr-message.ts';
 
 const VIRTUAL = 'virtual:qr';
 const RESOLVED = '\0' + VIRTUAL;
 
-// Generates the QR code at build time (the qrcode library is dev-only and
-// never reaches the bundle). Exposes `virtual:qr` as { size, path }: the
-// module count per side and an SVG path of the dark modules. Version 18
-// (89 x 89 modules) matches the original's density. The original is filled to
-// capacity, so it reads as even noise; the short URL alone would leave most of
-// the symbol as standard pad bytes, which render as diagonal stripes. So the URL
-// is followed by a seeded (deterministic) demo token that fills the symbol
-// exactly. The token sits in the URL fragment (after `#`), so scanners still
-// open the page and the server never sees it.
-const VERSION = 18;
+// The QR code itself is drawn at runtime, because it carries the signed-in
+// Member's Scan id (see src/qr-view.ts). This plugin only works out the filler
+// token at build time and exposes it as `virtual:qr` ({ token }).
+//
+// The original is filled to capacity, so it reads as even noise; the short URL
+// alone would leave most of the symbol as standard pad bytes, which render as
+// diagonal stripes. So the URL is followed by a seeded (deterministic) demo
+// token that fills the symbol. Its length is fitted to a worst-case Scan id
+// (32 letters, which the encoder cannot pack tighter than bytes), so every real
+// id fits too.
 const TOKEN_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+const WORST_CASE_ID = 'f'.repeat(32);
 
 function demoToken(length: number): string {
   let seed = 0x4f524254; // fixed, so every build produces the same code
@@ -32,24 +33,23 @@ function demoToken(length: number): string {
 
 function fits(text: string): boolean {
   try {
-    QRCode.create(text, { errorCorrectionLevel: 'M', version: VERSION });
+    QRCode.create(text, { errorCorrectionLevel: 'M', version: QR_VERSION });
     return true;
   } catch {
     return false;
   }
 }
 
-// The longest URL + token that still fits the version.
-function filledMessage(): string {
-  const withToken = (n: number) => `${QR_URL}#${demoToken(n)}`;
+// The longest token that still fits the version next to a worst-case id.
+function fillerToken(): string {
   let lo = 0;
   let hi = 4096;
   while (lo < hi) {
     const mid = Math.ceil((lo + hi) / 2);
-    if (fits(withToken(mid))) lo = mid;
+    if (fits(qrText(WORST_CASE_ID, demoToken(mid)))) lo = mid;
     else hi = mid - 1;
   }
-  return withToken(lo);
+  return demoToken(lo);
 }
 
 export function qrPlugin(): Plugin {
@@ -58,15 +58,7 @@ export function qrPlugin(): Plugin {
     resolveId: (id) => (id === VIRTUAL ? RESOLVED : undefined),
     load(id) {
       if (id !== RESOLVED) return;
-      const { modules } = QRCode.create(filledMessage(), { errorCorrectionLevel: 'M', version: VERSION });
-      const size = modules.size;
-      let path = '';
-      for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-          if (modules.get(x, y)) path += `M${x} ${y}h1v1h-1z`;
-        }
-      }
-      return `export default ${JSON.stringify({ size, path })};`;
+      return `export default ${JSON.stringify({ token: fillerToken() })};`;
     },
   };
 }

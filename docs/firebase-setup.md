@@ -17,6 +17,7 @@ One-time setup by the administrator. Nothing here needs a PIN in the repo, an en
 7. **Create a Member** (repeat per Member; each PIN must be unique):
    `cd functions && node scripts/seed-member.mjs --project <project-id> --member ../content/members/member.example.json`
    The `avatar` field is a path to an image file (jpeg, png or webp, at most 300 KB, relative to the Member file, e.g. `avatars/member-avatar.example.png`); the script inlines it.
+   The Member file also needs a `scan` object (`memberNumber`, `homeStation`, `tier`, `issuedAt`, `validUntil`, `confirmedAt`): the script writes it, with the Member's `fullName`, `label` and `birthDate`, to the public Scan record `scans/{scanId}` shown on the Scan page, and stores the `scanId` on the Member. The id is kept across re-runs, so existing QR codes keep working.
    The script asks for the 4-digit PIN at a hidden prompt and stores only its HMAC.
    To change a Member's PIN or data, re-run it with `--uid <uid>` (printed on creation).
    To delete a Member (data, PIN and Auth user): `cd functions && node scripts/delete-member.mjs --project <project-id> --uid <uid>`.
@@ -25,5 +26,6 @@ One-time setup by the administrator. Nothing here needs a PIN in the repo, an en
 ## How it works
 
 `PIN gate` -> callable `signInWithPin` -> HMAC lookup in `pins/` -> custom token -> `members/{uid}` read under `firestore.rules`.
+The QR code links to `scan.html?id=<scanId>`; the Scan page reads `scans/{scanId}` without signing in. The rules allow `get` of a single Scan record but not listing, so only someone holding the link can read it.
 Three wrong attempts (counted across all devices, since a four-digit PIN has only 10,000 values) lock sign-in for five minutes.
 The session lives in memory only, so every cold start asks for the PIN again.

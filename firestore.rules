@@ -6,6 +6,12 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
     }
+    // A Scan record is the public copy shown on the Scan page. Anyone holding
+    // its random id may read that one document; listing (enumerating) is denied.
+    match /scans/{scanId} {
+      allow get: if true;
+      allow list, write: if false;
+    }
     // pins/* and gate/* are used only by the Cloud Function (Admin SDK).
     match /{document=**} {
       allow read, write: if false;

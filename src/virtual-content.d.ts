@@ -5,6 +5,6 @@ declare module 'virtual:content' {
 }
 
 declare module 'virtual:qr' {
-  const qr: { size: number; path: string };
+  const qr: { token: string };
   export default qr;
 }
